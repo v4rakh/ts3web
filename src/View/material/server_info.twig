@@ -1,0 +1,55 @@
+{% extends 'layout.twig' %}
+
+{% block content %}
+    <h1 class="header">{{ title }}</h1>
+
+    {% if uploads|length > 0 %}
+        <h2 class="header">{% trans %}server_info.h.uploads{% endtrans %}</h2>
+        {% include 'table.twig' with {'data': uploads} %}
+    {% endif %}
+
+    <h2 class="header">{% trans %}server_info.h.actions{% endtrans %}</h2>
+    {% include 'form.twig' with {
+        'additional_forms': [
+        {
+            'header_label': 'server_info.send'|trans,
+            'label': '<i class="material-icons">check_circle</i>',
+            'uri': '/servers/send/' ~ sid,
+            'uri_method': 'post',
+            'fields': [
+                {'type': 'text', 'key': 'message', 'label': 'server_info.send.message'|trans},
+            ]
+        }]
+    } %}
+
+    <h2 class="header">{% trans %}server_info.h.details{% endtrans %}</h2>
+    {% include 'keyvalue.twig' with {'data': info,
+        'filters': [
+            {'key': 'virtualserver_uptime', 'apply': 'timeInSeconds'},
+            {'key': 'virtualserver_created', 'apply': 'timestamp'},
+            {'key': 'virtualserver_month_bytes_downloaded', 'apply': 'file'},
+            {'key': 'virtualserver_month_bytes_uploaded', 'apply': 'file'},
+            {'key': 'virtualserver_total_bytes_downloaded', 'apply': 'file'},
+            {'key': 'virtualserver_total_bytes_uploaded', 'apply': 'file'},
+            {'key': 'connection_filetransfer_bytes_sent_total', 'apply': 'file'},
+            {'key': 'connection_filetransfer_bytes_received_total', 'apply': 'file'},
+            {'key': 'connection_bytes_sent_speech', 'apply': 'file'},
+            {'key': 'connection_bytes_received_speech', 'apply': 'file'},
+            {'key': 'connection_bytes_sent_keepalive', 'apply': 'file'},
+            {'key': 'connection_bytes_received_keepalive', 'apply': 'file'},
+            {'key': 'connection_bytes_sent_control', 'apply': 'file'},
+            {'key': 'connection_bytes_received_control', 'apply': 'file'},
+            {'key': 'connection_bytes_sent_total', 'apply': 'file'},
+            {'key': 'connection_bytes_received_total', 'apply': 'file'}
+        ],
+        'attributesEditable': [
+            {'key': 'virtualserver_name', 'type': 'text', 'uri': '/servers/edit/' ~ sid, 'uri_method': 'post', 'submit_label': '<i class="material-icons">check_circle</i>'},
+            {'key': 'virtualserver_maxclients', 'type': 'number', 'uri': '/servers/edit/' ~ sid, 'uri_method': 'post', 'submit_label': '<i class="material-icons">check_circle</i>'},
+            {'key': 'virtualserver_min_client_version', 'type': 'number', 'uri': '/servers/edit/' ~ sid, 'uri_method': 'post', 'submit_label': '<i class="material-icons">check_circle</i>'},
+            {'key': 'virtualserver_port', 'type': 'number', 'uri': '/servers/edit/' ~ sid, 'uri_method': 'post', 'submit_label': '<i class="material-icons">check_circle</i>'},
+            {'key': 'virtualserver_weblist_enabled', 'type': 'checkbox', 'uri': '/servers/edit/' ~ sid, 'uri_method': 'post', 'submit_label': '<i class="material-icons">check_circle</i>'},
+            {'key': 'virtualserver_autostart', 'type': 'checkbox', 'uri': '/servers/edit/' ~ sid, 'uri_method': 'post', 'submit_label': '<i class="material-icons">check_circle</i>'},
+        ]
+    } %}
+
+{% endblock %}

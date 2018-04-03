@@ -1,0 +1,200 @@
+error.401.content: "Not authorized."
+error.401.title: "401"
+error.403.content: "Forbidden. Not allowed to access."
+error.403.title: "403"
+error.404.content: "Not found."
+error.404.title: "404"
+error.500.content: "Internal application error."
+error.500.title: "500"
+login.flash.success: "Logged in as %username% successfully."
+login.flash.wrong_credentials: "Cannot login. Wrong credentials."
+login.form.button: "Login"
+login.form.password.placeholder: "Password"
+login.form.username.placeholder: "Username"
+log.internal.application.error: "Internal application error."
+login.title: "Login"
+logout.flash.success: "Logged out successfully."
+logout.title: "Logout"
+menu.currentlyloggedin: "Logged in as: %username%"
+menu.login: "Login"
+menu.logout: "Logout"
+mismatch: "There is no validation rule for %field%."
+no_entities.message: "Nothing to show."
+validate_alpha_dash: "The %field% field may only contain alpha characters and dashes."
+validate_alpha_numeric: "The %field% field may only contain alpha-numeric characters."
+validate_alpha: "The %field% field may only contain alpha characters(a-z)."
+validate_boolean: "The %field% field may only contain a true or false value."
+validate_contains: "The %field% field needs to contain one of these values: %param%."
+validate_date: "The %field% field needs to be a valid date."
+validate_default: "Field (%field%) is invalid due to an unknown reason (message missing)."
+validate_equals: "%field% not equal to %param%."
+validate_exact_len: "The %field% field needs to be exactly %param% characters in length."
+validate_float: "The %field% field may only contain a float value."
+validate_integer: "The %field% field may only contain a numeric value."
+validate_max_len: "The %field% field needs to be shorter than %param% characters."
+validate_max_numeric: "The %field% field needs to be a numeric value, equal to, or lower than %param%."
+validate_min_len: "The %field% field needs to be longer than %param% characters."
+validate_min_numeric: "The %field% field needs to be a numeric value, equal to, or higher than %param%."
+validate_numeric: "The %field% field may only contain numeric characters."
+validate_required: "The %field% field is required."
+validate_set_min_len: "%field% needs to have at least %param% item(s)."
+validate_street_address: "The %field% field needs to be a valid street address."
+validate_url_exists: "The %field% URL does not exist."
+validate_valid_cc: "The %field% field needs to contain a valid credit card number."
+validate_valid_email: "The %field% field is required to be a valid email address."
+validate_valid_ip: "The %field% field needs to contain a valid IP address."
+validate_valid_json_string: "Field %field% has to be valid JSON."
+validate_valid_name: "The %field% field needs to contain a valid human name."
+validate_valid_url: "The %field% field is required to be a valid URL."
+
+#
+# teamspeak
+#
+# menu
+menu.instance: "Instance"
+menu.servers: "Servers"
+menu.logs: "Logs"
+menu.profile: "Profile"
+
+# titles
+instance.title: "Instance"
+servers.title: "Servers"
+logs.title: "Latest 100 Logs"
+server_info.title: "Server Info"
+online.title: "Online Clients"
+online_info.title: "Online Info"
+client_info.title: "Client Info"
+channels.title: "Channels"
+channel_info.title: "Channel Info"
+clients.title: "Clients"
+bans.title: "Bans"
+complains.title: "Complains"
+groups.title: "Groups"
+group_info.title: "Group Info"
+profile.title: "Profile"
+
+# dynamic render of key value pairs
+key: "Attribute"
+value: "Value"
+done: "Done."
+added: "Added."
+removed: "Removed."
+
+# attributes from ts3admin
+# profile
+profile.h.details: "Details"
+profile.h.credentials: "Credentials"
+profile_credentials.change: "Generate a new password for serverQuery login."
+profile_credentials.changed.success: "Changed password to %password%"
+
+# instance edit
+instance_edit.edited.success: "Edited instance."
+
+# servers
+servers.noneselected: "Cannot find server."
+servers.start: "Start"
+servers.stop: "Stop"
+servers.channels: "Channels"
+servers.clients: "Clients"
+servers.groups: "Groups"
+servers.bans: "Bans"
+servers.complains: "Complains"
+servers.delete: "Delete"
+servers.started.success: "Started virtual server %sid%."
+servers.stopped.success: "Stopped virtual server %sid%."
+servers.sent.success: "Sent message to virtual server %sid%."
+servers.h.details: "Details"
+servers.h.create: "Create"
+
+# server create
+server_create.label: "Create a new virtual server"
+server_create.VIRTUALSERVER_NAME: "Name"
+server_create.VIRTUALSERVER_PASSWORD: "Password (leave blank if not required)"
+server_create.VIRTUALSERVER_PORT: "Port"
+server_create.VIRTUALSERVER_MAXCLIENTS: "Maxclients"
+server_create.created.success: "Created virtual server. Join the server and claim admin with the following token: %token%"
+
+# server edit
+server_edit.edited.success: "Edited virtual server %sid%."
+
+# server info
+server_info.h.actions: "Actions"
+server_info.h.details: "Details"
+server_info.h.uploads: "Uploads"
+server_info.send: "Send a message"
+server_info.send.message: "Message"
+
+# channels
+channels.delete: "Delete"
+
+# channel info
+channel_info.h.files: "Files"
+channel_info.h.actions: "Actions"
+channel_info.h.details: "Details"
+channel_info.h.clients: "Clients"
+channel_info.send: "Send a message"
+channel_info.send.message: "Message"
+
+# channelgroups
+channelgroups.delete: "Delete"
+
+# channelgroup info
+channelgroup_info.title: "Channelgroup"
+channelgroup_info.h.clients: "Clients"
+channelgroup_info.h.permissions: "Permissions"
+channelgroup_info.remove: "Remove"
+
+# groups
+groups.delete: "Delete"
+groups.h.servergroups: "Server Groups"
+groups.h.channelgroups: "Channel Groups"
+
+# group info
+group_info.h.clients_add: "Add"
+group_info.h.clients: "Clients"
+group_info.h.permissions: "Permissions"
+group_info.remove: "Remove"
+group_info.add: "Add a client"
+group_info.add.cldbid: "Client Database Id"
+
+# clients
+clients.delete: "Delete"
+
+# client info
+client_info.h.actions: "Actions"
+client_info.h.details: "Details"
+client_info.h.servergroups: "Server Groups"
+client_info.h.channelgroups: "Channel Groups"
+client_info.h.permissions: "Permissions"
+client_info.ban: "Ban"
+client_info.ban.reason: "Reason"
+client_info.ban.time: "Time (in seconds, 0 = permanent)"
+client_info.banned.success: "Banned client %cldbid%."
+client_info.send: "Send a message"
+client_info.send.subject: "Subject"
+client_info.send.message: "Message"
+client_info.sent.success: "Sent message to client %cldbid%."
+
+# online info
+online_info.h.actions: "Actions"
+online_info.h.details: "Details"
+
+# bans
+bans.delete: "Delete"
+
+# complains
+complains.delete: "Delete"
+
+# online
+online.kick: "Kick"
+online.kick.reason: "Reason"
+online.poke: "Poke"
+online.poke.message: "Message"
+online.ban: "Ban"
+online.ban.reason: "Reason"
+online.ban.time: "Time (in seconds, 0 = permanent)"
+online.send: "Send a message"
+online.send.message: "Message"
+online.poked.success: "Poked client %clid%."
+online.kicked.success: "Kicked client %clid%."
+online.banned.success: "Banned client %clid%."

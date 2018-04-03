@@ -1,0 +1,10 @@
+{% extends 'layout.twig' %}
+
+{% block content %}
+    <h1 class="header">{{ title }}</h1>
+    <pre class="small">
+        {% for log in data %}
+            {{ log.l }}
+        {% endfor %}
+    </pre>
+{% endblock %}

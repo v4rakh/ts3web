@@ -1,0 +1,66 @@
+<div class="table-responsive">
+    <table class="table small sortable-bootstrap" data-sortable>
+        <thead>
+        <tr>
+            <th>{% trans %}key{% endtrans %}</th>
+            <th>{% trans %}value{% endtrans %}</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        {% for key, value in data %}
+            <tr>
+                <td>{{ key|replace({'_' : ' '})|title }}</td>
+
+                <td>
+                    {% set editable = null %}
+
+                    {% for attr in attributesEditable %}
+                        {% if attr.key == key %}
+                            {% set editable = attr %}
+                        {% endif %}
+                    {% endfor %}
+
+
+                    <!-- apply filters to item -->
+                    {% set item = value %}
+
+                    {% for filter in filters %}
+                        {% if filter.key == key %}
+                            {% set item = value|apply_filter(filter.apply)|raw %}
+                        {% endif %}
+                    {% endfor %}
+
+
+                    {% if editable is not empty %}
+
+                        <form class="form-inline" method="{{ editable.uri_method }}" action="{{ editable.uri }}">
+                                {% if editable.type == 'checkbox' %}
+
+                                    {% if item %}
+                                        <input type="hidden" name="{{ editable.key }}"
+                                               id="{{ editable.key }}" value="0"/>
+                                        <input type="checkbox" name="{{ editable.key }}"
+                                               id="{{ editable.key }}" value="1" checked/>
+                                    {% else %}
+                                        <input type="hidden" name="{{ editable.key }}"
+                                               id="{{ editable.key }}" value="0" />
+                                        <input type="checkbox" name="{{ editable.key }}"
+                                               id="{{ editable.key }}" value="1" />
+                                    {% endif %}
+                                {% else %}
+                                    <input class="form-control" name="{{ editable.key }}" id="{{ editable.key }}" type="{{ editable.type }}" value="{{ item }}" />
+                                {% endif %}
+
+                                <button class="btn btn-primary" id="{{ 'form_' ~ editable.key }}" type="submit">{{ editable.submit_label|raw }}</button>
+                        </form>
+                    {% else %}
+                        {{ item }}
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
+</div>

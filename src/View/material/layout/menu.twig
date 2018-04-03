@@ -1,0 +1,26 @@
+<nav class="col-xs-1 menu">
+    <ul>
+        {% if currentUser is not empty %}
+            <a href="/instance">
+                <li class="active withripple" data-target="#page">{% trans %}menu.instance{% endtrans %}</li>
+            </a>
+            <a href="/servers">
+                <li class="active withripple" data-target="#page">{% trans %}menu.servers{% endtrans %}</li>
+            </a>
+            <a href="/logs">
+                <li class="active withripple" data-target="#page">{% trans %}menu.logs{% endtrans %}</li>
+            </a>
+            <a href="/profile">
+                <li class="active withripple" data-target="#page">{% trans %}menu.profile{% endtrans %}</li>
+            </a>
+            <a href="/logout">
+                <li class="active withripple" data-target="#page">{% trans %}menu.logout{% endtrans %}</li>
+            </a>
+
+        {% else %}
+            <a href="/login">
+                <li class="active withripple" data-target="#page">{% trans %}menu.login{% endtrans %}</li>
+            </a>
+        {% endif %}
+    </ul>
+</nav>

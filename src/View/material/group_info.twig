@@ -1,0 +1,43 @@
+{% extends 'layout.twig' %}
+
+{% block content %}
+    <h1 class="header">{{ title }}</h1>
+
+    <h2 class="header">{% trans %}group_info.h.clients_add{% endtrans %}</h2>
+    {% include 'form.twig' with {
+        'additional_forms': [
+            {
+                'header_label': 'group_info.add'|trans,
+                'label': '<i class="material-icons">check_circle</i>',
+                'uri': '/groups/add/' ~ sid ~ '/' ~ sgid,
+                'uri_method': 'post',
+                'fields': [
+                    {'type': 'text', 'key': 'cldbid', 'label': 'group_info.add.cldbid'|trans},
+                ]
+            }
+        ]
+    } %}
+
+    {% if clients|length > 0 %}
+        <h2 class="header">{% trans %}group_info.h.clients{% endtrans %}</h2>
+        {% include 'table.twig' with {'data': clients,
+            'links': [
+                {'key': 'cldbid', 'uri': '/clients/' ~ sid, 'uri_param': 'cldbid'}
+            ],
+            'additional_links': [
+                {
+                    'header_label': 'group_info.remove'|trans,
+                    'label': '<i class="material-icons">delete</i>',
+                    'uri': '/groups/remove/' ~ sid ~ '/' ~ sgid,
+                    'uri_param': 'cldbid'
+                }
+            ]
+        } %}
+    {% endif %}
+
+    {% if permissions|length > 0 %}
+        <h2 class="header">{% trans %}group_info.h.permissions{% endtrans %}</h2>
+        {% include 'table.twig' with {'data': permissions} %}
+    {% endif %}
+
+{% endblock %}

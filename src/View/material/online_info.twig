@@ -1,0 +1,65 @@
+{% extends 'layout.twig' %}
+
+{% block content %}
+    <h1 class="header">{{ title }}</h1>
+
+    <h2 class="header">{% trans %}online_info.h.actions{% endtrans %}</h2>
+    {% include 'form.twig' with {
+        'additional_forms': [
+            {
+                'header_label': 'online.poke'|trans,
+                'label': '<i class="material-icons">check_circle</i>',
+                'uri': '/online/poke/' ~ sid ~ '/' ~ clid,
+                'uri_method': 'post',
+                'fields': [
+                    {'type': 'text', 'key': 'message', 'label': 'online.poke.message'|trans},
+                ]
+            },
+            {
+                'header_label': 'online.kick'|trans,
+                'label': '<i class="material-icons">check_circle</i>',
+                'uri': '/online/kick/' ~ sid ~ '/' ~ clid,
+                'uri_method': 'post',
+                'fields': [
+                    {'type': 'text', 'key': 'reason', 'label': 'online.kick.reason'|trans},
+                ]
+            },
+            {
+                'header_label': 'online.ban'|trans,
+                'label': '<i class="material-icons">check_circle</i>',
+                'uri': '/online/ban/' ~ sid ~ '/' ~ clid,
+                'uri_method': 'post',
+                'fields': [
+                    {'type': 'text', 'key': 'reason', 'label': 'online.ban.reason'|trans},
+                    {'type': 'number', 'key': 'time', 'label': 'online.ban.time'|trans}
+                ]
+            },
+            {
+                'header_label': 'online.send'|trans,
+                'label': '<i class="material-icons">check_circle</i>',
+                'uri': '/online/send/' ~ sid ~ '/' ~ clid,
+                'uri_method': 'post',
+                'fields': [
+                    {'type': 'text', 'key': 'message', 'label': 'online.send.message'|trans},
+                ]
+            }
+        ]
+    } %}
+
+
+    <h2 class="header">{% trans %}online_info.h.details{% endtrans %}</h2>
+    {% include 'keyvalue.twig' with {'data': data, 'filters': [
+        {'key': 'client_idle_time', 'apply': 'timeInSeconds'},
+        {'key': 'connection_connected_time', 'apply': 'timeInSeconds'},
+        {'key': 'client_created', 'apply': 'timestamp'},
+        {'key': 'client_lastconnected', 'apply': 'timestamp'},
+        {'key': 'client_month_bytes_uploaded', 'apply': 'file'},
+        {'key': 'client_month_bytes_downloaded', 'apply': 'file'},
+        {'key': 'client_total_bytes_uploaded', 'apply': 'file'},
+        {'key': 'client_total_bytes_downloaded', 'apply': 'file'},
+        {'key': 'connection_filetransfer_bandwidth_sent', 'apply': 'file'},
+        {'key': 'connection_filetransfer_bandwidth_received', 'apply': 'file'},
+        {'key': 'connection_bytes_sent_total', 'apply': 'file'},
+        {'key': 'connection_bytes_received_total', 'apply': 'file'},
+    ]} %}
+{% endblock %}

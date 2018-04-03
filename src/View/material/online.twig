@@ -1,0 +1,16 @@
+{% extends 'layout.twig' %}
+
+{% block content %}
+    <h1 class="header">{{ title }}</h1>
+    {% if data|length >0 %}
+        {% include 'table.twig' with {'data': data,
+            'hide': [{'key': 'client_type', 'values': ['1']}],
+            'links': [
+                {'key': 'clid', 'uri': '/online/' ~ sid},
+                {'key': 'client_database_id', 'uri': '/clients/' ~ sid, 'uri_param': 'client_database_id'}
+            ],
+        } %}
+    {% else %}
+        {% include 'no_entities.twig' %}
+    {% endif %}
+{% endblock %}

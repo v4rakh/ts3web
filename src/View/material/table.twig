@@ -1,0 +1,82 @@
+<div class="table-responsive">
+    <table class="table small sortable-bootstrap" data-sortable>
+        <thead>
+        <tr>
+            {% set added = [] %}
+            {% for arr in data %}
+                {% set added = arr|keys %}
+            {% endfor %}
+
+            {% for key in added %}
+                <th>{{ key|replace({'_' : ' '})|title }}</th>
+            {% endfor %}
+
+            {% for link in additional_links %}
+                <th>{{ link.header_label }}</th>
+            {% endfor %}
+        </tr>
+        </thead>
+        <tbody>
+
+        {% for arr in data %}
+            {% set show = true %}
+
+            {% for hidden in hide %}
+                {% if hidden.key in arr|keys and attribute(arr, hidden.key) in hidden.values %}
+                    {% set show = false %}
+                {% endif %}
+            {% endfor %}
+
+            {% if show == true %}
+                <tr>
+                    {% for key, value in arr %}
+                        {% set value = value %}
+
+                        {% for filter in filters %}
+                            {% if filter.key == key %}
+                                {% set value =  value|apply_filter(filter.apply)|raw %}
+                            {% endif %}
+                        {% endfor %}
+
+                        {% set item = '<td>' ~ value ~ '</td>' %}
+
+                        {% for link in links %}
+                            {% if link.key == key %}
+                                {% if link.uri_param is not empty %}
+                                    {% for searchingKey, searchingValue in arr %}
+                                        {% if searchingKey == link.uri_param %}
+                                            {% set item = "<td><a href=\"#{link.uri}\/#{searchingValue}\">#{value}</a></td>" %}
+                                        {% endif %}
+                                    {% endfor %}
+                                {% else %}
+                                    {% set item = "<td><a href=\"#{link.uri}\/#{value}\">#{value}</a></td>" %}
+                                {% endif %}
+                            {% endif %}
+                        {% endfor %}
+
+                        {{ item|raw }}
+                    {% endfor %}
+
+                    {% for link in additional_links %}
+
+                        <td>
+                            {% set item = "<a href=\"#{link.uri}\">#{link.label}" %}
+
+                            {% if link.uri_param is not empty %}
+                                {% for searchingKey, searchingValue in arr %}
+                                    {% if searchingKey == link.uri_param %}
+                                        {% set item = "<a href=\"#{link.uri}\/#{searchingValue}\">#{link.label}</a>" %}
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+
+                            {{ item|raw }}
+                        </td>
+                    {% endfor %}
+                </tr>
+            {% endif %}
+        {% endfor %}
+
+        </tbody>
+    </table>
+</div>

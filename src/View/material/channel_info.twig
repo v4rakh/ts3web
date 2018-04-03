@@ -1,0 +1,37 @@
+{% extends 'layout.twig' %}
+
+{% block content %}
+    <h1 class="header">{{ title }}</h1>
+
+    <h2 class="header">{% trans %}channel_info.h.actions{% endtrans %}</h2>
+    {% include 'form.twig' with {
+        'additional_forms': [
+            {
+                'header_label': 'channel_info.send'|trans,
+                'label': '<i class="material-icons">check_circle</i>',
+                'uri': '/channels/send/' ~ sid ~ '/' ~ cid,
+                'uri_method': 'post',
+                'fields': [
+                {'type': 'text', 'key': 'message', 'label': 'channel_info.send.message'|trans},
+            ]
+            }]
+    } %}
+
+    {% if clients|length > 0 %}
+        <h2 class="header">{% trans %}channel_info.h.clients{% endtrans %}</h2>
+        {% include 'table.twig' with {'data': clients,
+            'hide': [{'key': 'client_type', 'values': ['1']}],
+            'links': [
+                {'key': 'clid', 'uri': '/online/' ~ sid},
+                {'key': 'client_database_id', 'uri': '/clients/' ~ sid, 'uri_param': 'client_database_id'}
+        ]} %}
+    {% endif %}
+
+    {% if files|length > 0 %}
+        <h2 class="header">{% trans %}channel_info.h.files{% endtrans %}</h2>
+        {% include 'files.twig' with {'data': files} %}
+    {% endif %}
+
+    <h2 class="header">{% trans %}channel_info.h.details{% endtrans %}</h2>
+    {% include 'keyvalue.twig' with {'data': channel} %}
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends 'layout.twig' %}
+
+{% block content %}
+    <h1 class="header">{{ title }}</h1>
+    {% if data|length > 0 %}
+        {% include 'table.twig' with {'data': data,
+            'filters': [
+                {'key': 'client_created', 'apply': 'timestamp'},
+                {'key': 'client_lastconnected', 'apply': 'timestamp'},
+            ],
+            'links': [
+                {'key': 'cldbid', 'uri': '/clients/' ~ sid, 'uri_param': 'cldbid'},
+            ],
+            'additional_links': [
+                {
+                    'header_label': 'clients.delete'|trans,
+                    'label': '<i class="material-icons">delete</i>',
+                    'uri': '/clients/delete/' ~ sid,
+                    'uri_param': 'cldbid'
+                }
+            ]
+        } %}
+    {% else %}
+        {% include 'no_entities.twig' %}
+    {% endif %}
+{% endblock %}

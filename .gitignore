@@ -1,0 +1,12 @@
+bin/*
+!bin/.gitkeep
+config/env
+composer.lock
+cache/*
+!cache/.gitkeep
+public/images/*
+!public/images/.gitkeep
+vendor/
+.idea/
+log/*
+!log/.gitkeep

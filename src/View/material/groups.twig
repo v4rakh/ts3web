@@ -1,0 +1,40 @@
+{% extends 'layout.twig' %}
+
+{% block content %}
+    <h1 class="header">{{ title }}</h1>
+
+    <h2 class="header">{% trans %}groups.h.servergroups{% endtrans %}</h2>
+    {% if serverGroups|length > 0 %}
+        {% include 'table.twig' with {'data': serverGroups,
+            'links': [{'key': 'sgid', 'uri': '/groups/' ~ sid}],
+            'additional_links': [
+                {
+                    'header_label': 'groups.delete'|trans,
+                    'label': '<i class="material-icons">delete</i>',
+                    'uri': '/groups/delete/' ~ sid,
+                    'uri_param': 'sgid'
+                }
+            ]
+        } %}
+    {% else %}
+        {% include 'no_entities.twig' %}
+    {% endif %}
+
+
+    <h2 class="header">{% trans %}groups.h.channelgroups{% endtrans %}</h2>
+    {% if channelGroups|length > 0 %}
+        {% include 'table.twig' with {'data': channelGroups,
+            'links': [{'key': 'cgid', 'uri': '/channelgroups/' ~ sid}],
+            'additional_links': [
+                {
+                    'header_label': 'channelgroups.delete'|trans,
+                    'label': '<i class="material-icons">delete</i>',
+                    'uri': '/channelgroups/delete/' ~ sid,
+                    'uri_param': 'cgid'
+                }
+            ]
+        } %}
+    {% else %}
+        {% include 'no_entities.twig' %}
+    {% endif %}
+{% endblock %}

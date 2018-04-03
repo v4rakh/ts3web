@@ -1,0 +1,24 @@
+{% if flash is not empty %}
+    {% if flash.getMessage('info').0 %}
+        <div class="alert alert-dismissible alert-info">
+            {{ flash.getMessage('info').0 }}
+            <button type='button' class='close' data-dismiss='alert'>×</button>
+        </div>
+    {% endif %}
+
+    {% if flash.getMessage('success').0 %}
+        <div class="alert alert-dismissible alert-success">
+            {{ flash.getMessage('success').0 }}
+            <button type='button' class='close' data-dismiss='alert'>×</button>
+        </div>
+    {% endif %}
+
+    {% if flash.getMessage('error') %}
+        {% for error in flash.getMessage('error') %}
+            <div class="alert alert-dismissible alert-danger">
+                {{ error }}
+                <button type='button' class='close' data-dismiss='alert'>×</button>
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endif %}

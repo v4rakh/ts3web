@@ -1,0 +1,20 @@
+{% extends 'layout.twig' %}
+
+{% block content %}
+    <h1 class="header">{{ title }}</h1>
+    {% if data|length > 0 %}
+        {% include 'table.twig' with {'data': data,
+            'links': [{'key': 'cid', 'uri': '/channels/' ~ sid}],
+            'additional_links': [
+                {
+                    'header_label': 'channels.delete'|trans,
+                    'label': '<i class="material-icons">delete</i>',
+                    'uri': '/channels/delete/' ~ sid,
+                    'uri_param': 'cid'
+                }
+            ]
+        } %}
+    {% else %}
+        {% include 'no_entities.twig' %}
+    {% endif %}
+{% endblock %}
