@@ -12,7 +12,8 @@
     "jeremykendall/slim-auth": "dev-slim-3.x",
     "phpmailer/phpmailer": "^5.2",
     "illuminate/pagination": "^5.5",
-    "par0noid/ts3admin": "^1.0"
+    "par0noid/ts3admin": "^1.0",
+    "planetteamspeak/ts3-php-framework": "^1.1"
   },
   "config": {
     "bin-dir": "bin/"

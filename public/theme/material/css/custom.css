@@ -1,6 +1,5 @@
 /* START: for rendering within block you should keep the following */
 img {
-    display: block;
     max-width: 100%;
     height: auto;
 }

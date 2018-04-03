@@ -60,8 +60,10 @@ $container['logger'] = function () {
 };
 
 // teamspeak
-$container['ts'] = function () {
-    return new TSInstance();
+$ts = new TSInstance();
+$_SESSION['_TS3'] = serialize($ts);
+$container['ts'] = function () use ($ts) {
+    return $ts;
 };
 
 // auth
@@ -138,7 +140,7 @@ $container['view'] = function ($container) use ($app) {
     $view['flash'] = $container['flash'];
 
     // currentUser, currentRole, ACL.isPermitted
-    $view['currentUser'] = ($container['authenticator']->hasIdentity() ? $container['authenticator']->getIdentity() : NULL); // currentUser in Twig
+    $view['currentUser'] = ($container['authenticator']->hasIdentity() ? $container['authenticator']->getIdentity() : NULL); // currentUser in twig
     $view['currentRole'] = (!empty($user) ? $role = $user->role : $role = ACL::ACL_DEFAULT_ROLE_GUEST);
 
     $view->getEnvironment()->addFunction(new Twig_SimpleFunction('isPermitted', function ($currentRole, $targetRole) use ($container) {

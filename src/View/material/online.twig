@@ -2,15 +2,24 @@
 
 {% block content %}
     <h1 class="header">{{ title }}</h1>
-    {% if data|length >0 %}
-        {% include 'table.twig' with {'data': data,
-            'hide': [{'key': 'client_type', 'values': ['1']}],
-            'links': [
-                {'key': 'clid', 'uri': '/online/' ~ sid},
-                {'key': 'client_database_id', 'uri': '/clients/' ~ sid, 'uri_param': 'client_database_id'}
-            ],
-        } %}
-    {% else %}
-        {% include 'no_entities.twig' %}
-    {% endif %}
+
+    <div class="row">
+        <div class="col-md-4 small">
+            {{ tree|raw }}
+        </div>
+        <div class="col-md-8">
+            {% if data|length >0 %}
+                {% include 'table.twig' with {'data': data,
+                    'hide': [{'key': 'client_type', 'values': ['1']}],
+                    'links': [
+                        {'key': 'clid', 'uri': '/online/' ~ sid},
+                        {'key': 'cid', 'uri': '/channels/' ~ sid, 'uri_param': 'cid'},
+                        {'key': 'client_database_id', 'uri': '/clients/' ~ sid, 'uri_param': 'client_database_id'}
+                    ],
+                } %}
+            {% else %}
+                {% include 'no_entities.twig' %}
+            {% endif %}
+        </div>
+    </div>
 {% endblock %}
