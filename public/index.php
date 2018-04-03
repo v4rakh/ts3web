@@ -60,10 +60,8 @@ $container['logger'] = function () {
 };
 
 // teamspeak
-$ts = new TSInstance();
-$_SESSION['_TS3'] = serialize($ts);
-$container['ts'] = function () use ($ts) {
-    return $ts;
+$container['ts'] = function () {
+    return new TSInstance();
 };
 
 // auth
