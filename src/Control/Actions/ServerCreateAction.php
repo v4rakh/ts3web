@@ -11,7 +11,6 @@ final class ServerCreateAction extends AbstractAction
 
         $this->ts->login($this->auth->getIdentity()['user'], $this->auth->getIdentity()['password']);
         $dataResult = $this->ts->getInstance()->serverCreate($body);
-        $this->ts->checkCommandResult($dataResult);
 
         $this->flash->addMessage('success', $this->translator->trans('server_create.created.success', ['%token%' => $dataResult['data']['token']]));
         return $response->withRedirect('/servers');

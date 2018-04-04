@@ -10,7 +10,6 @@ final class LogsAction extends AbstractAction
         $this->ts->login($this->auth->getIdentity()['user'], $this->auth->getIdentity()['password']);
 
         $dataResult = $this->ts->getInstance()->logView(100, 1, 1);
-        $this->ts->checkCommandResult($dataResult);
 
         // render GET
         $this->view->render($response, 'logs.twig', [

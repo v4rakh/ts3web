@@ -18,21 +18,31 @@ class TSInstance
     private $queryPort;
 
     /**
-     * TeamSpeakWrapper constructor.
+     * @var \Psr\Log\LoggerInterface
      */
-    public function __construct()
+    private $logger;
+
+    /**
+     * TeamSpeakWrapper constructor.
+     * @param $logger
+     */
+    public function __construct($logger)
     {
+        $this->logger = $logger;
+
         $this->host = getenv('teamspeak_default_host');
         $this->queryPort = getenv('teamspeak_default_query_port');
 
         $ts = new ts3admin($this->host, $this->queryPort);
+        $ts = new TS3AdminProxy($ts, $logger);
 
-        if($ts->getElement('success', $ts->connect())) {
-        } else {
-            die('An unknown error occurred. A connection to the teamspeak server could not be established. Check settings.');
+        try {
+            $ts->connect();
+            $this->ts = $ts;
+            $this->logger->debug(sprintf('Connected to %s:%s', $this->host, $this->queryPort));
+        } catch (TSException $e) {
+            die($e);
         }
-
-        $this->ts = $ts;
     }
 
     /**
@@ -45,43 +55,10 @@ class TSInstance
     public function login($user, $password)
     {
         if (!empty($user) && !empty($password)) {
-            $res = $this->ts->login($user, $password);
-            $this->checkCommandResult($res);
+            $this->ts->login($user, $password);
+            $this->logger->debug(sprintf('Logged in as %s', $user));
         } else {
             throw new InvalidArgumentException('User and password not provided');
-        }
-
-        return true;
-    }
-
-    /**
-     * Check if any error occurred
-     *
-     * @param $result
-     * @return bool
-     */
-    public function checkCommandResult($result)
-    {
-        if (!$this->ts->getElement('success', $result)) {
-
-            $errors = $this->ts->getElement('errors', $result);
-            $errorsAsString = implode('. ', $errors);
-
-            if (count($errors) === 1) {
-
-                // catch this
-                if (strpos($errorsAsString, 'ErrorID: 1281 | Message: database empty result set') !== false) {
-                    $throw = false;
-                } else {
-                    $throw = true;
-                }
-            } else {
-                $throw = true;
-            }
-
-            if ($throw) {
-                throw new TSException($errorsAsString);
-            }
         }
 
         return true;

@@ -25,7 +25,7 @@ class TSAuthAdapter extends \Zend\Authentication\Adapter\AbstractAdapter
      */
     private $ts;
 
-    public function __construct($host, $queryPort, LoggerInterface $logger, $ts)
+    public function __construct($host, $queryPort, LoggerInterface $logger, TSInstance $ts)
     {
         $this->host = $host;
         $this->queryPort = $queryPort;
@@ -45,7 +45,7 @@ class TSAuthAdapter extends \Zend\Authentication\Adapter\AbstractAdapter
         $password = $this->getCredential();
 
         if ($this->ts->login($user, $password)) {
-            $this->logger->info(sprintf('%s authenticated with teamspeak instance %s:%s', $user, $this->ts->getHost(), $this->ts->getQueryPort()));
+            $this->logger->info(sprintf('Authenticated as %s', $user));
 
             $user = ['identity' => $user, 'user' => $user, 'password'=> $password, 'role' => ACL::ACL_DEFAULT_ROLE_ADMIN];
             return new Result(Result::SUCCESS, $user, array());

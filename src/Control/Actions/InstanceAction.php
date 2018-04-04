@@ -9,9 +9,7 @@ final class InstanceAction extends AbstractAction
     {
         $this->ts->login($this->auth->getIdentity()['user'], $this->auth->getIdentity()['password']);
         $hostResult = $this->ts->getInstance()->hostInfo();
-        $this->ts->checkCommandResult($hostResult);
         $instanceResult = $this->ts->getInstance()->instanceInfo();
-        $this->ts->checkCommandResult($instanceResult);
 
         $data['data'] = array_merge($hostResult['data'], $instanceResult['data']);
 

@@ -12,10 +12,8 @@ final class OnlineInfoAction extends AbstractAction
 
         $this->ts->login($this->auth->getIdentity()['user'], $this->auth->getIdentity()['password']);
         $selectResult = $this->ts->getInstance()->selectServer($sid, 'serverId');
-        $this->ts->checkCommandResult($selectResult);
 
         $dataResult = $this->ts->getInstance()->clientInfo($clid);
-        $this->ts->checkCommandResult($dataResult);
 
         // render GET
         $this->view->render($response, 'online_info.twig', [

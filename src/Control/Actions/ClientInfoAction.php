@@ -12,19 +12,14 @@ final class ClientInfoAction extends AbstractAction
 
         $this->ts->login($this->auth->getIdentity()['user'], $this->auth->getIdentity()['password']);
         $selectResult = $this->ts->getInstance()->selectServer($sid, 'serverId');
-        $this->ts->checkCommandResult($selectResult);
 
         $detailsResult = $this->ts->getInstance()->clientDbInfo($cldbid);
-        $this->ts->checkCommandResult($detailsResult);
 
         $serverGroupsResult = $this->ts->getInstance()->serverGroupsByClientID($cldbid);
-        $this->ts->checkCommandResult($serverGroupsResult);
 
         $channelGroupsResult = $this->ts->getInstance()->channelGroupClientList(null, $cldbid, null);
-        $this->ts->checkCommandResult($channelGroupsResult);
 
         $permissionsResult = $this->ts->getInstance()->clientPermList($cldbid, true);
-        $this->ts->checkCommandResult($permissionsResult);
 
         // render GET
         $this->view->render($response, 'client_info.twig', [

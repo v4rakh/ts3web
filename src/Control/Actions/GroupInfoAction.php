@@ -12,13 +12,10 @@ final class GroupInfoAction extends AbstractAction
 
         $this->ts->login($this->auth->getIdentity()['user'], $this->auth->getIdentity()['password']);
         $selectResult = $this->ts->getInstance()->selectServer($sid, 'serverId');
-        $this->ts->checkCommandResult($selectResult);
 
         $clientsResult = $this->ts->getInstance()->serverGroupClientList($sgid, true);
-        $this->ts->checkCommandResult($clientsResult);
 
         $permissionsResult = $this->ts->getInstance()->serverGroupPermList($sgid, true);
-        $this->ts->checkCommandResult($permissionsResult);
 
         // render GET
         $this->view->render($response, 'group_info.twig', [

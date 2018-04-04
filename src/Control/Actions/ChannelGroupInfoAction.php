@@ -12,13 +12,10 @@ final class ChannelGroupInfoAction extends AbstractAction
 
         $this->ts->login($this->auth->getIdentity()['user'], $this->auth->getIdentity()['password']);
         $selectResult = $this->ts->getInstance()->selectServer($sid, 'serverId');
-        $this->ts->checkCommandResult($selectResult);
 
         $clientsResult = $this->ts->getInstance()->channelGroupClientList(null, null, $cgid);
-        $this->ts->checkCommandResult($clientsResult);
 
         $permissionsResult = $this->ts->getInstance()->channelGroupPermList($cgid, true);
-        $this->ts->checkCommandResult($permissionsResult);
 
         // render GET
         $this->view->render($response, 'channelgroup_info.twig', [

@@ -52,16 +52,22 @@ $container['translator'] = function () use ($translator) {
 
 // date
 Carbon::setLocale(getenv('site_language'));
+Carbon::setToStringFormat(getenv('site_date_format'));
 
 // logger
-$container['logger'] = function () {
+try {
     $logger = BootstrapHelper::bootLogger();
-    return $logger;
-};
+
+    $container['logger'] = function () use ($logger) {
+        return $logger;
+    };
+} catch (Exception $e) {
+    die('Error bootstrapping logger: ' . $e->getMessage());
+}
 
 // teamspeak
-$container['ts'] = function () {
-    return new TSInstance();
+$container['ts'] = function () use ($logger) {
+    return new TSInstance($logger);
 };
 
 // auth
@@ -124,9 +130,6 @@ $container['view'] = function ($container) use ($app) {
     // translation
     $view->addExtension(new \Symfony\Bridge\Twig\Extension\TranslationExtension($container['translator']));
     $view->getEnvironment()->getExtension('Twig_Extension_Core')->setDateFormat(getenv('site_date_format'));
-
-    // date
-    Carbon::setToStringFormat(getenv('site_date_format'));
 
     // env
     $view->getEnvironment()->addFunction(new Twig_SimpleFunction('getenv', function($value) {

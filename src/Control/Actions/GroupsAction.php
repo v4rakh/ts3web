@@ -11,13 +11,10 @@ final class GroupsAction extends AbstractAction
 
         $this->ts->login($this->auth->getIdentity()['user'], $this->auth->getIdentity()['password']);
         $selectResult = $this->ts->getInstance()->selectServer($sid, 'serverId');
-        $this->ts->checkCommandResult($selectResult);
 
         $serverGroupsResult = $this->ts->getInstance()->serverGroupList();
-        $this->ts->checkCommandResult($selectResult);
 
         $channelGroupsResult = $this->ts->getInstance()->channelGroupList();
-        $this->ts->checkCommandResult($channelGroupsResult);
 
         // render GET
         $this->view->render($response, 'groups.twig', [

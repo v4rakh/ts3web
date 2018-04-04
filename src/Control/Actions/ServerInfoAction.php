@@ -11,13 +11,10 @@ final class ServerInfoAction extends AbstractAction
 
         $this->ts->login($this->auth->getIdentity()['user'], $this->auth->getIdentity()['password']);
         $selectResult = $this->ts->getInstance()->selectServer($sid, 'serverId');
-        $this->ts->checkCommandResult($selectResult);
 
         $infoResult = $this->ts->getInstance()->serverInfo();
-        $this->ts->checkCommandResult($infoResult);
 
         $uploadsResult = $this->ts->getInstance()->ftList();
-        $this->ts->checkCommandResult($uploadsResult);
 
         // render GET
         $this->view->render($response, 'server_info.twig', [

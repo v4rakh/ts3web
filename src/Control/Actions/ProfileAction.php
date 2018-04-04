@@ -9,7 +9,6 @@ final class ProfileAction extends AbstractAction
     {
         $this->ts->login($this->auth->getIdentity()['user'], $this->auth->getIdentity()['password']);
         $whoisResult = $this->ts->getInstance()->whoAmI();
-        $this->ts->checkCommandResult($whoisResult);
 
         // render GET
         $this->view->render($response, 'profile.twig', [

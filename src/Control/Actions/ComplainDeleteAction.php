@@ -12,13 +12,11 @@ final class ComplainDeleteAction extends AbstractAction
 
         $this->ts->login($this->auth->getIdentity()['user'], $this->auth->getIdentity()['password']);
         $selectResult = $this->ts->getInstance()->selectServer($sid, 'serverId');
-        $this->ts->checkCommandResult($selectResult);
 
         // search fcldbid
         $fcldbid = null;
 
         $searchResult = $this->ts->getInstance()->complainList();
-        $this->ts->checkCommandResult($searchResult);
 
         foreach ($this->ts->getInstance()->getElement('data', $searchResult) as $complain) {
             if ($complain['tcldbid'] === $tcldbid) {
@@ -29,7 +27,6 @@ final class ComplainDeleteAction extends AbstractAction
 
         if (!empty($fcldbid)) {
             $complainDeleteResult = $this->ts->getInstance()->complainDelete($tcldbid, $fcldbid);
-            $this->ts->checkCommandResult($complainDeleteResult);
         }
 
         $this->flash->addMessage('success', $this->translator->trans('done'));

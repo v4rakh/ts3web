@@ -12,10 +12,8 @@ final class ChannelGroupDeleteAction extends AbstractAction
 
         $this->ts->login($this->auth->getIdentity()['user'], $this->auth->getIdentity()['password']);
         $selectResult = $this->ts->getInstance()->selectServer($sid, 'serverId');
-        $this->ts->checkCommandResult($selectResult);
 
         $groupDeleteResult = $this->ts->getInstance()->channelGroupDelete($cgid);
-        $this->ts->checkCommandResult($groupDeleteResult);
 
         $this->flash->addMessage('success', $this->translator->trans('done'));
 

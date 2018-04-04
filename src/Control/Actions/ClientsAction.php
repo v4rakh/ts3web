@@ -11,10 +11,8 @@ final class ClientsAction extends AbstractAction
 
         $this->ts->login($this->auth->getIdentity()['user'], $this->auth->getIdentity()['password']);
         $selectResult = $this->ts->getInstance()->selectServer($sid, 'serverId');
-        $this->ts->checkCommandResult($selectResult);
 
         $dataResult = $this->ts->getInstance()->clientDbList();
-        $this->ts->checkCommandResult($dataResult);
 
         // render GET
         $this->view->render($response, 'clients.twig', [

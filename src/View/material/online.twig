@@ -11,6 +11,12 @@
             {% if data|length >0 %}
                 {% include 'table.twig' with {'data': data,
                     'hide': [{'key': 'client_type', 'values': ['1']}],
+                    'filters': [
+                        {'key': 'client_idle_time', 'apply': 'timeInSeconds'},
+                        {'key': 'connection_connected_time', 'apply': 'timeInSeconds'},
+                        {'key': 'client_created', 'apply': 'timestamp'},
+                        {'key': 'client_lastconnected', 'apply': 'timestamp'}
+                    ],
                     'links': [
                         {'key': 'clid', 'uri': '/online/' ~ sid},
                         {'key': 'cid', 'uri': '/channels/' ~ sid, 'uri_param': 'cid'},
