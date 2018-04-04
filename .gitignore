@@ -6,6 +6,8 @@ cache/*
 !cache/.gitkeep
 public/images/*
 !public/images/.gitkeep
+!public/images/flags
+!public/images/viewer
 vendor/
 .idea/
 log/*
