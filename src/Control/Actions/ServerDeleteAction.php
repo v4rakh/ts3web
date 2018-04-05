@@ -14,6 +14,12 @@ final class ServerDeleteAction extends AbstractAction
 
         $dataResult = $this->ts->getInstance()->serverDelete($sid);
 
+        // remove selected server from session
+        if ($this->session->exists('sid') && $this->session->get('sid') == $sid) {
+            $this->session->delete('sid');
+            $this->session->delete('name');
+        }
+
         $this->flash->addMessage('success', $this->translator->trans('done'));
         return $response->withRedirect('/servers');
     }
