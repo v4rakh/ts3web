@@ -21,6 +21,10 @@ final class ServerInfoAction extends AbstractAction
             'title' => $this->translator->trans('server_info.title') . ' ' . $sid,
             'info' => $this->ts->getInstance()->getElement('data', $infoResult),
             'uploads' => $this->ts->getInstance()->getElement('data', $uploadsResult),
+            'messagemodes' => TSInstance::getHostMessageModes(),
+            'bannermodes' => TSInstance::getHostBannerModes(),
+            'encryptionmodes' => TSInstance::getCodecEncryptionModes(),
+            'loglevels' => TSInstance::getLogLevels(),
             'sid' => $sid
         ]);
     }

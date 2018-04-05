@@ -26,6 +26,8 @@ final class ChannelInfoAction extends AbstractAction
             'files' => $this->ts->getInstance()->getElement('data', $files),
             'channel' => $this->ts->getInstance()->getElement('data', $channelResult),
             'clients' => $this->ts->getInstance()->getElement('data', $clientsResult),
+            'codecs' => TSInstance::getCodecs(),
+            'codecsquality' => TSInstance::getCodecsQuality(),
             'sid' => $sid,
             'cid' => $cid
         ]);

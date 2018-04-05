@@ -239,6 +239,11 @@ $container[ChannelInfoAction::class] = function ($container) {
 };
 $app->get('/channels/{sid}/{cid}', ChannelInfoAction::class);
 
+$container[ChannelEditAction::class] = function ($container) {
+    return new ChannelEditAction($container);
+};
+$app->post('/channels/edit/{sid}/{cid}', ChannelEditAction::class);
+
 $container[ChannelDeleteAction::class] = function ($container) {
     return new ChannelDeleteAction($container);
 };

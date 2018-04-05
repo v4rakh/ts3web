@@ -33,5 +33,27 @@
     {% endif %}
 
     <h2 class="header">{% trans %}channel_info.h.details{% endtrans %}</h2>
-    {% include 'keyvalue.twig' with {'data': channel} %}
+    {% include 'keyvalue.twig' with {'data': channel,
+        'attributesEditable': [
+            {'key': 'channel_name', 'type': 'text', 'uri': '/channels/edit/' ~ sid ~ '/' ~ cid , 'uri_method': 'post', 'submit_label': '<i class="material-icons">check_circle</i>'},
+            {'key': 'channel_topic', 'type': 'text', 'uri': '/channels/edit/' ~ sid ~ '/' ~ cid , 'uri_method': 'post', 'submit_label': '<i class="material-icons">check_circle</i>'},
+            {'key': 'channel_description', 'type': 'text', 'uri': '/channels/edit/' ~ sid ~ '/' ~ cid , 'uri_method': 'post', 'submit_label': '<i class="material-icons">check_circle</i>'},
+            {'key': 'channel_password', 'type': 'text', 'blank': true,'uri': '/channels/edit/' ~ sid ~ '/' ~ cid , 'uri_method': 'post', 'submit_label': '<i class="material-icons">check_circle</i>'},
+            {'key': 'channel_maxclients', 'type': 'number', 'uri': '/channels/edit/' ~ sid ~ '/' ~ cid , 'uri_method': 'post', 'submit_label': '<i class="material-icons">check_circle</i>'},
+            {'key': 'channel_flag_maxclients_unlimited', 'type': 'checkbox', 'uri': '/channels/edit/' ~ sid ~ '/' ~ cid , 'uri_method': 'post', 'submit_label': '<i class="material-icons">check_circle</i>'},
+            {'key': 'channel_maxfamilyclients', 'type': 'number', 'uri': '/channels/edit/' ~ sid ~ '/' ~ cid , 'uri_method': 'post', 'submit_label': '<i class="material-icons">check_circle</i>'},
+            {'key': 'channel_flag_maxfamilyclients_unlimited', 'type': 'checkbox', 'uri': '/channels/edit/' ~ sid ~ '/' ~ cid , 'uri_method': 'post', 'submit_label': '<i class="material-icons">check_circle</i>'},
+            {'key': 'channel_flag_maxfamilyclients_inherited', 'type': 'checkbox', 'uri': '/channels/edit/' ~ sid ~ '/' ~ cid , 'uri_method': 'post', 'submit_label': '<i class="material-icons">check_circle</i>'},
+            {'key': 'channel_flag_permanent', 'type': 'checkbox', 'uri': '/channels/edit/' ~ sid ~ '/' ~ cid , 'uri_method': 'post', 'submit_label': '<i class="material-icons">check_circle</i>'},
+            {'key': 'channel_flag_semi_permanent', 'type': 'checkbox', 'uri': '/channels/edit/' ~ sid ~ '/' ~ cid , 'uri_method': 'post', 'submit_label': '<i class="material-icons">check_circle</i>'},
+            {'key': 'channel_flag_default', 'type': 'checkbox', 'uri': '/channels/edit/' ~ sid ~ '/' ~ cid , 'uri_method': 'post', 'submit_label': '<i class="material-icons">check_circle</i>'},
+            {'key': 'channel_order', 'type': 'number', 'uri': '/channels/edit/' ~ sid ~ '/' ~ cid , 'uri_method': 'post', 'submit_label': '<i class="material-icons">check_circle</i>'},
+            {'key': 'channel_needed_talk_power', 'type': 'number', 'uri': '/channels/edit/' ~ sid ~ '/' ~ cid , 'uri_method': 'post', 'submit_label': '<i class="material-icons">check_circle</i>'},
+            {'key': 'channel_name_phonetic', 'type': 'text', 'uri': '/channels/edit/' ~ sid ~ '/' ~ cid , 'uri_method': 'post', 'submit_label': '<i class="material-icons">check_circle</i>'},
+            {'key': 'channel_codec', 'type': 'select', 'options': codecs, 'uri': '/channels/edit/' ~ sid ~ '/' ~ cid , 'uri_method': 'post', 'submit_label': '<i class="material-icons">check_circle</i>'},
+            {'key': 'channel_codec_quality', 'type': 'select', 'options': codecsquality, 'uri': '/channels/edit/' ~ sid ~ '/' ~ cid , 'uri_method': 'post', 'submit_label': '<i class="material-icons">check_circle</i>'},
+            {'key': 'channel_codec_is_unencrypted', 'type': 'checkbox', 'uri': '/channels/edit/' ~ sid ~ '/' ~ cid , 'uri_method': 'post', 'submit_label': '<i class="material-icons">check_circle</i>'},
+            {'key': 'channel_icon_id', 'type': 'number', 'uri': '/channels/edit/' ~ sid ~ '/' ~ cid , 'uri_method': 'post', 'submit_label': '<i class="material-icons">check_circle</i>'},
+        ]
+    } %}
 {% endblock %}
