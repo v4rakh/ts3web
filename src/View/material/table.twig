@@ -8,7 +8,9 @@
             {% endfor %}
 
             {% for key in added %}
-                <th>{{ key|replace({'_' : ' '})|title }}</th>
+                {% if key not in hiddenColumns %}
+                    <th>{{ key|replace({'_' : ' '})|title }}</th>
+                {% endif %}
             {% endfor %}
 
             {% for link in additional_links %}
@@ -19,62 +21,77 @@
         <tbody>
 
         {% for arr in data %}
-            {% set show = true %}
 
-            {% for hidden in hide %}
-                {% if hidden.key in arr|keys and attribute(arr, hidden.key) in hidden.values %}
-                    {% set show = false %}
-                {% endif %}
-            {% endfor %}
+                {% set show = true %}
 
-            {% if show == true %}
-                <tr>
-                    {% for key, value in arr %}
-                        {% set value = value %}
+                {% for hidden in hiddenDependingOnAttribute %}
+                    {% if hidden.key in arr|keys and attribute(arr, hidden.key) in hidden.values %}
+                        {% set show = false %}
+                    {% endif %}
+                {% endfor %}
 
-                        {% for filter in filters %}
-                            {% if filter.key == key %}
-                                {% set value =  value|apply_filter(filter.apply)|raw %}
+                {% if show == true %}
+                    <tr>
+                        {% for key, value in arr %}
+                            {% set value = value %}
+
+                            {% for filter in filters %}
+                                {% if filter.key == key %}
+                                    {% set value =  value|apply_filter(filter.apply)|raw %}
+                                {% endif %}
+                            {% endfor %}
+
+                            {% set showColumn = true %}
+
+                            {% if key in hiddenColumns %}
+                                {% set showColumn = false %}
+                            {% endif %}
+
+                            {% if showColumn %}
+                                {% set item = '<td>' ~ value ~ '</td>' %}
+
+                                {% for link in links %}
+                                    {% if link.key == key %}
+                                        {% if link.uri_param is not empty %}
+                                            {% for searchingKey, searchingValue in arr %}
+                                                {% if searchingKey == link.uri_param %}
+                                                    {% set item = "<td><a href=\"#{link.uri}\/#{searchingValue}\">#{value}</a></td>" %}
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% else %}
+                                            {% set item = "<td><a href=\"#{link.uri}\/#{value}\">#{value}</a></td>" %}
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor %}
+
+                                {{ item|raw }}
                             {% endif %}
                         {% endfor %}
 
-                        {% set item = '<td>' ~ value ~ '</td>' %}
+                        {% for link in additional_links %}
 
-                        {% for link in links %}
-                            {% if link.key == key %}
+                            <td>
+                                {% set item = "<a href=\"#{link.uri}\">#{link.label}" %}
+
                                 {% if link.uri_param is not empty %}
                                     {% for searchingKey, searchingValue in arr %}
                                         {% if searchingKey == link.uri_param %}
-                                            {% set item = "<td><a href=\"#{link.uri}\/#{searchingValue}\">#{value}</a></td>" %}
+                                            {% set shownValue = searchingValue  %}
+
+                                            {% if link.apply is not empty %}
+                                                {% set shownValue = shownValue|apply_filter(link.apply)|raw %}
+                                            {% endif %}
+
+                                            {% set item = "<a href=\"#{link.uri}\/#{shownValue}\">#{link.label}</a>" %}
                                         {% endif %}
                                     {% endfor %}
-                                {% else %}
-                                    {% set item = "<td><a href=\"#{link.uri}\/#{value}\">#{value}</a></td>" %}
                                 {% endif %}
-                            {% endif %}
+
+                                {{ item|raw }}
+                            </td>
                         {% endfor %}
-
-                        {{ item|raw }}
-                    {% endfor %}
-
-                    {% for link in additional_links %}
-
-                        <td>
-                            {% set item = "<a href=\"#{link.uri}\">#{link.label}" %}
-
-                            {% if link.uri_param is not empty %}
-                                {% for searchingKey, searchingValue in arr %}
-                                    {% if searchingKey == link.uri_param %}
-                                        {% set item = "<a href=\"#{link.uri}\/#{searchingValue}\">#{link.label}</a>" %}
-                                    {% endif %}
-                                {% endfor %}
-                            {% endif %}
-
-                            {{ item|raw }}
-                        </td>
-                    {% endfor %}
-                </tr>
-            {% endif %}
+                    </tr>
+                {% endif %}
         {% endfor %}
 
         </tbody>

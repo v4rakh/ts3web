@@ -10,7 +10,8 @@
         <div class="col-md-8">
             {% if data|length >0 %}
                 {% include 'table.twig' with {'data': data,
-                    'hide': [{'key': 'client_type', 'values': ['1']}],
+                    'hiddenDependingOnAttribute': [{'key': 'client_type', 'values': ['1']}],
+                    'hiddenColumns': ['client_type'],
                     'filters': [
                         {'key': 'client_idle_time', 'apply': 'timeInMillis'},
                         {'key': 'connection_connected_time', 'apply': 'timeInSeconds'},

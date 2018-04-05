@@ -94,6 +94,22 @@ location ~ \.php$ {
 * start server with `php -S localhost:8080 -t public public/index.php`
 * point browser to [localhost:8080](http://localhost:8080) to have a preview
 
+### Helpers ###
+
+Attributes can be defined when including `table`, `keyvalues` and `form` templates of twig. This helps to generate tables and forms without the need to specify all attributes.
+
+```
+hiddenDependingOnAttribute // hides a row depending on a value in a table
+hiddenColumns // hides an entire column depending on a key in a table
+links // generates a link for a specific cell in a table or keyvalue
+additional_links // generates extra columns in a table
+filters // applies filters depending on a key in a table or key value view
+attributesEditable // define editable attributes in the key value view
+fields // define fields for a form
+```
+
+See example usage in the folder `View/material`.
+
 ## Translations ##
 - This app uses Symfony Translator. It's bootstrapped in `Util\BootstrapHelper` and locales are placed under `data/locale/`. Adjust to your needs or help translating.
 - Form fields (name/id should be the same) are also translated. For a field named `content` or `ConT enT` translate `form_field_content`.

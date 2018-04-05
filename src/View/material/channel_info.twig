@@ -5,7 +5,7 @@
 
     <h2 class="header">{% trans %}channel_info.h.actions{% endtrans %}</h2>
     {% include 'form.twig' with {
-        'additional_forms': [
+        'fields': [
             {
                 'header_label': 'channel_info.send'|trans,
                 'label': '<i class="material-icons">check_circle</i>',
@@ -20,7 +20,7 @@
     {% if clients|length > 0 %}
         <h2 class="header">{% trans %}channel_info.h.clients{% endtrans %}</h2>
         {% include 'table.twig' with {'data': clients,
-            'hide': [{'key': 'client_type', 'values': ['1']}],
+            'hiddenDependingOnAttribute': [{'key': 'client_type', 'values': ['1']}],
             'links': [
                 {'key': 'clid', 'uri': '/online/' ~ sid},
                 {'key': 'client_database_id', 'uri': '/clients/' ~ sid, 'uri_param': 'client_database_id'}

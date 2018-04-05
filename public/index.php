@@ -110,33 +110,14 @@ $container['view'] = function ($container) use ($app) {
     ));
     $view->addExtension(new Twig_Extension_Debug());
 
-    // file size
-    $fileSizeFilter = new Twig_SimpleFilter('file', function($bytes, $decimals = 2) {
-        $sz = 'BKMGTP';
-        $factor = floor((strlen($bytes) - 1) / 3);
-        return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)) . @$sz[$factor];
-    });
-    $view->getEnvironment()->addFilter($fileSizeFilter);
-
-    // time in seconds to human readable
-    $timeInSecondsFilter = new Twig_SimpleFilter('timeInSeconds', function($seconds) use ($container) {
-        return $container['ts']->getInstance()->convertSecondsToStrTime($seconds);
-    });
-    $view->getEnvironment()->addFilter($timeInSecondsFilter);
-
-    $timeInMillisFilter = new Twig_SimpleFilter('timeInMillis', function($millis) use ($container) {
-        return $container['ts']->getInstance()->convertSecondsToStrTime(floor($millis/1000));
-    });
-    $view->getEnvironment()->addFilter($timeInMillisFilter);
-
-    // timestamp to carbon
-    $timestampFilter = new Twig_SimpleFilter('timestamp', function($timestamp) {
-        return Carbon::createFromTimestamp($timestamp);
-    });
-    $view->getEnvironment()->addFilter($timestampFilter);
-
     // dynamically apply filters
     $view->getEnvironment()->addExtension(new ApplyFilterExtension());
+
+    // encode url
+    $encodeUrl = new Twig_SimpleFilter('escape_url', function($str) {
+        return urlencode($str);
+    });
+    $view->getEnvironment()->addFilter($encodeUrl);
 
     // translation
     $view->addExtension(new \Symfony\Bridge\Twig\Extension\TranslationExtension($container['translator']));
@@ -157,6 +138,55 @@ $container['view'] = function ($container) use ($app) {
     $view->getEnvironment()->addFunction(new Twig_SimpleFunction('session_get', function($key) use ($container) {
         return $container['session']->get($key);
     }));
+
+    // ts specific: file size
+    $fileSizeFilter = new Twig_SimpleFilter('file', function($bytes, $decimals = 2) {
+        $sz = 'BKMGTP';
+        $factor = floor((strlen($bytes) - 1) / 3);
+        return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)) . @$sz[$factor];
+    });
+    $view->getEnvironment()->addFilter($fileSizeFilter);
+
+    // ts specific: time in seconds to human readable
+    $timeInSecondsFilter = new Twig_SimpleFilter('timeInSeconds', function($seconds) use ($container) {
+        return $container['ts']->getInstance()->convertSecondsToStrTime($seconds);
+    });
+    $view->getEnvironment()->addFilter($timeInSecondsFilter);
+
+    $timeInMillisFilter = new Twig_SimpleFilter('timeInMillis', function($millis) use ($container) {
+        return $container['ts']->getInstance()->convertSecondsToStrTime(floor($millis/1000));
+    });
+    $view->getEnvironment()->addFilter($timeInMillisFilter);
+
+    // ts specific: timestamp to carbon
+    $timestampFilter = new Twig_SimpleFilter('timestamp', function($timestamp) {
+        return Carbon::createFromTimestamp($timestamp);
+    });
+    $view->getEnvironment()->addFilter($timestampFilter);
+
+    // ts specific: token type
+    $tokenTypeFilter = new Twig_SimpleFilter('tokentype', function($type) {
+        $tokenTypes = TSInstance::getTokenTypes();
+
+        foreach ($tokenTypes as $name => $tokenType) {
+            if ($type == $tokenType) return $name;
+        }
+
+        return $type;
+    });
+    $view->getEnvironment()->addFilter($tokenTypeFilter);
+
+    // ts specific: group type
+    $groupTypeFilter = new Twig_SimpleFilter('permgrouptype', function($type) {
+        $groupTypes = TSInstance::getPermGroupTypes();
+
+        foreach ($groupTypes as $name => $groupType) {
+            if ($type == $groupType) return $name;
+        }
+
+        return $type;
+    });
+    $view->getEnvironment()->addFilter($groupTypeFilter);
 
     // flash
     $view['flash'] = $container['flash'];

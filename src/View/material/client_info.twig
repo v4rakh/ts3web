@@ -4,7 +4,7 @@
     <h1 class="header">{{ title }}</h1>
     <h2 class="header">{% trans %}client_info.h.actions{% endtrans %}</h2>
     {% include 'form.twig' with {
-        'additional_forms': [
+        'fields': [
             {
                 'header_label': 'client_info.ban'|trans,
                 'label': '<i class="material-icons">check_circle</i>',

@@ -178,4 +178,31 @@ class TSInstance
 
         return $arr;
     }
+
+    /**
+     * @return array
+     */
+    public static function getTokenTypes()
+    {
+        $arr = [];
+        $arr['TokenServerGroup'] = ts3admin::TokenServerGroup;
+        $arr['TokenChannelGroup'] = ts3admin::TokenChannelGroup;
+
+        return $arr;
+    }
+
+    /**
+     * @return array
+     */
+    public static function getPermGroupTypes()
+    {
+        $arr = [];
+        $arr['PermGroupTypeServerGroup'] = ts3admin::PermGroupTypeServerGroup;
+        $arr['PermGroupTypeGlobalClient'] = ts3admin::PermGroupTypeGlobalClient;
+        $arr['PermGroupTypeChannel'] = ts3admin::PermGroupTypeChannel;
+        $arr['PermGroupTypeChannelGroup'] = ts3admin::PermGroupTypeChannelGroup;
+        $arr['PermGroupTypeChannelClient'] = ts3admin::PermGroupTypeChannelClient;
+
+        return $arr;
+    }
 }

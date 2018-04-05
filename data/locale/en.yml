@@ -63,6 +63,7 @@ menu.servers.clients: "Clients"
 menu.servers.groups: "Groups"
 menu.servers.bans: "Bans"
 menu.servers.complains: "Complains"
+menu.servers.tokens: "Tokens"
 menu.servers.logs: "Log"
 
 # titles
@@ -81,6 +82,7 @@ complains.title: "Complains"
 groups.title: "Groups"
 group_info.title: "Group Info"
 profile.title: "Profile"
+tokens.title: "Tokens"
 
 # dynamic render of key value pairs
 key: "Attribute"
@@ -203,3 +205,16 @@ online.send.message: "Message"
 online.poked.success: "Poked client %clid%."
 online.kicked.success: "Kicked client %clid%."
 online.banned.success: "Banned client %clid%."
+
+# tokens
+tokens.delete: "Delete"
+tokens.h.details: "Details"
+tokens.h.add: "Add"
+tokens.add: "Add a token"
+tokens.add.tokentype: "Type"
+tokens.add.serverGroup: "Servergroup (type SERVER has to be selected)"
+tokens.add.channelGroup: "Channelgroup (type CHANNEL has to be selected)"
+tokens.add.channel: "Channel (type CHANNEL has to be selected)"
+tokens.add.description: "Description"
+tokens.type.servergroup: "Server: "
+tokens.type.channelgroup: "Channel: "

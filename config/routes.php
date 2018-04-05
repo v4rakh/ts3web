@@ -263,3 +263,19 @@ $container[ChannelSendAction::class] = function ($container) {
     return new ChannelSendAction($container);
 };
 $app->post('/channels/send/{sid}/{cid}', ChannelSendAction::class);
+
+// tokens
+$container[TokensAction::class] = function ($container) {
+    return new TokensAction($container);
+};
+$app->get('/tokens/{sid}', TokensAction::class);
+
+$container[TokenAddAction::class] = function ($container) {
+    return new TokenAddAction($container);
+};
+$app->post('/tokens/add/{sid}', TokenAddAction::class);
+
+$container[TokenDeleteAction::class] = function ($container) {
+    return new TokenDeleteAction($container);
+};
+$app->get('/tokens/delete/{sid}/{token}', TokenDeleteAction::class);
