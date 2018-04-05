@@ -7,7 +7,8 @@ final class LogsAction extends AbstractAction
 {
     public function __invoke(Request $request, Response $response, $args)
     {
-        $sid = $args['sid'];
+        $sid = null;
+        if (array_key_exists('sid', $args)) $sid = $args['sid'];
 
         $this->ts->login($this->auth->getIdentity()['user'], $this->auth->getIdentity()['password']);
         if (empty($sid)) {
