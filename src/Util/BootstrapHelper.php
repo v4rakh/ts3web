@@ -30,7 +30,6 @@ class BootstrapHelper
                 $env->required([
                     'site_title',
                     'site_url',
-                    'site_index',
                     'site_language',
                     'site_date_format',
                     'theme',

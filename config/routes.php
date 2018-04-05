@@ -85,6 +85,11 @@ $container[ServerSelectAction::class] = function ($container) {
 };
 $app->get('/servers/select/{sid}', ServerSelectAction::class);
 
+$container[ServerDeselectAction::class] = function ($container) {
+    return new ServerDeselectAction($container);
+};
+$app->get('/servers/deselect', ServerDeselectAction::class);
+
 $container[ServerDeleteAction::class] = function ($container) {
     return new ServerDeleteAction($container);
 };

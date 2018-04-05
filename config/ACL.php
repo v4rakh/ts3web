@@ -34,6 +34,7 @@ class ACL extends \Zend\Permissions\Acl\Acl
         '/servers/create',
         '/servers/{sid}',
         '/servers/select/{sid}',
+        '/servers/deselect',
         '/servers/delete/{sid}',
         '/servers/start/{sid}',
         '/servers/stop/{sid}',
