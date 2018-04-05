@@ -11,7 +11,7 @@ If you like to help (to translate or implement missing features), open an issue 
 Things you **cannot** do:
 - Server Groups create, edit
 - Channel Groups create, edit
-- Channels create, edit
+- Channels create
 - Permissions add, edit, delete (server, channel, client)
 - File management (create, download, delete)
 - features which are not *explicitly* supported
