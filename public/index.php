@@ -124,6 +124,11 @@ $container['view'] = function ($container) use ($app) {
     });
     $view->getEnvironment()->addFilter($timeInSecondsFilter);
 
+    $timeInMillisFilter = new Twig_SimpleFilter('timeInMillis', function($millis) use ($container) {
+        return $container['ts']->getInstance()->convertSecondsToStrTime(floor($millis/1000));
+    });
+    $view->getEnvironment()->addFilter($timeInMillisFilter);
+
     // timestamp to carbon
     $timestampFilter = new Twig_SimpleFilter('timestamp', function($timestamp) {
         return Carbon::createFromTimestamp($timestamp);

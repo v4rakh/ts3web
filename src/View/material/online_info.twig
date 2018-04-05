@@ -49,7 +49,7 @@
 
     <h2 class="header">{% trans %}online_info.h.details{% endtrans %}</h2>
     {% include 'keyvalue.twig' with {'data': data, 'filters': [
-        {'key': 'client_idle_time', 'apply': 'timeInSeconds'},
+        {'key': 'client_idle_time', 'apply': 'timeInMillis'},
         {'key': 'connection_connected_time', 'apply': 'timeInSeconds'},
         {'key': 'client_created', 'apply': 'timestamp'},
         {'key': 'client_lastconnected', 'apply': 'timestamp'},

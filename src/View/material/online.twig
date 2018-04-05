@@ -12,7 +12,7 @@
                 {% include 'table.twig' with {'data': data,
                     'hide': [{'key': 'client_type', 'values': ['1']}],
                     'filters': [
-                        {'key': 'client_idle_time', 'apply': 'timeInSeconds'},
+                        {'key': 'client_idle_time', 'apply': 'timeInMillis'},
                         {'key': 'connection_connected_time', 'apply': 'timeInSeconds'},
                         {'key': 'client_created', 'apply': 'timestamp'},
                         {'key': 'client_lastconnected', 'apply': 'timestamp'}
