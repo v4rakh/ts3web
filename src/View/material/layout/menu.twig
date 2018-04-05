@@ -13,6 +13,9 @@
 
             {% if session_exists('sid') %}
                 <hr/>
+                {% if session_exists('sname') %}
+                    <h6 class="header" data-target="#page">{{ session_get('sname') }}</h6>
+                {% endif %}
                 <a href="/servers/{{ session_get('sid') }}">
                     <li class="active withripple" data-target="#page">{% trans %}menu.servers.info{% endtrans %}</li>
                 </a>

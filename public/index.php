@@ -21,8 +21,6 @@ if (PHP_SAPI === 'cli-server' && $_SERVER['SCRIPT_FILENAME'] !== __FILE__) {
 
 require __DIR__ . DIRECTORY_SEPARATOR . '../vendor/autoload.php';
 
-session_start();
-
 /**
  * Step 2: Bootstrap database, ACL, Twig, FlashMessages, Logger
  */
