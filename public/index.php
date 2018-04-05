@@ -75,13 +75,21 @@ $container['authAdapter'] = function ($container) {
     $adapter = new TSAuthAdapter(getenv('teamspeak_default_host'), getenv('teamspeak_default_query_port'), $container['logger'], $container['ts']);
     return $adapter;
 };
-
 $container['acl'] = function () {
     return new ACL();
 };
-
 $container->register(new \JeremyKendall\Slim\Auth\ServiceProvider\SlimAuthProvider());
 $app->add($app->getContainer()->get('slimAuthRedirectMiddleware'));
+
+// session
+$app->add(new \Slim\Middleware\Session([
+    'name' => 'dummy_session',
+    'autorefresh' => true,
+    'lifetime' => '1 hour'
+]));
+$container['session'] = function () {
+    return new \SlimSession\Helper;
+};
 
 // view
 $container['flash'] = function () {
@@ -135,6 +143,16 @@ $container['view'] = function ($container) use ($app) {
     $view->getEnvironment()->addFunction(new Twig_SimpleFunction('getenv', function($value) {
         $res = getenv($value);
         return $res;
+    }));
+
+    // session exist
+    $view->getEnvironment()->addFunction(new Twig_SimpleFunction('session_exists', function($key) use ($container) {
+        return $container['session']->exists($key);
+    }));
+
+    // session get
+    $view->getEnvironment()->addFunction(new Twig_SimpleFunction('session_get', function($key) use ($container) {
+        return $container['session']->get($key);
     }));
 
     // flash

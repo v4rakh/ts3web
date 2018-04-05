@@ -56,7 +56,7 @@ $app->get('/profile/credentials', ProfileCredentialsChangeAction::class);
 $container[LogsAction::class] = function ($container) {
     return new LogsAction($container);
 };
-$app->get('/logs', LogsAction::class);
+$app->get('/logs[/{sid}]', LogsAction::class);
 
 // instance
 $container[InstanceAction::class] = function ($container) {
@@ -79,6 +79,11 @@ $container[ServerCreateAction::class] = function ($container) {
     return new ServerCreateAction($container);
 };
 $app->post('/servers/create', ServerCreateAction::class);
+
+$container[ServerSelectAction::class] = function ($container) {
+    return new ServerSelectAction($container);
+};
+$app->get('/servers/select/{sid}', ServerSelectAction::class);
 
 $container[ServerDeleteAction::class] = function ($container) {
     return new ServerDeleteAction($container);

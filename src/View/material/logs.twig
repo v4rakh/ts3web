@@ -2,9 +2,9 @@
 
 {% block content %}
     <h1 class="header">{{ title }}</h1>
-    <pre class="small">
+    <div class="small">
         {% for log in data %}
-            {{ log.l }}
+            <p>{{ log.l }}</p>
         {% endfor %}
-    </pre>
+    </div>
 {% endblock %}

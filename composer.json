@@ -12,7 +12,8 @@
     "jeremykendall/slim-auth": "dev-slim-3.x",
     "par0noid/ts3admin": "^1.0",
     "planetteamspeak/ts3-php-framework": "^1.1",
-    "nesbot/carbon": "^1.25"
+    "nesbot/carbon": "^1.25",
+    "bryanjhv/slim-session": "^3.5"
   },
   "config": {
     "bin-dir": "bin/"

@@ -28,11 +28,12 @@ class ACL extends \Zend\Permissions\Acl\Acl
         '/instance',
         '/instance/edit',
 
-        '/logs',
+        '/logs[/{sid}]',
 
         '/servers',
         '/servers/create',
         '/servers/{sid}',
+        '/servers/select/{sid}',
         '/servers/delete/{sid}',
         '/servers/start/{sid}',
         '/servers/stop/{sid}',

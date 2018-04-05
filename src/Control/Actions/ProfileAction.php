@@ -8,6 +8,11 @@ final class ProfileAction extends AbstractAction
     public function __invoke(Request $request, Response $response, $args)
     {
         $this->ts->login($this->auth->getIdentity()['user'], $this->auth->getIdentity()['password']);
+
+        if ($this->session->exists('sid')) {
+            $selectResult = $this->ts->getInstance()->selectServer($this->session->get('sid'), 'serverId');
+        }
+
         $whoisResult = $this->ts->getInstance()->whoAmI();
 
         // render GET

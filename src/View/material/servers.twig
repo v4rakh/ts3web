@@ -5,7 +5,6 @@
 
     <h2 class="header">{% trans %}servers.h.details{% endtrans %}</h2>
     {% if data|length > 0 %}
-        <div class="small">
     {% include 'table.twig' with {'data': data,
         'filters': [
             {'key': 'virtualserver_uptime', 'apply': 'timeInSeconds'},
@@ -15,6 +14,12 @@
             {'key': 'virtualserver_clientsonline', 'uri': '/online', 'uri_param': 'virtualserver_id'}
         ],
         'additional_links': [
+            {
+                'header_label': 'servers.select'|trans,
+                'label': '<i class="material-icons">check_circle</i>',
+                'uri': '/servers/select',
+                'uri_param': 'virtualserver_id'
+            },
             {
                 'header_label': 'servers.start'|trans,
                 'label': '<i class="material-icons">arrow_forward</i>',
@@ -28,36 +33,6 @@
                 'uri_param': 'virtualserver_id'
             },
             {
-                'header_label': 'servers.clients'|trans,
-                'label': '<i class="material-icons">account_circle</i>',
-                'uri': '/clients',
-                'uri_param': 'virtualserver_id'
-            },
-            {
-                'header_label': 'servers.groups'|trans,
-                'label': '<i class="material-icons">group</i>',
-                'uri': '/groups',
-                'uri_param': 'virtualserver_id'
-            },
-            {
-                'header_label': 'servers.channels'|trans,
-                'label': '<i class="material-icons">settings_voice</i>',
-                'uri': '/channels',
-                'uri_param': 'virtualserver_id'
-            },
-            {
-                'header_label': 'servers.bans'|trans,
-                'label': '<i class="material-icons">account_box</i>',
-                'uri': '/bans',
-                'uri_param': 'virtualserver_id'
-            },
-            {
-                'header_label': 'servers.complains'|trans,
-                'label': '<i class="material-icons">report_problem</i>',
-                'uri': '/complains',
-                'uri_param': 'virtualserver_id'
-            },
-            {
                 'header_label': 'servers.delete'|trans,
                 'label': '<i class="material-icons">delete</i>',
                 'uri': '/servers/delete',
@@ -68,8 +43,6 @@
     {% else %}
         {% include 'no_entities.twig' %}
     {% endif %}
-
-    </div>
 
     <h2 class="header">{% trans %}servers.h.create{% endtrans %}</h2>
     {% include 'form.twig' with {

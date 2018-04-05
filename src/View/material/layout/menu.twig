@@ -4,15 +4,46 @@
             <a href="/instance">
                 <li class="active withripple" data-target="#page">{% trans %}menu.instance{% endtrans %}</li>
             </a>
-            <a href="/servers">
-                <li class="active withripple" data-target="#page">{% trans %}menu.servers{% endtrans %}</li>
-            </a>
             <a href="/logs">
                 <li class="active withripple" data-target="#page">{% trans %}menu.logs{% endtrans %}</li>
             </a>
+            <a href="/servers">
+                <li class="active withripple" data-target="#page">{% trans %}menu.servers{% endtrans %}</li>
+            </a>
+
+            {% if session_exists('sid') %}
+                <hr/>
+                <a href="/servers/{{ session_get('sid') }}">
+                    <li class="active withripple" data-target="#page">{% trans %}menu.servers.info{% endtrans %}</li>
+                </a>
+                <a href="/online/{{ session_get('sid') }}">
+                    <li class="active withripple" data-target="#page">{% trans %}menu.servers.online{% endtrans %}</li>
+                </a>
+                <a href="/clients/{{ session_get('sid') }}">
+                    <li class="active withripple" data-target="#page">{% trans %}menu.servers.clients{% endtrans %}</li>
+                </a>
+                <a href="/groups/{{ session_get('sid') }}">
+                    <li class="active withripple" data-target="#page">{% trans %}menu.servers.groups{% endtrans %}</li>
+                </a>
+                <a href="/channels/{{ session_get('sid') }}">
+                    <li class="active withripple" data-target="#page">{% trans %}menu.servers.channels{% endtrans %}</li>
+                </a>
+                <a href="/bans/{{ session_get('sid') }}">
+                    <li class="active withripple" data-target="#page">{% trans %}menu.servers.bans{% endtrans %}</li>
+                </a>
+                <a href="/complains/{{ session_get('sid') }}">
+                    <li class="active withripple" data-target="#page">{% trans %}menu.servers.complains{% endtrans %}</li>
+                </a>
+                <a href="/logs/{{ session_get('sid') }}">
+                    <li class="active withripple" data-target="#page">{% trans %}menu.servers.logs{% endtrans %}</li>
+                </a>
+                <hr/>
+            {% endif %}
+
             <a href="/profile">
                 <li class="active withripple" data-target="#page">{% trans %}menu.profile{% endtrans %}</li>
             </a>
+
             <a href="/logout">
                 <li class="active withripple" data-target="#page">{% trans %}menu.logout{% endtrans %}</li>
             </a>

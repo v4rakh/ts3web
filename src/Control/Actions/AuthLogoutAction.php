@@ -11,8 +11,9 @@ final class AuthLogoutAction extends AbstractAction
         
         $this->ts->login($this->auth->getIdentity()['user'], $this->auth->getIdentity()['password']);
         $this->ts->getInstance()->logout();
-
         $this->auth->logout();
+        $this->session->clear();
+
         return $response->withRedirect('/login');
     }
 }

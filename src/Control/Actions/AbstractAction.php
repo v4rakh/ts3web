@@ -42,6 +42,11 @@ abstract class AbstractAction
     protected $translator;
 
     /**
+     * @var \SlimSession\Helper
+     */
+    protected $session;
+
+    /**
      * @var TSInstance
      */
     protected $ts;
@@ -58,6 +63,8 @@ abstract class AbstractAction
         $this->auth = $container->get('authenticator');
         $this->acl = $container->get('acl');
         $this->translator = $container->get('translator');
+
+        $this->session = $container->get('session');
         $this->ts = $container->get('ts');
     }
 
