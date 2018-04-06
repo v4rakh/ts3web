@@ -31,7 +31,7 @@
     {% if serverGroups|length > 0 %}
         <h2 class="header">{% trans %}client_info.h.servergroups{% endtrans %}</h2>
         {% include 'table.twig' with {'data': serverGroups,
-            'links': [{'key': 'sgid', 'uri': '/groups/' ~ sid}]
+            'links': [{'key': 'sgid', 'uri': '/servergroups/' ~ sid}]
         } %}
     {% endif %}
 
