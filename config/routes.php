@@ -210,6 +210,11 @@ $container[ServerGroupRenameAction::class] = function ($container) {
 };
 $app->post('/servergroups/rename/{sid}/{sgid}', ServerGroupRenameAction::class);
 
+$container[ServerGroupCreateAction::class] = function ($container) {
+    return new ServerGroupCreateAction($container);
+};
+$app->post('/servergroups/create/{sid}', ServerGroupCreateAction::class);
+
 
 // channel group
 $container[ChannelGroupInfoAction::class] = function ($container) {
@@ -226,6 +231,11 @@ $container[ChannelGroupRenameAction::class] = function ($container) {
     return new ChannelGroupRenameAction($container);
 };
 $app->post('/channelgroups/rename/{sid}/{cgid}', ChannelGroupRenameAction::class);
+
+$container[ChannelGroupCreateAction::class] = function ($container) {
+    return new ChannelGroupCreateAction($container);
+};
+$app->post('/channelgroups/create/{sid}', ChannelGroupCreateAction::class);
 
 // ban
 $container[BansAction::class] = function ($container) {

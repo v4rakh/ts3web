@@ -26,6 +26,12 @@
                                 {% endfor %}
                             </select>
 
+                        {% elseif field.type == 'checkbox' %}
+                            <input class="form-control" type="hidden" name="{{ field.key }}"
+                                   id="{{ editable.key }}" value="0" />
+                            <input class="form-control" type="checkbox" name="{{ field.key }}"
+                                   id="{{ field.key }}" value="1" />
+
                         {% else %}
                             <input
                                     class="form-control"

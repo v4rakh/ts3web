@@ -9,11 +9,10 @@ This webinterface aims to be as simple as possible. It does not provide complex 
 If you like to help (to translate or implement missing features), open an issue before. Then create a pull request. You should use existing code to implement new features. PRs will be merged after a code review.
 
 Things you **cannot** do:
-- Server Groups create, edit
-- Channel Groups create, edit
 - Channels create
-- Permissions add, edit, delete (server, channel, client)
+- Permissions add, edit, delete (servergroups, channelgroups, client)
 - File management (create, download, delete)
+- Move online users
 - features which are not *explicitly* supported
 
 Things you **can** do:

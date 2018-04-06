@@ -205,4 +205,17 @@ class TSInstance
 
         return $arr;
     }
+
+    /**
+     * @return array
+     */
+    public static function getGroupTypes()
+    {
+        $arr = [];
+        $arr['RegularGroup'] = 1;
+        $arr['GlobalQueryGroup'] = 2;
+        $arr['TemplateGroup'] = 0;
+
+        return $arr;
+    }
 }

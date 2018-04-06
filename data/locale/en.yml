@@ -148,6 +148,13 @@ groups.delete: "Delete"
 groups.h.servergroups: "Server Groups"
 groups.h.channelgroups: "Channel Groups"
 
+# groups create/copy
+groups.create: "Create or copy"
+groups.create.name: "Name"
+groups.create.type: "Type"
+groups.create.copy: "Copy? If checked, select a template."
+groups.create.template: "Template"
+
 # channelgroups
 channelgroups.delete: "Delete"
 

@@ -67,12 +67,14 @@ class ACL extends \Zend\Permissions\Acl\Acl
         '/groups/{sid}',
 
         '/servergroups/{sid}/{sgid}',
+        '/servergroups/create/{sid}',
         '/servergroups/delete/{sid}/{sgid}',
         '/servergroups/rename/{sid}/{sgid}',
         '/servergroups/remove/{sid}/{sgid}/{cldbid}',
         '/servergroups/add/{sid}/{sgid}',
 
         '/channelgroups/{sid}/{cgid}',
+        '/channelgroups/create/{sid}',
         '/channelgroups/delete/{sid}/{cgid}',
         '/channelgroups/rename/{sid}/{cgid}',
 
