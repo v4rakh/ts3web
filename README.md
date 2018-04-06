@@ -2,52 +2,15 @@
 
 **ts3web** is a webinterface for any TeamSpeak 3 Server used with serverQuery login.
  
-Most TeamSpeak 3 interfaces are bloated although nearly all configuration can be done entirely in the TeamSpeak 3 Client.  
- 
-This webinterface aims to be as simple as possible. It does not provide complex features which can be configured within the client. Instead, it only supports features considered useful for a TeamSpeak 3 web interface.  **The minimalistic approach is intentional!** 
+This webinterface aims to be as simple as possible. It does not provide complex features. Instead, it only supports features considered useful for a TeamSpeak 3 web interface.  **The minimalistic approach is intentional!** 
 
-If you like to help (to translate or implement missing features), open an issue before. Then create a pull request. You should use existing code to implement new features. PRs will be merged after a code review.
+If you like to help (to translate or implement missing features), open an issue first. You should use existing code to implement new features. PRs will be merged after a code review.
 
 Things you **cannot** do:
-- Channels create
-- Permissions add, edit, delete (servergroups, channelgroups, client)
-- File management (create, download, delete)
-- Move online users
-- features which are not *explicitly* supported
-
-Things you **can** do:
-- view
-    - instance and host information
-    - global log
-    - virtual servers
-    - users online
-    - all known clients
-    - channels
-    - groups
-    - channel groups
-    - files
-    - banlist
-    - complain list
-    - permissions (server, channel, client)
-- edit
-    - virtual server
-    - instance
-- delete
-    - bans
-    - complains
-    - virtual servers
-    - clients
-    - server groups
-    - channel groups
-- other actions
-    - create virtual servers
-    - generate serverQuery password
-    - send message to users, servers, channels
-    - ban a user
-    - kick a user
-    - poke a user
-    - add to server group
-    - remove from server group
+- Permissions Management (add, edit, delete for servergroups, channelgroups, clients)
+- File Management (except viewing)
+- Temporary passwords
+- Move online clients
 
 ## Install ##
 

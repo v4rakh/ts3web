@@ -41,6 +41,11 @@ class ACL extends \Zend\Permissions\Acl\Acl
         '/servers/send/{sid}',
         '/servers/edit/{sid}',
 
+        '/snapshots/{sid}',
+        '/snapshots/create/{sid}',
+        '/snapshots/deploy/{sid}/{name}',
+        '/snapshots/delete/{sid}/{name}',
+
         '/tokens/{sid}',
         '/tokens/add/{sid}',
         '/tokens/delete/{sid}/{token}',

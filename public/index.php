@@ -139,11 +139,9 @@ $container['view'] = function ($container) use ($app) {
         return $container['session']->get($key);
     }));
 
-    // ts specific: file size
+    // file size
     $fileSizeFilter = new Twig_SimpleFilter('file', function($bytes, $decimals = 2) {
-        $sz = 'BKMGTP';
-        $factor = floor((strlen($bytes) - 1) / 3);
-        return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)) . @$sz[$factor];
+        return FileHelper::humanFileSize($bytes, $decimals);
     });
     $view->getEnvironment()->addFilter($fileSizeFilter);
 

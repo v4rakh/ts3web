@@ -305,3 +305,24 @@ $container[TokenDeleteAction::class] = function ($container) {
     return new TokenDeleteAction($container);
 };
 $app->get('/tokens/delete/{sid}/{token}', TokenDeleteAction::class);
+
+// snapshots
+$container[SnapshotsAction::class] = function ($container) {
+    return new SnapshotsAction($container);
+};
+$app->get('/snapshots/{sid}', SnapshotsAction::class);
+
+$container[SnapshotCreateAction::class] = function ($container) {
+    return new SnapshotCreateAction($container);
+};
+$app->get('/snapshots/create/{sid}', SnapshotCreateAction::class);
+
+$container[SnapshotDeployAction::class] = function ($container) {
+    return new SnapshotDeployAction($container);
+};
+$app->get('/snapshots/deploy/{sid}/{name}', SnapshotDeployAction::class);
+
+$container[SnapshotDeleteAction::class] = function ($container) {
+    return new SnapshotDeleteAction($container);
+};
+$app->get('/snapshots/delete/{sid}/{name}', SnapshotDeleteAction::class);

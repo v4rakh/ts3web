@@ -64,6 +64,7 @@ menu.servers.groups: "Groups"
 menu.servers.bans: "Bans"
 menu.servers.complains: "Complains"
 menu.servers.tokens: "Tokens"
+menu.servers.snapshots: "Snapshots"
 menu.servers.logs: "Log"
 
 # titles
@@ -84,6 +85,7 @@ servergroup_info.title: "Server Group Info"
 channelgroup_info.title: "Channelgroup"
 profile.title: "Profile"
 tokens.title: "Tokens"
+snapshots.title: "Snapshots"
 
 # dynamic render of key value pairs
 key: "Attribute"
@@ -232,5 +234,13 @@ tokens.add.serverGroup: "Servergroup (type SERVER has to be selected)"
 tokens.add.channelGroup: "Channelgroup (type CHANNEL has to be selected)"
 tokens.add.channel: "Channel (type CHANNEL has to be selected)"
 tokens.add.description: "Description"
-tokens.type.servergroup: "Server: "
-tokens.type.channelgroup: "Channel: "
+
+# snapshots
+file.exists: "File already exists"
+file.notexists: "File does not exist"
+snapshots.h.actions: "Actions"
+snapshots.create: "Create a new snapshot"
+snapshots.h.details: "Details"
+snapshots.deploy: "Deploy"
+snapshots.delete: "Delete"
+

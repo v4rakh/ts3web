@@ -12,3 +12,5 @@ vendor/
 .idea/
 log/*
 !log/.gitkeep
+data/snapshots/*
+!data/snapshots/.gitkeep
