@@ -326,3 +326,19 @@ $container[SnapshotDeleteAction::class] = function ($container) {
     return new SnapshotDeleteAction($container);
 };
 $app->get('/snapshots/delete/{sid}/{name}', SnapshotDeleteAction::class);
+
+// passwords
+$container[PasswordsAction::class] = function ($container) {
+    return new PasswordsAction($container);
+};
+$app->get('/passwords/{sid}', PasswordsAction::class);
+
+$container[PasswordAddAction::class] = function ($container) {
+    return new PasswordAddAction($container);
+};
+$app->post('/passwords/add/{sid}', PasswordAddAction::class);
+
+$container[PasswordDeleteAction::class] = function ($container) {
+    return new PasswordDeleteAction($container);
+};
+$app->post('/passwords/delete/{sid}', PasswordDeleteAction::class);

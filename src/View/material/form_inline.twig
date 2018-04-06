@@ -14,17 +14,42 @@
 
         {% if item %}
             <input type="hidden" name="{{ editable.key }}"
-                   id="{{ editable.key }}" value="0"/>
+                   id="{{ editable.key }}" value="0"
+
+                    {% if editable.readOnly is defined and editable.readOnly == true %}
+                        readonly
+                    {% endif %}
+            />
             <input type="checkbox" name="{{ editable.key }}"
-                   id="{{ editable.key }}" value="1" checked/>
+                   id="{{ editable.key }}" value="1" checked
+
+                    {% if editable.readOnly is defined and editable.readOnly == true %}
+                        readonly
+                    {% endif %}
+            />
         {% else %}
             <input type="hidden" name="{{ editable.key }}"
-                   id="{{ editable.key }}" value="0" />
+                   id="{{ editable.key }}" value="0"
+
+                    {% if editable.readOnly is defined and editable.readOnly == true %}
+                        readonly
+                    {% endif %}
+
+            />
             <input type="checkbox" name="{{ editable.key }}"
-                   id="{{ editable.key }}" value="1" />
+                   id="{{ editable.key }}" value="1"
+
+                    {% if editable.readOnly is defined and editable.readOnly == true %}
+                        readonly
+                    {% endif %}
+            />
         {% endif %}
     {% elseif editable.type == 'select' %}
-        <select class="form-control" name="{{ editable.key }}" id="{{ editable.key }}">
+        <select class="form-control" name="{{ editable.key }}" id="{{ editable.key }}"
+                {% if editable.readOnly is defined and editable.readOnly == true %}
+                    readonly
+                {% endif %}
+        >
 
             {% for k,v in editable.options %}
                 {% if v == item %}
@@ -39,6 +64,9 @@
                 {% if editable.blank is defined and editable.blank == true %}
                 {% else %}
                     value="{{ item }}"
+                {% endif %}
+                {% if editable.readOnly is defined and editable.readOnly == true %}
+                    readonly
                 {% endif %}
         />
     {% endif %}

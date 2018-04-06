@@ -89,6 +89,10 @@ class ACL extends \Zend\Permissions\Acl\Acl
 
         '/complains/{sid}',
         '/complains/delete/{sid}/{tcldbid}',
+
+        '/passwords/{sid}',
+        '/passwords/add/{sid}',
+        '/passwords/delete/{sid}',
     ];
 
     const ACL_DEFAULT_ALLOWS = [
