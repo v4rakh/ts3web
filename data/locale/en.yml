@@ -134,6 +134,15 @@ server_info.send.message: "Message"
 
 # channels
 channels.delete: "Delete"
+channels.h.actions: "Actions"
+channels.h.details: "Details"
+channels.create: "Create a channel"
+channels.create.channel_name: "Name"
+channels.create.channel_order: "Order"
+channels.create.semi_permanent: "Semi permanent"
+channels.create.permanent: "Permanent"
+channels.create.inherit: "Has a parent?"
+channels.create.parent: "Parent"
 
 # channel info
 channel_info.h.files: "Files"

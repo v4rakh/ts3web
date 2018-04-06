@@ -13,11 +13,23 @@ final class ChannelsAction extends AbstractAction
         $selectResult = $this->ts->getInstance()->selectServer($sid, 'serverId');
 
         $dataResult = $this->ts->getInstance()->channelList();
+        $channels = $this->ts->getInstance()->getElement('data', $dataResult);
+        $channelParents = [];
+
+        $channelOrders = [];
+        $channelOrders['---'] = 0;
+
+        foreach ($channels as $channel) {
+            $channelParents[$channel['channel_name']] = $channel['cid'];
+            $channelOrders[$channel['channel_name']] = $channel['cid'];
+        }
 
         // render GET
         $this->view->render($response, 'channels.twig', [
             'title' => $this->translator->trans('channels.title'),
-            'data' => $this->ts->getInstance()->getElement('data', $dataResult),
+            'channels' => $channels,
+            'channelParents' => $channelParents,
+            'channelOrders' => $channelOrders,
             'sid' => $sid
         ]);
     }

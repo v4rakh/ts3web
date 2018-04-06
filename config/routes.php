@@ -270,6 +270,11 @@ $container[ChannelInfoAction::class] = function ($container) {
 };
 $app->get('/channels/{sid}/{cid}', ChannelInfoAction::class);
 
+$container[ChannelCreateAction::class] = function ($container) {
+    return new ChannelCreateAction($container);
+};
+$app->post('/channels/create/{sid}', ChannelCreateAction::class);
+
 $container[ChannelEditAction::class] = function ($container) {
     return new ChannelEditAction($container);
 };

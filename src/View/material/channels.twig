@@ -2,8 +2,30 @@
 
 {% block content %}
     <h1 class="header">{{ title }}</h1>
-    {% if data|length > 0 %}
-        {% include 'table.twig' with {'data': data,
+
+    <h2 class="header">{% trans %}channels.h.actions{% endtrans %}</h2>
+    {% include 'form.twig' with {
+        'fields': [
+            {
+                'header_label': 'channels.create'|trans,
+                'label': '<i class="material-icons">check_circle</i>',
+                'uri': '/channels/create/' ~ sid,
+                'uri_method': 'post',
+                'fields': [
+                {'type': 'text', 'key': 'channel_name', 'label': 'channels.create.channel_name'|trans},
+                {'type': 'select', 'key': 'channel_order', 'options': channelOrders, 'label': 'channels.create.channel_order'|trans},
+                {'type': 'checkbox', 'key': 'channel_flag_semi_permanent', 'label': 'channels.create.semi_permanent'|trans},
+                {'type': 'checkbox', 'key': 'channel_flag_permanent', 'label': 'channels.create.permanent'|trans},
+                {'type': 'checkbox', 'key': 'inherit', 'label': 'channels.create.inherit'|trans},
+                {'type': 'select', 'key': 'cpid', 'options': channelParents, 'label': 'channels.create.parent'|trans},
+            ]
+            },
+        ]
+    } %}
+
+    {% if channels|length > 0 %}
+        <h2 class="header">{% trans %}channels.h.details{% endtrans %}</h2>
+        {% include 'table.twig' with {'data': channels,
             'links': [{'key': 'cid', 'uri': '/channels/' ~ sid}],
             'additional_links': [
                 {
