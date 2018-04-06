@@ -184,25 +184,31 @@ $container[GroupsAction::class] = function ($container) {
 };
 $app->get('/groups/{sid}', GroupsAction::class);
 
-$container[GroupInfoAction::class] = function ($container) {
-    return new GroupInfoAction($container);
+// server group
+$container[ServerGroupInfoAction::class] = function ($container) {
+    return new ServerGroupInfoAction($container);
 };
-$app->get('/groups/{sid}/{sgid}', GroupInfoAction::class);
+$app->get('/servergroups/{sid}/{sgid}', ServerGroupInfoAction::class);
 
-$container[GroupDeleteAction::class] = function ($container) {
-    return new GroupDeleteAction($container);
+$container[ServerGroupDeleteAction::class] = function ($container) {
+    return new ServerGroupDeleteAction($container);
 };
-$app->get('/groups/delete/{sid}/{sgid}', GroupDeleteAction::class);
+$app->get('/servergroups/delete/{sid}/{sgid}', ServerGroupDeleteAction::class);
 
-$container[GroupRemoveAction::class] = function ($container) {
-    return new GroupRemoveAction($container);
+$container[ServerGroupRemoveAction::class] = function ($container) {
+    return new ServerGroupRemoveAction($container);
 };
-$app->get('/groups/remove/{sid}/{sgid}/{cldbid}', GroupRemoveAction::class);
+$app->get('/servergroups/remove/{sid}/{sgid}/{cldbid}', ServerGroupRemoveAction::class);
 
-$container[GroupAddAction::class] = function ($container) {
-    return new GroupAddAction($container);
+$container[ServerGroupAddAction::class] = function ($container) {
+    return new ServerGroupAddAction($container);
 };
-$app->post('/groups/add/{sid}/{sgid}', GroupAddAction::class);
+$app->post('/servergroups/add/{sid}/{sgid}', ServerGroupAddAction::class);
+
+$container[ServerGroupRenameAction::class] = function ($container) {
+    return new ServerGroupRenameAction($container);
+};
+$app->post('/servergroups/rename/{sid}/{sgid}', ServerGroupRenameAction::class);
 
 
 // channel group
@@ -215,6 +221,11 @@ $container[ChannelGroupDeleteAction::class] = function ($container) {
     return new ChannelGroupDeleteAction($container);
 };
 $app->get('/channelgroups/delete/{sid}/{cgid}', ChannelGroupDeleteAction::class);
+
+$container[ChannelGroupRenameAction::class] = function ($container) {
+    return new ChannelGroupRenameAction($container);
+};
+$app->post('/channelgroups/rename/{sid}/{cgid}', ChannelGroupRenameAction::class);
 
 // ban
 $container[BansAction::class] = function ($container) {

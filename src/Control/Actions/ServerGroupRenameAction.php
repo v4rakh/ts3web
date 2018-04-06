@@ -3,21 +3,23 @@
 use Slim\Http\Request;
 use Slim\Http\Response;
 
-final class GroupRemoveAction extends AbstractAction
+final class ServerGroupRenameAction extends AbstractAction
 {
     public function __invoke(Request $request, Response $response, $args)
     {
         $sid = $args['sid'];
         $sgid = $args['sgid'];
-        $cldbid = $args['cldbid'];
+
+        $body = $request->getParsedBody();
+        $name = $body['name'];
 
         $this->ts->login($this->auth->getIdentity()['user'], $this->auth->getIdentity()['password']);
         $selectResult = $this->ts->getInstance()->selectServer($sid, 'serverId');
 
-        $groupRemoveResult = $this->ts->getInstance()->serverGroupDeleteClient($sgid, $cldbid);
+        $groupRenameResult = $this->ts->getInstance()->serverGroupRename($sgid, $name);
 
-        $this->flash->addMessage('success', $this->translator->trans('removed'));
+        $this->flash->addMessage('success', $this->translator->trans('done'));
 
-        return $response->withRedirect('/groups/' . $sid . '/' . $sgid);
+        return $response->withRedirect('/groups/' . $sid);
     }
 }

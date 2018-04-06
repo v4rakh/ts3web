@@ -2,11 +2,13 @@
     <table class="table small sortable-bootstrap" data-sortable>
         <thead>
         <tr>
+            <!-- determine if to hide entire column header -->
             {% set added = [] %}
             {% for arr in data %}
                 {% set added = arr|keys %}
             {% endfor %}
 
+            <!-- determine if column should be hidden -->
             {% for key in added %}
                 {% if key not in hiddenColumns %}
                     <th>{{ key|replace({'_' : ' '})|title }}</th>
@@ -22,8 +24,8 @@
 
         {% for arr in data %}
 
+                <!-- determine if row should be hidden -->
                 {% set show = true %}
-
                 {% for hidden in hiddenDependingOnAttribute %}
                     {% if hidden.key in arr|keys and attribute(arr, hidden.key) in hidden.values %}
                         {% set show = false %}
@@ -35,41 +37,58 @@
                         {% for key, value in arr %}
                             {% set value = value %}
 
+                            <!-- apply filters to item -->
                             {% for filter in filters %}
                                 {% if filter.key == key %}
                                     {% set value =  value|apply_filter(filter.apply)|raw %}
                                 {% endif %}
                             {% endfor %}
 
+                            <!-- determine if to hide entire column cell -->
                             {% set showColumn = true %}
-
                             {% if key in hiddenColumns %}
                                 {% set showColumn = false %}
                             {% endif %}
 
                             {% if showColumn %}
-                                {% set item = '<td>' ~ value ~ '</td>' %}
+                                <td>
+                                    {% set item = value %}
 
-                                {% for link in links %}
-                                    {% if link.key == key %}
-                                        {% if link.uri_param is not empty %}
-                                            {% for searchingKey, searchingValue in arr %}
-                                                {% if searchingKey == link.uri_param %}
-                                                    {% set item = "<td><a href=\"#{link.uri}\/#{searchingValue}\">#{value}</a></td>" %}
-                                                {% endif %}
-                                            {% endfor %}
-                                        {% else %}
-                                            {% set item = "<td><a href=\"#{link.uri}\/#{value}\">#{value}</a></td>" %}
+                                    <!-- determine if cell should -->
+                                    {% set editable = null %}
+                                    {% for attr in attributesEditable %}
+                                        {% if attr.key == key %}
+                                            {% set editable = attr %}
                                         {% endif %}
-                                    {% endif %}
-                                {% endfor %}
+                                    {% endfor %}
 
-                                {{ item|raw }}
+                                    <!-- cell is editable, generate a form -->
+                                    {% if editable is not empty %}
+                                        {% include 'form_inline.twig' with {'editable': editable} %}
+                                    <!-- cell is static or a link-->
+                                    {% else %}
+                                        {% for link in links %}
+                                            {% if link.key == key %}
+                                                {% if link.uri_param is not empty %}
+                                                    {% for searchingKey, searchingValue in arr %}
+                                                        {% if searchingKey == link.uri_param %}
+                                                            {% set item = "<a href=\"#{link.uri}\/#{searchingValue}\">#{value}</a>" %}
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                {% else %}
+                                                    {% set item = "<a href=\"#{link.uri}\/#{value}\">#{value}</a>" %}
+                                                {% endif %}
+                                            {% endif %}
+                                        {% endfor %}
+
+                                        {{ item|raw }}
+                                    {% endif %}
+                                </td>
                             {% endif %}
                         {% endfor %}
 
+                        <!-- generate additional columns as links, maybe apply filters -->
                         {% for link in additional_links %}
-
                             <td>
                                 {% set item = "<a href=\"#{link.uri}\">#{link.label}" %}
 

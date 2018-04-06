@@ -1,0 +1,47 @@
+{% set uri = editable.uri %}
+
+{% if editable.uri_param is not empty %}
+    {% for searchingKey, searchingValue in arr %}
+        {% if searchingKey == editable.uri_param %}
+            {% set uri = uri ~ '/' ~ searchingValue %}
+        {% endif %}
+    {% endfor %}
+{% endif %}
+
+
+<form class="form-inline" method="{{ editable.uri_method }}" action="{{ uri }}">
+    {% if editable.type == 'checkbox' %}
+
+        {% if item %}
+            <input type="hidden" name="{{ editable.key }}"
+                   id="{{ editable.key }}" value="0"/>
+            <input type="checkbox" name="{{ editable.key }}"
+                   id="{{ editable.key }}" value="1" checked/>
+        {% else %}
+            <input type="hidden" name="{{ editable.key }}"
+                   id="{{ editable.key }}" value="0" />
+            <input type="checkbox" name="{{ editable.key }}"
+                   id="{{ editable.key }}" value="1" />
+        {% endif %}
+    {% elseif editable.type == 'select' %}
+        <select class="form-control" name="{{ editable.key }}" id="{{ editable.key }}">
+
+            {% for k,v in editable.options %}
+                {% if v == item %}
+                    <option class="form-control" value="{{ v }}" selected>{{ k }}</option>
+                {% else %}
+                    <option class="form-control" value="{{ v }}">{{ k }}</option>
+                {% endif %}
+            {% endfor %}
+        </select>
+    {% else %}
+        <input class="form-control" name="{{ editable.key }}" id="{{ editable.key }}" type="{{ editable.type }}"
+                {% if editable.blank is defined and editable.blank == true %}
+                {% else %}
+                    value="{{ item }}"
+                {% endif %}
+        />
+    {% endif %}
+
+    <button class="btn btn-primary" id="{{ 'form_' ~ editable.key }}" type="submit">{{ editable.submit_label|raw }}</button>
+</form>

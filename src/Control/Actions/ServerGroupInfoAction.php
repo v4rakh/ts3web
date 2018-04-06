@@ -3,7 +3,7 @@
 use Slim\Http\Request;
 use Slim\Http\Response;
 
-final class GroupInfoAction extends AbstractAction
+final class ServerGroupInfoAction extends AbstractAction
 {
     public function __invoke(Request $request, Response $response, $args)
     {
@@ -18,8 +18,8 @@ final class GroupInfoAction extends AbstractAction
         $permissionsResult = $this->ts->getInstance()->serverGroupPermList($sgid, true);
 
         // render GET
-        $this->view->render($response, 'group_info.twig', [
-            'title' => $this->translator->trans('group_info.title') . ' ' . $sgid,
+        $this->view->render($response, 'servergroup_info.twig', [
+            'title' => $this->translator->trans('servergroup_info.title') . ' ' . $sgid,
             'clients' => $this->ts->getInstance()->getElement('data', $clientsResult),
             'permissions' => $this->ts->getInstance()->getElement('data', $permissionsResult),
             'sid' => $sid,

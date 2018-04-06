@@ -13,63 +13,27 @@
                 <td>{{ key|replace({'_' : ' '})|title }}</td>
 
                 <td>
+                    <!-- determine if cell should -->
                     {% set editable = null %}
-
                     {% for attr in attributesEditable %}
                         {% if attr.key == key %}
                             {% set editable = attr %}
                         {% endif %}
                     {% endfor %}
 
-
                     <!-- apply filters to item -->
                     {% set item = value %}
-
                     {% for filter in filters %}
                         {% if filter.key == key %}
                             {% set item = value|apply_filter(filter.apply)|raw %}
                         {% endif %}
                     {% endfor %}
 
-
+                    <!-- cell is editable, generate a form -->
                     {% if editable is not empty %}
+                        {% include 'form_inline.twig' with {'editable': editable} %}
 
-                        <form class="form-inline" method="{{ editable.uri_method }}" action="{{ editable.uri }}">
-                                {% if editable.type == 'checkbox' %}
-
-                                    {% if item %}
-                                        <input type="hidden" name="{{ editable.key }}"
-                                               id="{{ editable.key }}" value="0"/>
-                                        <input type="checkbox" name="{{ editable.key }}"
-                                               id="{{ editable.key }}" value="1" checked/>
-                                    {% else %}
-                                        <input type="hidden" name="{{ editable.key }}"
-                                               id="{{ editable.key }}" value="0" />
-                                        <input type="checkbox" name="{{ editable.key }}"
-                                               id="{{ editable.key }}" value="1" />
-                                    {% endif %}
-                                {% elseif editable.type == 'select' %}
-                                    <select class="form-control" name="{{ editable.key }}" id="{{ editable.key }}">
-
-                                        {% for k,v in editable.options %}
-                                            {% if v == item %}
-                                                <option class="form-control" value="{{ v }}" selected>{{ k }}</option>
-                                            {% else %}
-                                                <option class="form-control" value="{{ v }}">{{ k }}</option>
-                                            {% endif %}
-                                        {% endfor %}
-                                    </select>
-                                {% else %}
-                                    <input class="form-control" name="{{ editable.key }}" id="{{ editable.key }}" type="{{ editable.type }}"
-                                            {% if editable.blank is defined and editable.blank == true %}
-                                            {% else %}
-                                                value="{{ item }}"
-                                           {% endif %}
-                                    />
-                                {% endif %}
-
-                                <button class="btn btn-primary" id="{{ 'form_' ~ editable.key }}" type="submit">{{ editable.submit_label|raw }}</button>
-                        </form>
+                    <!-- cell is static or a link-->
                     {% else %}
                         {{ item }}
                     {% endif %}

@@ -80,7 +80,8 @@ clients.title: "Clients"
 bans.title: "Bans"
 complains.title: "Complains"
 groups.title: "Groups"
-group_info.title: "Group Info"
+servergroup_info.title: "Server Group Info"
+channelgroup_info.title: "Channelgroup"
 profile.title: "Profile"
 tokens.title: "Tokens"
 
@@ -142,27 +143,26 @@ channel_info.h.clients: "Clients"
 channel_info.send: "Send a message"
 channel_info.send.message: "Message"
 
-# channelgroups
-channelgroups.delete: "Delete"
-
-# channelgroup info
-channelgroup_info.title: "Channelgroup"
-channelgroup_info.h.clients: "Clients"
-channelgroup_info.h.permissions: "Permissions"
-channelgroup_info.remove: "Remove"
-
 # groups
 groups.delete: "Delete"
 groups.h.servergroups: "Server Groups"
 groups.h.channelgroups: "Channel Groups"
 
-# group info
-group_info.h.clients_add: "Add"
-group_info.h.clients: "Clients"
-group_info.h.permissions: "Permissions"
-group_info.remove: "Remove"
-group_info.add: "Add a client"
-group_info.add.cldbid: "Client Database Id"
+# channelgroups
+channelgroups.delete: "Delete"
+
+# channelgroup info
+channelgroup_info.h.clients: "Clients"
+channelgroup_info.h.permissions: "Permissions"
+channelgroup_info.remove: "Remove"
+
+# server group info
+servergroup_info.h.clients_add: "Add"
+servergroup_info.h.clients: "Clients"
+servergroup_info.h.permissions: "Permissions"
+servergroup_info.remove: "Remove"
+servergroup_info.add: "Add a client"
+servergroup_info.add.cldbid: "Client Database Id"
 
 # clients
 clients.delete: "Delete"

@@ -6,13 +6,24 @@
     <h2 class="header">{% trans %}groups.h.servergroups{% endtrans %}</h2>
     {% if serverGroups|length > 0 %}
         {% include 'table.twig' with {'data': serverGroups,
-            'links': [{'key': 'sgid', 'uri': '/groups/' ~ sid}],
+            'links': [{'key': 'sgid', 'uri': '/servergroups/' ~ sid}],
+            'hiddenColumns': ['savedb', 'sortid', 'namemode', 'n_modifyp', 'n_member_addp', 'n_member_removep'],
             'additional_links': [
                 {
                     'header_label': 'groups.delete'|trans,
                     'label': '<i class="material-icons">delete</i>',
-                    'uri': '/groups/delete/' ~ sid,
+                    'uri': '/servergroups/delete/' ~ sid,
                     'uri_param': 'sgid'
+                }
+            ],
+            'attributesEditable': [
+                {
+                    'key': 'name',
+                    'type': 'text',
+                    'uri': '/servergroups/rename/' ~ sid,
+                    'uri_param': 'sgid',
+                    'uri_method': 'post',
+                    'submit_label': '<i class="material-icons">check_circle</i>'
                 }
             ]
         } %}
@@ -25,12 +36,23 @@
     {% if channelGroups|length > 0 %}
         {% include 'table.twig' with {'data': channelGroups,
             'links': [{'key': 'cgid', 'uri': '/channelgroups/' ~ sid}],
+            'hiddenColumns': ['savedb', 'sortid', 'namemode', 'n_modifyp', 'n_member_addp', 'n_member_removep'],
             'additional_links': [
                 {
                     'header_label': 'channelgroups.delete'|trans,
                     'label': '<i class="material-icons">delete</i>',
                     'uri': '/channelgroups/delete/' ~ sid,
                     'uri_param': 'cgid'
+                }
+            ],
+            'attributesEditable': [
+                {
+                    'key': 'name',
+                    'type': 'text',
+                    'uri': '/channelgroups/rename/' ~ sid,
+                    'uri_param': 'cgid',
+                    'uri_method': 'post',
+                    'submit_label': '<i class="material-icons">check_circle</i>'
                 }
             ]
         } %}
