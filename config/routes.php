@@ -175,8 +175,12 @@ $app->post('/online/ban/{sid}/{clid}', OnlineBanAction::class);
 $container[OnlineSendAction::class] = function ($container) {
     return new OnlineSendAction($container);
 };
-
 $app->post('/online/send/{sid}/{clid}', OnlineSendAction::class);
+
+$container[OnlineMoveAction::class] = function ($container) {
+    return new OnlineMoveAction($container);
+};
+$app->post('/online/move/{sid}/{clid}', OnlineMoveAction::class);
 
 // group
 $container[GroupsAction::class] = function ($container) {

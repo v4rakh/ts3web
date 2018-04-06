@@ -35,6 +35,16 @@
                 ]
             },
             {
+                'header_label': 'online.move'|trans,
+                'label': '<i class="material-icons">check_circle</i>',
+                'uri': '/online/move/' ~ sid ~ '/' ~ clid,
+                'uri_method': 'post',
+                'fields': [
+                    {'type': 'select', 'key': 'channel', 'options': channels,'label': 'online.move.channel'|trans},
+                    {'type': 'text', 'key': 'channel_password', 'label': 'online.move.channel_password'|trans}
+                ]
+            },
+            {
                 'header_label': 'online.send'|trans,
                 'label': '<i class="material-icons">check_circle</i>',
                 'uri': '/online/send/' ~ sid ~ '/' ~ clid,

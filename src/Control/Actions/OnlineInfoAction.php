@@ -15,10 +15,19 @@ final class OnlineInfoAction extends AbstractAction
 
         $dataResult = $this->ts->getInstance()->clientInfo($clid);
 
+        $channelsResult = $this->ts->getInstance()->channelList();
+        $channelsResult = $this->ts->getInstance()->getElement('data', $channelsResult);
+        $channels = [];
+
+        foreach ($channelsResult as $channel) {
+            $channels[$channel['channel_name']] = $channel['cid'];
+        }
+
         // render GET
         $this->view->render($response, 'online_info.twig', [
             'title' => $this->translator->trans('online_info.title') . ' ' . $clid,
             'data' => $this->ts->getInstance()->getElement('data', $dataResult),
+            'channels' => $channels,
             'sid' => $sid,
             'clid' => $clid,
         ]);

@@ -2,15 +2,13 @@
 
 **ts3web** is a webinterface for any TeamSpeak 3 Server used with serverQuery login.
  
-This webinterface aims to be as simple as possible. It does not provide complex features. Instead, it only supports features considered useful for a TeamSpeak 3 web interface.  **The minimalistic approach is intentional!** 
+This webinterface aims to be as simple as possible. The minimalistic approach is intentional.
 
-If you like to help (to translate or implement missing features), open an issue first. You should use existing code to implement new features. PRs will be merged after a code review.
+If you like to help (to translate or implement features), open an issue first. If possible, you should use existing code to implement new features. PRs will be merged after a code review.
 
-Things you **cannot** do:
-- Permissions Management (add, edit, delete for servergroups, channelgroups, clients)
-- File Management (except viewing)
-- Temporary passwords
-- Move online clients
+Features which are currently not supported:
+- Permissions Management (except for viewing)
+- File Management (except for viewing)
 
 ## Install ##
 

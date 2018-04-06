@@ -56,6 +56,7 @@ class ACL extends \Zend\Permissions\Acl\Acl
         '/online/kick/{sid}/{clid}',
         '/online/ban/{sid}/{clid}',
         '/online/send/{sid}/{clid}',
+        '/online/move/{sid}/{clid}',
 
         '/clients/{sid}',
         '/clients/{sid}/{cldbid}',

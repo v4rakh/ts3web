@@ -213,6 +213,10 @@ bans.delete: "Delete"
 complains.delete: "Delete"
 
 # online
+online.move: "Move"
+online.move.channel: "Channel"
+online.move.channel_password: "Channel password"
+online.moved.success: "Moved client %clid%."
 online.kick: "Kick"
 online.kick.reason: "Reason"
 online.poke: "Poke"
