@@ -4,10 +4,7 @@
     <h1 class="header">{{ title }}</h1>
 
     <div class="row">
-        <div class="col-md-4 small">
-            {{ tree|raw }}
-        </div>
-        <div class="col-md-8">
+        <div class="col-md-12">
             {% if data|length >0 %}
                 {% include 'table.twig' with {'data': data,
                     'hiddenDependingOnAttribute': [{'key': 'client_type', 'values': ['1']}],

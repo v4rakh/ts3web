@@ -15,23 +15,10 @@ final class OnlineAction extends AbstractAction
         $dataResult = $this->ts->getInstance()->clientList('-ip -times -info');
         $this->ts->getInstance()->logout(); // avoid showing currently used user twice
 
-        $instance = TeamSpeak3::factory(sprintf("serverquery://%s:%s@%s:%s/?server_id=%s",
-            $this->auth->getIdentity()['user'],
-            $this->auth->getIdentity()['password'],
-            $this->ts->getHost(),
-            $this->ts->getQueryPort(),
-            $sid)
-        );
-
-        $treeView = new TeamSpeak3_Viewer_Html("/images/viewer/", "/images/flags/", "data:image");
-        $tree = $instance->getViewer($treeView);
-        $instance->logout();
-
         // render GET
         $this->view->render($response, 'online.twig', [
             'title' => $this->translator->trans('online.title'),
             'data' => $this->ts->getInstance()->getElement('data', $dataResult),
-            'tree' => $tree,
             'sid' => $sid
         ]);
     }
