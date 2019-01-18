@@ -28,8 +28,10 @@ There's an example `docker-compose.yml` in the `docker-compose/` directory. Plea
 From the example:
 
 * Copy `docker-compose/env` file to `config/env`
+* Build the docker image from the project home with `docker build -t ts3web:latest -f docker/Dockerfile .`
 * Change directory to `docker-compose/` folder
 * Execute `docker-compose up -d`
+* Everything should be up and running. Point your browser to `8181` to see the web interface, look into the logs for a teamspeak serveradmin login.
 
 #### Upgrade
 
