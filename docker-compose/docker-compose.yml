@@ -25,9 +25,13 @@ services:
       - network
   web:
     container_name: teamspeak_web
-    image: ts3web:latest
+    image: teamspeak_web:latest
+    volumes:
+      - ./env:/var/www/html/application/config/env
     ports:
       - 8181:80
+    depends_on:
+      - app
     restart: always
     networks:
       - network
