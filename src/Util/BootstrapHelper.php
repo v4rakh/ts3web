@@ -29,7 +29,6 @@ class BootstrapHelper
             try {
                 $env->required([
                     'site_title',
-                    'site_url',
                     'site_language',
                     'site_date_format',
                     'theme',
