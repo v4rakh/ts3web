@@ -25,7 +25,7 @@
 <!-- Main content -->
 <main role="main" class="container">
     <div class="mainContainer">
-    <div class="container">
+        <div class="container">
             {% if flash is not empty %}
                 {% if flash.getMessage('info').0 %}
                     <div class="alert alert-dismissible alert-info" role="alert">
@@ -53,15 +53,18 @@
 
             {% block content %}
             {% endblock %}
-    </div>
+        </div>
     </div>
 </main><!-- /.container -->
 
 <!-- Footer -->
+{% include 'about.twig' %}
+
 <footer class="footer">
     <div class="text-center">
         <span class="text-muted">
-            <i class="fa fa-copyright"></i> {{ "now"|date("Y") }} {{ getenv('site_title') }}
+            <i class="fa fa-copyright"></i> {{ "now"|date("Y") }} {{ getenv('site_title') }} |
+            <a data-toggle="modal" data-target="#aboutModal"><i class="fa fa-question"></i></a>
         </span>
     </div>
 </footer>

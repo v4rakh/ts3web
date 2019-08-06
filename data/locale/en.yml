@@ -272,3 +272,14 @@ passwords.add.duration: "Duration (in seconds)"
 passwords.add.description: "Description"
 passwords.add.channel: "Channel (user joins)"
 passwords.add.channel_password: "Channelpassword"
+
+# about
+about.header: "About %name%"
+about.body: |
+  ts3web is a web interface for one TeamSpeak 3 Server. It's using serverquery to login. This web interface aims to be as simple as possible. The minimalistic approach is intentional.
+
+  Feel free to submit pull requests if you like to help. More information are here: https://hub.docker.com/r/varakh/ts3web
+
+  Features which are currently not supported:
+  - modify permissions (only viewing)
+  - modify files (only viewing)

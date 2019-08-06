@@ -2,6 +2,7 @@
 
 ## 2.0.0 - UNRELEASED
 * Replace material design with bootstrap4 theme
+* Add an about modal
 * Update deployment and release documentation and examples
 * Update dependencies and force PHP 7.3
 * Add fallback for values for `env` file

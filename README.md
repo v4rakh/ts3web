@@ -1,11 +1,11 @@
 # README
 
-**ts3web** is a web interface for any TeamSpeak 3 Server used with serverQuery login. Sources can be viewed
+ts3web is a web interface for one TeamSpeak 3 Server. It's using serverquery to login. Sources can be viewed
 [here](https://git.myservermanager.com/alexander.schaeferdiek/ts3web).
  
 This web interface aims to be as simple as possible. The minimalistic approach is intentional.
 
-Feel free to submit pull requests if you like to help.
+Feel free to submit pull requests if you like to help. More information are here: [https://hub.docker.com/r/varakh/ts3web](https://hub.docker.com/r/varakh/ts3web)
 
 Features which are currently **not supported**:
 
