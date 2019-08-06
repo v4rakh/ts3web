@@ -9,7 +9,8 @@ final class ServerDeselectAction extends AbstractAction
     {
         // remove selected server from session
         $this->session->delete('sid');
-        $this->session->delete('name');
+        $this->session->delete('sport');
+        $this->session->delete('sname');
 
         $this->flash->addMessage('success', $this->translator->trans('done'));
         return $response->withRedirect('/servers');

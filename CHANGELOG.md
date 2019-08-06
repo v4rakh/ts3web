@@ -1,8 +1,9 @@
 # CHANGELOG
 
-## 2.0.0 - UNRELEASED
+## 2.0.0 - 2019/08/06
 * Replace material design with bootstrap4 theme
 * Add an about modal
+* Add tree view for online clients
 * Update deployment and release documentation and examples
 * Update dependencies and force PHP 7.3
 * Add fallback for values for `env` file

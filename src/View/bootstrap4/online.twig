@@ -4,7 +4,17 @@
     <h3>{{ title }}</h3>
 
     <div class="row">
-        <div class="col-md-12">
+
+    {% if getenv('teamspeak_tree_view') == 'true' and treeView is not null %}
+    <div class="col-sm-3">
+        <div class="small treeView">
+            {{ treeView|raw }}
+        </div>
+    </div>
+    <div class="col-sm-9">
+        {% else %}
+            <div class="col-md-12">
+        {% endif %}
             {% if data|length >0 %}
                 {% include 'table.twig' with {'data': data,
                     'hiddenDependingOnAttribute': [{'key': 'client_type', 'values': ['1']}],
@@ -38,4 +48,5 @@
             {% endif %}
         </div>
     </div>
+
 {% endblock %}

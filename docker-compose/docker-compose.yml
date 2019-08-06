@@ -23,6 +23,7 @@ services:
     image: teamspeak_web:latest
     volumes:
       - ./env:/var/www/html/application/config/env
+      - ./snapshots:/var/www/html/application/data/snapshots
     ports:
       - 127.0.0.1:8181:80
     depends_on:

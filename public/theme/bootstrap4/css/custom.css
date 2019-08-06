@@ -24,6 +24,10 @@ img {
     margin-top: 1rem;
 }
 
+.treeView img {
+    display: inline-block;
+}
+
 .footer {
     position: absolute;
     bottom: 0;

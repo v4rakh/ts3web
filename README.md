@@ -1,7 +1,6 @@
 # README
 
-ts3web is a web interface for one TeamSpeak 3 Server. It's using serverquery to login. Sources can be viewed
-[here](https://git.myservermanager.com/alexander.schaeferdiek/ts3web).
+ts3web is a web interface for one TeamSpeak 3 Server. It's using serverquery to login.
  
 This web interface aims to be as simple as possible. The minimalistic approach is intentional.
 
@@ -59,6 +58,7 @@ services:
     image: teamspeak_web:latest
     volumes:
       - ./env:/var/www/html/application/config/env
+      - ./snapshots:/var/www/html/application/data/snapshots
     ports:
       - 127.0.0.1:8181:80
     depends_on:
@@ -75,6 +75,8 @@ Your TeamSpeak 3 Server will be available under `public-server-ip:9987`. The web
 `127.0.0.1:8181`. You need to add a reverse proxy and probably you also want SSL configured if you expose it via domain.
 For testing purposes, change `- 127.0.0.1:8181:80` to `- 8181:80`. The web interface will then be available under 
 `public-server-ip:8181`. This is **not recommended**! Secure your setup properly via reverse proxy and SSL.
+
+Snapshots are saved in `/var/www/html/application/data/snapshots`. You should create a volume for this location.
 
 ## Usage as single docker container
 

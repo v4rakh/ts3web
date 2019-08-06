@@ -15,7 +15,8 @@
         "nesbot/carbon": "^2.0.0",
         "bryanjhv/slim-session": "^3.5",
         "symfony/filesystem": "^4.0",
-        "symfony/finder": "^4.0"
+        "symfony/finder": "^4.0",
+        "planetteamspeak/ts3-php-framework": "^1.1"
     },
     "config": {
         "bin-dir": "bin/"
