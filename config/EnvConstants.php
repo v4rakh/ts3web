@@ -6,14 +6,9 @@
 class EnvConstants
 {
     /**
-     * Default env file loaded
-     */
-    const ENV_FILE_DEFAULT = "env.default";
-
-    /**
      * Custom env file
      */
-    const ENV_FILE_CUSTOM = "env";
+    const ENV_FILE = "env";
 
     /**
      * Site title

@@ -6,7 +6,6 @@
 * Add tree view for online clients
 * Update deployment and release documentation and examples
 * Update dependencies and force PHP 7.3
-* Add fallback for values for `env` file
 
 ## 1.2.4 - 2019/01/18
 * No info text

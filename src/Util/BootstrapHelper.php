@@ -20,20 +20,27 @@ class BootstrapHelper
     public static function bootEnvironment()
     {
         $envPath = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'config';
+        $envFile = $envPath . DIRECTORY_SEPARATOR . EnvConstants::ENV_FILE;
 
-        $defaultEnv = new Dotenv($envPath, EnvConstants::ENV_FILE_DEFAULT);
-        $defaultEnvRes = $defaultEnv->load();
-
-        $envFile = $envPath . DIRECTORY_SEPARATOR . EnvConstants::ENV_FILE_CUSTOM;
-        $envRes = [];
         if (file_exists($envFile)) {
-            $env = new Dotenv($envPath, EnvConstants::ENV_FILE_CUSTOM);
-            $envRes = $env->load();
+            $env = new Dotenv(realpath($envPath), EnvConstants::ENV_FILE);
+            $res = $env->load();
+            $env->required([
+                EnvConstants::SITE_TITLE,
+                EnvConstants::SITE_LANGUAGE,
+                EnvConstants::SITE_DATE_FORMAT,
+                EnvConstants::THEME,
+                EnvConstants::THEME_CACHE,
+                EnvConstants::TEAMSPEAK_HOST,
+                EnvConstants::TEAMSPEAK_QUERY_PORT,
+                EnvConstants::TEAMSPEAK_USER,
+                EnvConstants::LOG_NAME,
+                EnvConstants::LOG_LEVEL
+            ]);
+            return $res;
+        } else {
+            die('No environment file found in ' . realpath($envFile));
         }
-
-        $res = array_merge_recursive($defaultEnvRes, $envRes);
-
-        return $res;
     }
 
     /**
