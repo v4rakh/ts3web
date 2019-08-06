@@ -8,7 +8,7 @@ theme="bootstrap4" # values: bootstrap4 (foldernames are used to determine theme
 theme_cache=false # values: true|false (cache view/twig. makes it faster, disable for debug)
 
 # teamspeak
-teamspeak_host="teamspeak_app" # 'localhost' or 'name_of_docker_container' if running locally
+teamspeak_host="localhost" # 'localhost' or 'name_of_docker_container' if running locally or IP
 teamspeak_query_port=10011
 teamspeak_user="serveradmin"
 

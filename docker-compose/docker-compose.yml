@@ -1,17 +1,13 @@
 version: '2'
 networks:
-  network:
-    ipam:
-      driver: default
-      config:
-        - subnet: 172.254.0.0/16
-
+  teamspeak:
+    external: false
 services:
   app:
     container_name: teamspeak_app
     image: teamspeak:latest
     volumes:
-      - ./teamspeak:/var/ts3server
+      - ./app:/var/ts3server
       - ./whitelist.txt:/whitelist.txt
     ports:
       - 10011:10011
@@ -21,17 +17,16 @@ services:
       - TS3SERVER_LICENSE=accept
       - TS3SERVER_IP_WHITELIST=/whitelist.txt
     restart: always
-    networks:
-      - network
+    network_mode: "host"
   web:
     container_name: teamspeak_web
     image: teamspeak_web:latest
     volumes:
       - ./env:/var/www/html/application/config/env
     ports:
-      - 8181:80
+      - 127.0.0.1:8181:80
     depends_on:
       - app
     restart: always
     networks:
-      - network
+      - teamspeak
