@@ -1,5 +1,7 @@
 <?php
 
+use Psr\Log\LoggerInterface;
+
 class TSInstance
 {
     /**
@@ -18,7 +20,7 @@ class TSInstance
     private $queryPort;
 
     /**
-     * @var \Psr\Log\LoggerInterface
+     * @var LoggerInterface
      */
     private $logger;
 
@@ -30,8 +32,8 @@ class TSInstance
     {
         $this->logger = $logger;
 
-        $this->host = getenv('teamspeak_default_host');
-        $this->queryPort = getenv('teamspeak_default_query_port');
+        $this->host = getenv(EnvConstants::TEAMSPEAK_HOST);
+        $this->queryPort = getenv(EnvConstants::TEAMSPEAK_QUERY_PORT);
 
         $ts = new ts3admin($this->host, $this->queryPort);
         $ts = new TS3AdminProxy($ts, $logger);

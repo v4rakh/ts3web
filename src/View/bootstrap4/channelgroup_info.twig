@@ -1,0 +1,36 @@
+{% extends 'layout.twig' %}
+
+{% block content %}
+    <h3>{{ title }}</h3>
+
+    {% if clients|length > 0 %}
+        <h5>{% trans %}channelgroup_info.h.clients{% endtrans %}</h5>
+        {% include 'table.twig' with {'data': clients,
+            'links': [
+                {'key': 'cldbid', 'uri': '/clients/' ~ sid, 'uri_param': 'cldbid'},
+                {'key': 'cid', 'uri': '/channels/' ~ sid, 'uri_param': 'cid'}
+            ],
+            'hiddenColumns': ['cgid', 'cid', 'cldbid'],
+            'additional_links': [
+                {
+                    'header_label': 'channelgroup_info.client'|trans,
+                    'label': '<i class="fa fa-user-plus"></i>',
+                    'uri': '/clients/' ~ sid,
+                    'uri_param': 'cldbid'
+                },
+                {
+                    'header_label': 'channelgroup_info.channel'|trans,
+                    'label': '<i class="fa fa-tv"></i>',
+                    'uri': '/channels/' ~ sid,
+                    'uri_param': 'cid'
+                }
+            ]
+        } %}
+    {% endif %}
+
+    {% if permissions|length > 0 %}
+        <h5>{% trans %}channelgroup_info.h.permissions{% endtrans %}</h5>
+        {% include 'table.twig' with {'data': permissions} %}
+    {% endif %}
+
+{% endblock %}

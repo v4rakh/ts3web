@@ -1,0 +1,118 @@
+<div class="table-responsive">
+    <table class="table table-sm small sortable-bootstrap table-striped table-bordered" data-sortable>
+        <thead>
+        <tr>
+            <!-- determine if to hide entire column header -->
+            {% set added = [] %}
+            {% for arr in data %}
+                {% set added = arr|keys %}
+            {% endfor %}
+
+            <!-- determine if column should be hidden -->
+            {% for key in added %}
+                {% if key not in hiddenColumns %}
+                    <th scope="col">{{ key|replace({'_' : ' '})|title }}</th>
+                {% endif %}
+            {% endfor %}
+
+            {% for link in additional_links %}
+                <th scope="col">{{ link.header_label }}</th>
+            {% endfor %}
+        </tr>
+        </thead>
+        <tbody>
+
+        {% for arr in data %}
+
+                <!-- determine if row should be hidden -->
+                {% set show = true %}
+                {% for hidden in hiddenDependingOnAttribute %}
+                    {% if hidden.key in arr|keys and attribute(arr, hidden.key) in hidden.values %}
+                        {% set show = false %}
+                    {% endif %}
+                {% endfor %}
+
+                {% if show == true %}
+                    <tr>
+                        {% for key, value in arr %}
+                            {% set value = value %}
+
+                            <!-- apply filters to item -->
+                            {% for filter in filters %}
+                                {% if filter.key == key %}
+                                    {% set value =  value|apply_filter(filter.apply)|raw %}
+                                {% endif %}
+                            {% endfor %}
+
+                            <!-- determine if to hide entire column cell -->
+                            {% set showColumn = true %}
+                            {% if key in hiddenColumns %}
+                                {% set showColumn = false %}
+                            {% endif %}
+
+                            {% if showColumn %}
+                                <td>
+                                    {% set item = value %}
+
+                                    <!-- determine if cell should -->
+                                    {% set editable = null %}
+                                    {% for attr in attributesEditable %}
+                                        {% if attr.key == key %}
+                                            {% set editable = attr %}
+                                        {% endif %}
+                                    {% endfor %}
+
+                                    <!-- cell is editable, generate a form -->
+                                    {% if editable is not empty %}
+                                        {% include 'form_inline.twig' with {'editable': editable} %}
+                                    <!-- cell is static or a link-->
+                                    {% else %}
+                                        {% for link in links %}
+                                            {% if link.key == key %}
+                                                {% if link.uri_param is not empty %}
+                                                    {% for searchingKey, searchingValue in arr %}
+                                                        {% if searchingKey == link.uri_param %}
+                                                            {% set item = "<a href=\"#{link.uri}\/#{searchingValue}\">#{value}</a>" %}
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                {% else %}
+                                                    {% set item = "<a href=\"#{link.uri}\/#{value}\">#{value}</a>" %}
+                                                {% endif %}
+                                            {% endif %}
+                                        {% endfor %}
+
+                                        {{ item|raw }}
+                                    {% endif %}
+                                </td>
+                            {% endif %}
+                        {% endfor %}
+
+                        <!-- generate additional columns as links, maybe apply filters -->
+                        {% for link in additional_links %}
+                            <td>
+                                {% set item = "<a href=\"#{link.uri}\">#{link.label}" %}
+
+                                {% if link.uri_param is not empty %}
+                                    {% for searchingKey, searchingValue in arr %}
+                                        {% if searchingKey == link.uri_param %}
+                                            {% set shownValue = searchingValue  %}
+
+                                            {% if link.apply is not empty %}
+                                                {% set shownValue = shownValue|apply_filter(link.apply)|raw %}
+                                            {% endif %}
+
+                                            {% set item = "<a href=\"#{link.uri}\/#{shownValue}\">#{link.label}</a>" %}
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endif %}
+
+                                {{ item|raw }}
+                            </td>
+                        {% endfor %}
+                    </tr>
+                {% endif %}
+        {% endfor %}
+
+        </tbody>
+    </table>
+</div>

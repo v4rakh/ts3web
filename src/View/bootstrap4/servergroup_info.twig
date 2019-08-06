@@ -1,0 +1,44 @@
+{% extends 'layout.twig' %}
+
+{% block content %}
+    <h3>{{ title }}</h3>
+
+    <h5>{% trans %}servergroup_info.h.clients_add{% endtrans %}</h5>
+    {% include 'form.twig' with {
+        'fields': [
+            {
+                'header_label': 'servergroup_info.add'|trans,
+                'label': '<i class="fa fa-check"></i>',
+                'uri': '/servergroups/add/' ~ sid ~ '/' ~ sgid,
+                'uri_method': 'post',
+                'fields': [
+                    {'type': 'text', 'key': 'cldbid', 'label': 'servergroup_info.add.cldbid'|trans},
+                ]
+            }
+        ]
+    } %}
+
+    {% if clients|length > 0 %}
+        <h5>{% trans %}servergroup_info.h.clients{% endtrans %}</h5>
+        {% include 'table.twig' with {'data': clients,
+            'links': [
+                {'key': 'client_nickname', 'uri': '/clients/' ~ sid, 'uri_param': 'cldbid'}
+            ],
+            'hiddenColumns': ['cldbid'],
+            'additional_links': [
+                {
+                    'header_label': 'servergroup_info.remove'|trans,
+                    'label': '<i class="fa fa-trash"></i>',
+                    'uri': '/servergroups/remove/' ~ sid ~ '/' ~ sgid,
+                    'uri_param': 'cldbid'
+                }
+            ]
+        } %}
+    {% endif %}
+
+    {% if permissions|length > 0 %}
+        <h5>{% trans %}servergroup_info.h.permissions{% endtrans %}</h5>
+        {% include 'table.twig' with {'data': permissions} %}
+    {% endif %}
+
+{% endblock %}

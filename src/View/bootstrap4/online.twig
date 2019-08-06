@@ -1,0 +1,41 @@
+{% extends 'layout.twig' %}
+
+{% block content %}
+    <h3>{{ title }}</h3>
+
+    <div class="row">
+        <div class="col-md-12">
+            {% if data|length >0 %}
+                {% include 'table.twig' with {'data': data,
+                    'hiddenDependingOnAttribute': [{'key': 'client_type', 'values': ['1']}],
+                    'hiddenColumns': ['client_type', 'client_database_id', 'clid', 'cid'],
+                    'filters': [
+                        {'key': 'client_idle_time', 'apply': 'timeInMillis'},
+                        {'key': 'connection_connected_time', 'apply': 'timeInSeconds'},
+                        {'key': 'client_created', 'apply': 'timestamp'},
+                        {'key': 'client_lastconnected', 'apply': 'timestamp'}
+                    ],
+                    'links': [
+                        {'key': 'client_nickname', 'uri': '/online/' ~ sid, 'uri_param': 'clid'}
+                    ],
+                    'additional_links': [
+                        {
+                            'header_label': 'online.client'|trans,
+                            'label': '<i class="fa fa-user-plus"></i>',
+                            'uri': '/clients/' ~ sid,
+                            'uri_param': 'client_database_id'
+                        },
+                        {
+                            'header_label': 'online.channel'|trans,
+                            'label': '<i class="fa fa-tv"></i>',
+                            'uri': '/channels/' ~ sid,
+                            'uri_param': 'cid'
+                        }
+                    ]
+                } %}
+            {% else %}
+                {% include 'no_entities.twig' %}
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

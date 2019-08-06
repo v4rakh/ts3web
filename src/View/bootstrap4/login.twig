@@ -1,0 +1,47 @@
+{% extends 'layout.twig' %}
+
+{% block content %}
+
+    <div class="container-fluid h-100">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">{{ title }}</div>
+                    <div class="card-body">
+
+                        <form class="form-signin" role="form" name="login" id="login" method="post">
+
+                            <div class="form-group">
+                                <label for="host" class="col-4 col-form-label">{% trans %}login.form.host{% endtrans %}</label>
+                                <input type="text" id="host" name="host" class="form-control form-control-lg"
+                                       placeholder="{{ getenv('teamspeak_host') ~ ':' ~ getenv('teamspeak_query_port') }}"
+                                       value="{{ getenv('teamspeak_host') ~ ':' ~ getenv('teamspeak_query_port') }}"
+                                       required disabled>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="username" class="col-4 col-form-label">{% trans %}login.form.username{% endtrans %}</label>
+                                <input type="text" id="username" name="username" class="form-control form-control-lg"
+                                       placeholder="{{ getenv('teamspeak_user') }}"
+                                       value="{{ getenv('teamspeak_user') }}"
+                                       required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="password" class="col-4 col-form-label">{% trans %}login.form.password{% endtrans %}</label>
+                                <input type="password" id="password" name="password"
+                                       class="form-control form-control-lg"
+                                       placeholder="NDisTN4r" value="NDisTN4r" autofocus required>
+                            </div>
+
+                            <div class="form-group">
+                                <button class="btn btn-primary btn-block btn-sm"
+                                        type="submit">{% trans %}login.form.button{% endtrans %}</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

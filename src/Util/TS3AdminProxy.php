@@ -1,5 +1,7 @@
 <?php
 
+use Psr\Log\LoggerInterface;
+
 class TS3AdminProxy
 {
     private $object;
@@ -8,7 +10,7 @@ class TS3AdminProxy
     /**
      * TS3AdminProxy constructor.
      * @param ts3admin $object
-     * @param $logger \Psr\Log\LoggerInterface
+     * @param $logger LoggerInterface
      */
     public function __construct(ts3admin $object, $logger) {
         $this->object = $object;

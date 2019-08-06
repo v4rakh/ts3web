@@ -1,0 +1,91 @@
+{% extends 'layout.twig' %}
+
+{% block content %}
+    <h3>{{ title }}</h3>
+
+    {% if uploads|length > 0 %}
+        <h5>{% trans %}server_info.h.uploads{% endtrans %}</h5>
+        {% include 'table.twig' with {'data': uploads} %}
+    {% endif %}
+
+    <h5>{% trans %}server_info.h.actions{% endtrans %}</h5>
+    {% include 'form.twig' with {
+        'fields': [
+        {
+            'header_label': 'server_info.send'|trans,
+            'label': '<i class="fa fa-check"></i>',
+            'uri': '/servers/send/' ~ sid,
+            'uri_method': 'post',
+            'fields': [
+                {'type': 'text', 'key': 'message', 'label': 'server_info.send.message'|trans},
+            ]
+        }]
+    } %}
+
+    <h5>{% trans %}server_info.h.details{% endtrans %}</h5>
+    {% include 'keyvalue.twig' with {'data': info,
+        'filters': [
+            {'key': 'virtualserver_uptime', 'apply': 'timeInSeconds'},
+            {'key': 'virtualserver_created', 'apply': 'timestamp'},
+            {'key': 'virtualserver_month_bytes_downloaded', 'apply': 'file'},
+            {'key': 'virtualserver_month_bytes_uploaded', 'apply': 'file'},
+            {'key': 'virtualserver_total_bytes_downloaded', 'apply': 'file'},
+            {'key': 'virtualserver_total_bytes_uploaded', 'apply': 'file'},
+            {'key': 'connection_filetransfer_bytes_sent_total', 'apply': 'file'},
+            {'key': 'connection_filetransfer_bytes_received_total', 'apply': 'file'},
+            {'key': 'connection_bytes_sent_speech', 'apply': 'file'},
+            {'key': 'connection_bytes_received_speech', 'apply': 'file'},
+            {'key': 'connection_bytes_sent_keepalive', 'apply': 'file'},
+            {'key': 'connection_bytes_received_keepalive', 'apply': 'file'},
+            {'key': 'connection_bytes_sent_control', 'apply': 'file'},
+            {'key': 'connection_bytes_received_control', 'apply': 'file'},
+            {'key': 'connection_bytes_sent_total', 'apply': 'file'},
+            {'key': 'connection_bytes_received_total', 'apply': 'file'}
+        ],
+        'attributesEditable': [
+            {'key': 'virtualserver_name', 'type': 'text', 'uri': '/servers/edit/' ~ sid, 'uri_method': 'post', 'submit_label': '<i class="fa fa-check"></i>'},
+            {'key': 'virtualserver_name_phonetic', 'type': 'text', 'uri': '/servers/edit/' ~ sid, 'uri_method': 'post', 'submit_label': '<i class="fa fa-check"></i>'},
+            {'key': 'virtualserver_icon_id', 'type': 'number', 'uri': '/servers/edit/' ~ sid, 'uri_method': 'post', 'submit_label': '<i class="fa fa-check"></i>'},
+            {'key': 'virtualserver_reserved_slots', 'type': 'number', 'uri': '/servers/edit/' ~ sid, 'uri_method': 'post', 'submit_label': '<i class="fa fa-check"></i>'},
+            {'key': 'virtualserver_default_server_group', 'type': 'number', 'uri': '/servers/edit/' ~ sid, 'uri_method': 'post', 'submit_label': '<i class="fa fa-check"></i>'},
+            {'key': 'virtualserver_default_channel_group', 'type': 'number', 'uri': '/servers/edit/' ~ sid, 'uri_method': 'post', 'submit_label': '<i class="fa fa-check"></i>'},
+            {'key': 'virtualserver_default_channel_admin_group', 'type': 'number', 'uri': '/servers/edit/' ~ sid, 'uri_method': 'post', 'submit_label': '<i class="fa fa-check"></i>'},
+            {'key': 'virtualserver_needed_identity_security_level', 'type': 'number', 'uri': '/servers/edit/' ~ sid, 'uri_method': 'post', 'submit_label': '<i class="fa fa-check"></i>'},
+            {'key': 'virtualserver_maxclients', 'type': 'number', 'uri': '/servers/edit/' ~ sid, 'uri_method': 'post', 'submit_label': '<i class="fa fa-check"></i>'},
+            {'key': 'virtualserver_min_client_version', 'type': 'number', 'uri': '/servers/edit/' ~ sid, 'uri_method': 'post', 'submit_label': '<i class="fa fa-check"></i>'},
+            {'key': 'virtualserver_port', 'type': 'number', 'uri': '/servers/edit/' ~ sid, 'uri_method': 'post', 'submit_label': '<i class="fa fa-check"></i>'},
+            {'key': 'virtualserver_weblist_enabled', 'type': 'checkbox', 'uri': '/servers/edit/' ~ sid, 'uri_method': 'post', 'submit_label': '<i class="fa fa-check"></i>'},
+            {'key': 'virtualserver_autostart', 'type': 'checkbox', 'uri': '/servers/edit/' ~ sid, 'uri_method': 'post', 'submit_label': '<i class="fa fa-check"></i>'},
+            {'key': 'virtualserver_min_android_version', 'type': 'number', 'uri': '/servers/edit/' ~ sid, 'uri_method': 'post', 'submit_label': '<i class="fa fa-check"></i>'},
+            {'key': 'virtualserver_min_ios_version', 'type': 'number', 'uri': '/servers/edit/' ~ sid, 'uri_method': 'post', 'submit_label': '<i class="fa fa-check"></i>'},
+            {'key': 'virtualserver_complain_autoban_count', 'type': 'number', 'uri': '/servers/edit/' ~ sid, 'uri_method': 'post', 'submit_label': '<i class="fa fa-check"></i>'},
+            {'key': 'virtualserver_complain_autoban_time', 'type': 'number', 'uri': '/servers/edit/' ~ sid, 'uri_method': 'post', 'submit_label': '<i class="fa fa-check"></i>'},
+            {'key': 'virtualserver_complain_remove_time', 'type': 'number', 'uri': '/servers/edit/' ~ sid, 'uri_method': 'post', 'submit_label': '<i class="fa fa-check"></i>'},
+            {'key': 'virtualserver_min_clients_in_channel_before_forced_silence', 'type': 'number', 'uri': '/servers/edit/' ~ sid, 'uri_method': 'post', 'submit_label': '<i class="fa fa-check"></i>'},
+            {'key': 'virtualserver_priority_speaker_dimm_modificator', 'type': 'number', 'uri': '/servers/edit/' ~ sid, 'uri_method': 'post', 'submit_label': '<i class="fa fa-check"></i>'},
+            {'key': 'virtualserver_antiflood_points_tick_reduce', 'type': 'number', 'uri': '/servers/edit/' ~ sid, 'uri_method': 'post', 'submit_label': '<i class="fa fa-check"></i>'},
+            {'key': 'virtualserver_antiflood_points_needed_command_block', 'type': 'number', 'uri': '/servers/edit/' ~ sid, 'uri_method': 'post', 'submit_label': '<i class="fa fa-check"></i>'},
+            {'key': 'virtualserver_antiflood_points_needed_ip_block', 'type': 'number', 'uri': '/servers/edit/' ~ sid, 'uri_method': 'post', 'submit_label': '<i class="fa fa-check"></i>'},
+            {'key': 'virtualserver_hostbanner_url', 'type': 'text', 'uri': '/servers/edit/' ~ sid, 'uri_method': 'post', 'submit_label': '<i class="fa fa-check"></i>'},
+            {'key': 'virtualserver_hostbutton_url', 'type': 'text', 'uri': '/servers/edit/' ~ sid, 'uri_method': 'post', 'submit_label': '<i class="fa fa-check"></i>'},
+            {'key': 'virtualserver_hostbutton_tooltip', 'type': 'text', 'uri': '/servers/edit/' ~ sid, 'uri_method': 'post', 'submit_label': '<i class="fa fa-check"></i>'},
+            {'key': 'virtualserver_password', 'type': 'text', 'blank': true, 'uri': '/servers/edit/' ~ sid, 'uri_method': 'post', 'submit_label': '<i class="fa fa-check"></i>'},
+            {'key': 'virtualserver_hostbanner_gfx_interval', 'type': 'number', 'uri': '/servers/edit/' ~ sid, 'uri_method': 'post', 'submit_label': '<i class="fa fa-check"></i>'},
+            {'key': 'virtualserver_hostbanner_gfx_url', 'type': 'text', 'uri': '/servers/edit/' ~ sid, 'uri_method': 'post', 'submit_label': '<i class="fa fa-check"></i>'},
+            {'key': 'virtualserver_hostbutton_gfx_url', 'type': 'text', 'uri': '/servers/edit/' ~ sid, 'uri_method': 'post', 'submit_label': '<i class="fa fa-check"></i>'},
+            {'key': 'virtualserver_hostmessage', 'type': 'text', 'uri': '/servers/edit/' ~ sid, 'uri_method': 'post', 'submit_label': '<i class="fa fa-check"></i>'},
+            {'key': 'virtualserver_hostmessage_mode', 'type': 'select', 'options': messagemodes,'uri': '/servers/edit/' ~ sid, 'uri_method': 'post', 'submit_label': '<i class="fa fa-check"></i>'},
+            {'key': 'virtualserver_hostbanner_mode', 'type': 'select', 'options': bannermodes,'uri': '/servers/edit/' ~ sid, 'uri_method': 'post', 'submit_label': '<i class="fa fa-check"></i>'},
+            {'key': 'virtualserver_flag_password', 'type': 'checkbox','uri': '/servers/edit/' ~ sid, 'uri_method': 'post', 'submit_label': '<i class="fa fa-check"></i>'},
+            {'key': 'virtualserver_welcomemessage', 'type': 'text','uri': '/servers/edit/' ~ sid, 'uri_method': 'post', 'submit_label': '<i class="fa fa-check"></i>'},
+            {'key': 'virtualserver_codec_encryption_mode', 'type': 'select', 'options': encryptionmodes, 'uri': '/servers/edit/' ~ sid, 'uri_method': 'post', 'submit_label': '<i class="fa fa-check"></i>'},
+            {'key': 'virtualserver_log_client', 'type': 'select', 'options': loglevels, 'uri': '/servers/edit/' ~ sid, 'uri_method': 'post', 'submit_label': '<i class="fa fa-check"></i>'},
+            {'key': 'virtualserver_log_query', 'type': 'select', 'options': loglevels, 'uri': '/servers/edit/' ~ sid, 'uri_method': 'post', 'submit_label': '<i class="fa fa-check"></i>'},
+            {'key': 'virtualserver_log_channel', 'type': 'select', 'options': loglevels, 'uri': '/servers/edit/' ~ sid, 'uri_method': 'post', 'submit_label': '<i class="fa fa-check"></i>'},
+            {'key': 'virtualserver_log_permissions', 'type': 'select', 'options': loglevels, 'uri': '/servers/edit/' ~ sid, 'uri_method': 'post', 'submit_label': '<i class="fa fa-check"></i>'},
+            {'key': 'virtualserver_log_server', 'type': 'select', 'options': loglevels, 'uri': '/servers/edit/' ~ sid, 'uri_method': 'post', 'submit_label': '<i class="fa fa-check"></i>'},
+            {'key': 'virtualserver_log_filetransfer', 'type': 'select', 'options': loglevels, 'uri': '/servers/edit/' ~ sid, 'uri_method': 'post', 'submit_label': '<i class="fa fa-check"></i>'},
+        ]
+    } %}
+
+{% endblock %}

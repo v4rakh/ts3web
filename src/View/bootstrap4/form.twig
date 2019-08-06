@@ -1,0 +1,57 @@
+{% for form in fields %}
+
+    <h6>{{ form.header_label }}</h6>
+    {% set item = "#{form.uri}" %}
+
+    {% if form.uri_param is not empty %}
+        {% for searchingKey, searchingValue in arr %}
+            {% if searchingKey == form.uri_param %}
+                {% set item = "#{form.uri}\/#{searchingValue}" %}
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+
+    <form method="{{ form.uri_method }}" action="{{ item|raw }}">
+        {% for field in form.fields %}
+
+            {% if field.type == 'select' %}
+                <div class="form-group row">
+                    <label class="col-4 col-form-label" for="{{ field.key }}">{{ field.label }}</label>
+                    <div class="col-8">
+                        <select class="form-control form-control-sm" name="{{ field.key }}" id="{{ field.key }}">
+                            {% for k,v in field.options %}
+                                <option value="{{ v }}">{{ k }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            {% elseif field.type == 'checkbox' %}
+                <div class="form-group row">
+                <label class="col-4 col-form-label" for="{{ field.key }}">{{ field.label }}</label>
+                    <div class="col-8">
+                        <input class="form-control form-control-sm" type="hidden" name="{{ field.key }}"
+                               id="{{ editable.key }}" value="0"/>
+                        <input class="form-control form-control-sm" type="checkbox" name="{{ field.key }}"
+                               id="{{ field.key }}" value="1"/>
+                    </div>
+                </div>
+            {% else %}
+                <div class="form-group row">
+                    <label class="col-4 col-form-label" for="{{ field.key }}">{{ field.label }}</label>
+                    <div class="col-8">
+                        <input
+                                class="form-control form-control-sm"
+                                name="{{ field.key }}"
+                                id="{{ field.key }}"
+                                type="{{ field.type }}"/>
+                    </div>
+                </div>
+            {% endif %}
+            </div>
+        {% endfor %}
+
+        <div class="form-group">
+            <button class="btn btn-primary btn-sm" type="submit">{{ form.label|raw }}</button>
+        </div>
+    </form>
+{% endfor %}

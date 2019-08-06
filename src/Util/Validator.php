@@ -163,7 +163,6 @@ class Validator extends GUMP
                 case 'validate_set_min_len':
                     $resp[$field] = $this->translator->trans($e['rule'], ['%field%' => $this->translator->trans('form_field_' . strtolower(str_replace([' '], '', $field))), '%param%' => $param]);
                     break;
-
                 default:
                     $resp[$field] = $this->translator->trans($e['rule'], ['%field%' => $field, '%param%' => $param]);
             }

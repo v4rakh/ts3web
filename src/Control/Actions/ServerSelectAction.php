@@ -15,6 +15,7 @@ final class ServerSelectAction extends AbstractAction
 
         $this->session->set('sid', $sid);
         $this->session->set('sname', $this->ts->getInstance()->getElement('data', $dataResult)['virtualserver_name']);
+        $this->session->set('sport', $this->ts->getInstance()->getElement('data', $dataResult)['virtualserver_port']);
 
         $this->flash->addMessage('success', $this->translator->trans('done'));
         return $response->withRedirect('/servers');

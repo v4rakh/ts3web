@@ -49,8 +49,8 @@ $container['translator'] = function () use ($translator) {
 };
 
 // date
-Carbon::setLocale(getenv('site_language'));
-Carbon::setToStringFormat(getenv('site_date_format'));
+Carbon::setLocale(getenv(EnvConstants::SITE_LANGUAGE));
+Carbon::setToStringFormat(getenv(EnvConstants::SITE_DATE_FORMAT));
 
 // logger
 try {
@@ -70,7 +70,8 @@ $container['ts'] = function () use ($logger) {
 
 // auth
 $container['authAdapter'] = function ($container) {
-    $adapter = new TSAuthAdapter(getenv('teamspeak_default_host'), getenv('teamspeak_default_query_port'), $container['logger'], $container['ts']);
+    $adapter = new TSAuthAdapter(getenv(EnvConstants::TEAMSPEAK_HOST),
+        getenv(EnvConstants::TEAMSPEAK_QUERY_PORT), $container['logger'], $container['ts']);
     return $adapter;
 };
 $container['acl'] = function () {
@@ -94,10 +95,9 @@ $container['flash'] = function () {
     return new Slim\Flash\Messages;
 };
 $container['view'] = function ($container) use ($app) {
-    // theme
-    $themeDir = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'View' . DIRECTORY_SEPARATOR . getenv('theme');
+    $themeDir = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'View' . DIRECTORY_SEPARATOR . getenv(EnvConstants::THEME);
 
-    if (!empty(getenv('theme_cache')) && getenv('theme_cache') == 'true') {
+    if (!empty(getenv(EnvConstants::THEME_CACHE) && getenv(EnvConstants::THEME_CACHE) == 'true')) {
         $themeCacheDir = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'cache';
     } else {
         $themeCacheDir = false;
@@ -121,7 +121,7 @@ $container['view'] = function ($container) use ($app) {
 
     // translation
     $view->addExtension(new \Symfony\Bridge\Twig\Extension\TranslationExtension($container['translator']));
-    $view->getEnvironment()->getExtension('Twig_Extension_Core')->setDateFormat(getenv('site_date_format'));
+    $view->getEnvironment()->getExtension('Twig_Extension_Core')->setDateFormat(getenv(EnvConstants::SITE_DATE_FORMAT));
 
     // env
     $view->getEnvironment()->addFunction(new Twig_SimpleFunction('getenv', function($value) {

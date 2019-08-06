@@ -1,0 +1,23 @@
+{% extends 'layout.twig' %}
+
+{% block content %}
+    <h3>{{ title }}</h3>
+    {% if data|length > 0 %}
+        {% include 'table.twig' with {'data': data,
+            'filters': [
+                {'key': 'duration', 'apply': 'timeInSeconds'},
+                {'key': 'created', 'apply': 'timestamp'}
+            ],
+            'additional_links': [
+                {
+                    'header_label': 'bans.delete'|trans,
+                    'label': '<i class="fa fa-trash"></i>',
+                    'uri': '/bans/delete/' ~ sid,
+                    'uri_param': 'banid'
+                }
+            ]
+        } %}
+    {% else %}
+        {% include 'no_entities.twig' %}
+    {% endif %}
+{% endblock %}

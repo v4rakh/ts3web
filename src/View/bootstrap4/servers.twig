@@ -1,0 +1,64 @@
+{% extends 'layout.twig' %}
+
+{% block content %}
+    <h3>{{ title }}</h3>
+
+    <h5>{% trans %}servers.h.details{% endtrans %}</h5>
+    {% if data|length > 0 %}
+    {% include 'table.twig' with {'data': data,
+        'filters': [
+            {'key': 'virtualserver_uptime', 'apply': 'timeInSeconds'},
+        ],
+        'links': [
+            {'key': 'virtualserver_port', 'uri': '/servers', 'uri_param': 'virtualserver_id'},
+            {'key': 'virtualserver_clientsonline', 'uri': '/online', 'uri_param': 'virtualserver_id'}
+        ],
+        'hiddenColumns': ['virtualserver_id', 'virtualserver_autostart', 'virtualserver_machine_id'],
+        'additional_links': [
+            {
+                'header_label': 'servers.select'|trans,
+                'label': '<i class="fa fa-check"></i>',
+                'uri': '/servers/select',
+                'uri_param': 'virtualserver_id'
+            },
+            {
+                'header_label': 'servers.start'|trans,
+                'label': '<i class="fa fa-play"></i>',
+                'uri': '/servers/start',
+                'uri_param': 'virtualserver_id'
+            },
+            {
+                'header_label': 'servers.stop'|trans,
+                'label': '<i class="fa fa-stop"></i>',
+                'uri': '/servers/stop',
+                'uri_param': 'virtualserver_id'
+            },
+            {
+                'header_label': 'servers.delete'|trans,
+                'label': '<i class="fa fa-trash"></i>',
+                'uri': '/servers/delete',
+                'uri_param': 'virtualserver_id'
+            }
+        ],
+    } %}
+    {% else %}
+        {% include 'no_entities.twig' %}
+    {% endif %}
+
+    <h5>{% trans %}servers.h.create{% endtrans %}</h5>
+    {% include 'form.twig' with {
+        'fields': [
+            {
+                'header_label': 'server_create.label'|trans,
+                'label': '<i class="fa fa-check"></i>',
+                'uri': '/servers/create',
+                'uri_method': 'post',
+                'fields': [
+                    {'type': 'text', 'key': 'VIRTUALSERVER_NAME', 'label': 'server_create.VIRTUALSERVER_NAME'|trans},
+                    {'type': 'text', 'key': 'VIRTUALSERVER_PASSWORD', 'label': 'server_create.VIRTUALSERVER_PASSWORD'|trans},
+                    {'type': 'number', 'key': 'VIRTUALSERVER_PORT', 'label': 'server_create.VIRTUALSERVER_PORT'|trans},
+                    {'type': 'number', 'key': 'VIRTUALSERVER_MAXCLIENTS', 'label': 'server_create.VIRTUALSERVER_MAXCLIENTS'|trans},
+                ]
+            }]
+    } %}
+{% endblock %}

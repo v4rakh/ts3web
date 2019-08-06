@@ -1,0 +1,46 @@
+<div class="table-responsive">
+    <table class="table table-sm small sortable-bootstrap table-striped table-bordered" data-sortable>
+        <thead>
+        <tr>
+            <th>{% trans %}key{% endtrans %}</th>
+            <th>{% trans %}value{% endtrans %}</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        {% for key, value in data %}
+            <tr>
+                <td>{{ key|replace({'_' : ' '})|title }}</td>
+
+                <td>
+                    <!-- determine if cell should -->
+                    {% set editable = null %}
+                    {% for attr in attributesEditable %}
+                        {% if attr.key == key %}
+                            {% set editable = attr %}
+                        {% endif %}
+                    {% endfor %}
+
+                    <!-- apply filters to item -->
+                    {% set item = value %}
+                    {% for filter in filters %}
+                        {% if filter.key == key %}
+                            {% set item = value|apply_filter(filter.apply)|raw %}
+                        {% endif %}
+                    {% endfor %}
+
+                    <!-- cell is editable, generate a form -->
+                    {% if editable is not empty %}
+                        {% include 'form_inline.twig' with {'editable': editable} %}
+
+                    <!-- cell is static or a link-->
+                    {% else %}
+                        {{ item }}
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
+</div>

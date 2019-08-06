@@ -1,0 +1,18 @@
+{% extends 'layout.twig' %}
+
+{% block content %}
+    <h3>{{ title }}</h3>
+
+    {% if log|length > 0 %}
+
+        <div class="small">
+            {% for log in data %}
+                <code>{{ log.l }}</code>
+            {% endfor %}
+        </div>
+
+    {% else %}
+        {% include 'no_entities.twig' %}
+    {% endif %}
+
+{% endblock %}

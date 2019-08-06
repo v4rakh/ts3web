@@ -1,7 +1,10 @@
 <?php
 
 use Dotenv\Dotenv;
+use Monolog\Handler\ErrorLogHandler;
+use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
+use Monolog\Processor\UidProcessor;
 use Symfony\Component\Translation\Loader\YamlFileLoader;
 use Symfony\Component\Translation\MessageSelector;
 use Symfony\Component\Translation\Translator;
@@ -17,34 +20,20 @@ class BootstrapHelper
     public static function bootEnvironment()
     {
         $envPath = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'config';
-        $envFile = 'env';
 
-        $exists = is_file($envPath . DIRECTORY_SEPARATOR . $envFile);
-        if (!$exists) {
-            die('Configure your environment in ' . $envPath . '.');
-        } else {
-            $env = new Dotenv($envPath, $envFile);
-            $res = $env->load();
+        $defaultEnv = new Dotenv($envPath, EnvConstants::ENV_FILE_DEFAULT);
+        $defaultEnvRes = $defaultEnv->load();
 
-            try {
-                $env->required([
-                    'site_title',
-                    'site_language',
-                    'site_date_format',
-                    'theme',
-                    'theme_cache',
-                    'teamspeak_default_host',
-                    'teamspeak_default_query_port',
-                    'teamspeak_default_user',
-                    'log_name',
-                    'log_level'
-                ]);
-            } catch (\Dotenv\Exception\ValidationException $e) {
-                die($e->getMessage());
-            }
-
-            return $res;
+        $envFile = $envPath . DIRECTORY_SEPARATOR . EnvConstants::ENV_FILE_CUSTOM;
+        $envRes = [];
+        if (file_exists($envFile)) {
+            $env = new Dotenv($envPath, EnvConstants::ENV_FILE_CUSTOM);
+            $envRes = $env->load();
         }
+
+        $res = array_merge_recursive($defaultEnvRes, $envRes);
+
+        return $res;
     }
 
     /**
@@ -54,7 +43,7 @@ class BootstrapHelper
      */
     public static function bootTranslator()
     {
-        $translator = new Translator(getenv('site_language'), new MessageSelector());
+        $translator = new Translator(getenv(EnvConstants::SITE_LANGUAGE), new MessageSelector());
         $translator->addLoader('yaml', new YamlFileLoader());
 
         $localeDir = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'data' . DIRECTORY_SEPARATOR . 'locale';
@@ -64,7 +53,7 @@ class BootstrapHelper
             $translator->addResource('yaml', $locale, basename($locale, '.yml'));
         }
 
-        $translator->setFallbackLocales([getenv('site_language'), 'en']);
+        $translator->setFallbackLocales([getenv(EnvConstants::SITE_LANGUAGE), 'en']);
 
         return $translator;
     }
@@ -72,13 +61,13 @@ class BootstrapHelper
     /**
      * Bootstrap logger
      *
-     * @return \Monolog\Logger
+     * @return Logger
      * @throws Exception
      */
     public static function bootLogger()
     {
-        $logName = getenv('log_name');
-        $logLevel = getenv('log_level');
+        $logName = getenv(EnvConstants::LOG_NAME);
+        $logLevel = getenv(EnvConstants::LOG_LEVEL);
 
         switch ($logLevel) {
             case 'DEBUG':
@@ -110,11 +99,11 @@ class BootstrapHelper
         }
 
         $logger = new Monolog\Logger($logName);
-        $logger->pushProcessor(new \Monolog\Processor\UidProcessor());
-        $logger->pushHandler(new \Monolog\Handler\ErrorLogHandler(NULL, $logLevelTranslated));
+        $logger->pushProcessor(new UidProcessor());
+        $logger->pushHandler(new ErrorLogHandler(NULL, $logLevelTranslated));
 
         $logPath = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'log' . DIRECTORY_SEPARATOR . 'application.log';
-        $logger->pushHandler(new \Monolog\Handler\StreamHandler($logPath, $logLevelTranslated));
+        $logger->pushHandler(new StreamHandler($logPath, $logLevelTranslated));
 
         return $logger;
     }
