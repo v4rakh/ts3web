@@ -1,6 +1,7 @@
 <?php
 
 use Dotenv\Dotenv;
+use Dotenv\Exception\ValidationException;
 use Monolog\Handler\ErrorLogHandler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
@@ -27,19 +28,13 @@ class BootstrapHelper
         if (file_exists($envFile)) {
             $env = new Dotenv(realpath($envPath), EnvConstants::ENV_FILE);
             $res = $env->load();
-            $env->required([
-                EnvConstants::SITE_TITLE,
-                EnvConstants::SITE_LANGUAGE,
-                EnvConstants::SITE_DATE_FORMAT,
-                EnvConstants::THEME,
-                EnvConstants::THEME_CACHE,
-                EnvConstants::TEAMSPEAK_HOST,
-                EnvConstants::TEAMSPEAK_QUERY_PORT,
-                EnvConstants::TEAMSPEAK_USER,
-                EnvConstants::TEAMSPEAK_LOG_LINES,
-                EnvConstants::LOG_NAME,
-                EnvConstants::LOG_LEVEL
-            ]);
+
+            try {
+                $env->required(EnvConstants::ENV_REQUIRED);
+            } catch (ValidationException $e) {
+                die($e->getMessage());
+            }
+
             return $res;
         } else {
             die('No environment file found in ' . realpath($envFile));

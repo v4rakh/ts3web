@@ -215,7 +215,7 @@ $container['notFoundHandler'] = function ($container) {
 $container['errorHandler'] = function ($container) {
     return function (Request $request, Response $response, $exception) use ($container) {
 
-        // handle all teamspeak exceptions with a flash message
+        // handle all TeamSpeak exceptions with a flash message
         if ($exception instanceof TSException) {
             $container->flash->addMessage('error', $exception->getMessage());
 
@@ -230,9 +230,7 @@ $container['errorHandler'] = function ($container) {
                     'content'   => $exception->getMessage()
                 ]);
             }
-        }
-        // all others are 500
-        else {
+        } else {
             $container['logger']->error($container['translator']->trans('log.internal.application.error'), [
                 'file' => $exception->getFile(),
                 'line' => $exception->getLine(),

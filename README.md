@@ -37,8 +37,9 @@ you're using docker as deployment type.
 * Logs are saved in `/var/www/html/application/log` for docker containers. You should create a volume 
 for this location if you're using docker as deployment type.
 
-**Important**: Ensure that host binds have permissions set up properly. The user which is used in the docker container is `www-data` with
-id `82`. If, e.g. logs are host bound, then execute `chown -R 82:82 host/path/to/log`. The same holds true for snapshots.
+**Important**: Ensure that host binds have permissions set up properly. The user which is used in the docker container 
+is `www-data` with id `82`. If, e.g. logs are host bound, then execute `chown -R 82:82 host/path/to/log`. 
+The same holds true for snapshots.
 
 ### Usage with docker-compose
 The recommended way is to use docker-compose. The `network_mode = "host"` is required in order to show correct IP 

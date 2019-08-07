@@ -7,6 +7,9 @@ RUN apk add --no-cache git \
 # adjust nginx
 COPY docker/default.conf /etc/nginx/conf.d/default.conf
 COPY docker/nginx.conf /etc/nginx/nginx.conf
+RUN sed -i "s|upload_max_filesize = 2M|upload_max_filesize = 1024M|g" /etc/php/7.3/php.ini \
+    && sed -i "s|post_max_size = 8M|post_max_size = 1024M|g" /etc/php/7.3/php.ini \
+    && sed -i "s|max_execution_time = 30|max_execution_time = 86400|g" /etc/php/7.3/php.ini
 
 # copy application and set permissions
 COPY config/ /var/www/html/application/config/
@@ -16,10 +19,6 @@ COPY src/ /var/www/html/application/src/
 COPY composer.json /var/www/html/application/composer.json
 RUN mkdir -p /var/www/html/application/bin/ \
     && mkdir -p /var/www/html/application/cache/ \
-    && chmod -R 777 /var/www/html/application/data/ \
-    && mkdir -p /var/www/html/application/log/ \
-    && touch /var/www/html/application/log/application.log \
-    && chmod 777 /var/www/html/application/log/application.log \
     && chown -R www-data:www-data /var/www/html/application
 
 # initialize app

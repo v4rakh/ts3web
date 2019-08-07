@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2.1.2 - 2019/08/07
+* Minor refactoring
+* Update documentation
+
 ## 2.1.1 - 2019/08/07
 * Updated translation
 
