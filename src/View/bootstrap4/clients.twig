@@ -9,9 +9,9 @@
                 {'key': 'client_lastconnected', 'apply': 'timestamp'},
             ],
             'links': [
-                {'key': 'client_unique_identifier', 'uri': '/clients/' ~ sid, 'uri_param': 'cldbid'},
+                {'key': 'client_nickname', 'uri': '/clients/' ~ sid, 'uri_param': 'cldbid'},
             ],
-            'hiddenColumns': ['cldbid'],
+            'hiddenColumns': ['cldbid', 'client_unique_identifier'],
             'additional_links': [
                 {
                     'header_label': 'clients.delete'|trans,

@@ -24,9 +24,14 @@
 
     {% if serverGroups|length > 0 %}
         {% include 'table.twig' with {'data': serverGroups,
-            'links': [{'key': 'sgid', 'uri': '/servergroups/' ~ sid}],
-            'hiddenColumns': ['savedb', 'sortid', 'namemode', 'n_modifyp', 'n_member_addp', 'n_member_removep'],
+            'hiddenColumns': ['sgid', 'savedb', 'sortid', 'namemode', 'n_modifyp', 'n_member_addp', 'n_member_removep'],
             'additional_links': [
+                {
+                    'header_label': 'groups.servergroup'|trans,
+                    'label': '<i class="fa fa-info"></i>',
+                    'uri': '/servergroups/' ~ sid,
+                    'uri_param': 'sgid'
+                },
                 {
                     'header_label': 'groups.delete'|trans,
                     'label': '<i class="fa fa-trash"></i>',
@@ -70,9 +75,14 @@
 
     {% if channelGroups|length > 0 %}
         {% include 'table.twig' with {'data': channelGroups,
-            'links': [{'key': 'cgid', 'uri': '/channelgroups/' ~ sid}],
-            'hiddenColumns': ['savedb', 'sortid', 'namemode', 'n_modifyp', 'n_member_addp', 'n_member_removep'],
+            'hiddenColumns': ['cgid', 'savedb', 'sortid', 'namemode', 'n_modifyp', 'n_member_addp', 'n_member_removep'],
             'additional_links': [
+                {
+                    'header_label': 'groups.channelgroup'|trans,
+                    'label': '<i class="fa fa-info"></i>',
+                    'uri': '/channelgroups/' ~ sid,
+                    'uri_param': 'cgid'
+                },
                 {
                     'header_label': 'channelgroups.delete'|trans,
                     'label': '<i class="fa fa-trash"></i>',

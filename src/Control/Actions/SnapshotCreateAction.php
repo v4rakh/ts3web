@@ -3,6 +3,7 @@
 use Carbon\Carbon;
 use Slim\Http\Request;
 use Slim\Http\Response;
+use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
 
 final class SnapshotCreateAction extends AbstractAction
@@ -23,8 +24,13 @@ final class SnapshotCreateAction extends AbstractAction
         if ($fileSystem->exists($path)) {
             $this->flash->addMessage('error', $this->translator->trans('file.exists'));
         } else {
-            $fileSystem->appendToFile($path, trim($snapshotCreateResult['data']));
-            $this->flash->addMessage('success', $this->translator->trans('done'));
+            try {
+                $fileSystem->appendToFile($path, trim($snapshotCreateResult['data']));
+                $this->flash->addMessage('success', $this->translator->trans('done'));
+            } catch (IOException $e) {
+                $this->logger->error('Could not write to ' . $path . '. Cause: ' . $e->getMessage());
+                $this->flash->addMessage('error', $this->translator->trans('snapshots.error.create'));
+            }
         }
 
         return $response->withRedirect('/snapshots/' . $sid);

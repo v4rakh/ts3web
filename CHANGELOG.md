@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## 2.1.0 - 2019/08/07
+* Fixed file handling on snapshots
+* Cleaned up template links
+* Updated documentation
+* Added application log view
+* Fixed files view 
+* Added show total used space for files in a channel
+* Added file delete action
+* Removed about modal
+
 ## 2.0.0 - 2019/08/06
 * Replace material design with bootstrap4 theme
 * Add an about modal

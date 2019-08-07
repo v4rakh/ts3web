@@ -8,6 +8,10 @@
                 {'key': 'duration', 'apply': 'timeInSeconds'},
                 {'key': 'created', 'apply': 'timestamp'}
             ],
+            'hiddenColumns': ['banid', 'name', 'invokercldbid', 'invokeruid'],
+            'links': [
+                {'key': 'invokername', 'uri': '/clients/' ~ sid, 'uri_param': 'invokercldbid'},
+            ],
             'additional_links': [
                 {
                     'header_label': 'bans.delete'|trans,

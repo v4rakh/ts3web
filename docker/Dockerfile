@@ -19,7 +19,8 @@ RUN mkdir -p /var/www/html/application/bin/ \
     && chmod -R 777 /var/www/html/application/data/ \
     && mkdir -p /var/www/html/application/log/ \
     && touch /var/www/html/application/log/application.log \
-    && chmod 777 /var/www/html/application/log/application.log
+    && chmod 777 /var/www/html/application/log/application.log \
+    && chown -R www-data:www-data /var/www/html/application
 
 # initialize app
 RUN cd /var/www/html/application/ \

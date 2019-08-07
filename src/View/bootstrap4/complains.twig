@@ -7,6 +7,11 @@
             'filters': [
                 {'key': 'timestamp', 'apply': 'timestamp'},
             ],
+            'hiddenColumns': ['tcldbid', 'fcldbid'],
+            'links': [
+                {'key': 'tname', 'uri': '/clients/' ~ sid, 'uri_param': 'tcldbid'},
+                {'key': 'fname', 'uri': '/clients/' ~ sid, 'uri_param': 'fcldbid'}
+            ],
             'additional_links': [
                 {
                     'header_label': 'complains.delete'|trans,

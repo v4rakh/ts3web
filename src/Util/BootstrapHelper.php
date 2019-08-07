@@ -5,6 +5,8 @@ use Monolog\Handler\ErrorLogHandler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Monolog\Processor\UidProcessor;
+use Symfony\Component\Filesystem\Exception\IOException;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Translation\Loader\YamlFileLoader;
 use Symfony\Component\Translation\MessageSelector;
 use Symfony\Component\Translation\Translator;
@@ -34,6 +36,7 @@ class BootstrapHelper
                 EnvConstants::TEAMSPEAK_HOST,
                 EnvConstants::TEAMSPEAK_QUERY_PORT,
                 EnvConstants::TEAMSPEAK_USER,
+                EnvConstants::TEAMSPEAK_LOG_LINES,
                 EnvConstants::LOG_NAME,
                 EnvConstants::LOG_LEVEL
             ]);
@@ -109,9 +112,43 @@ class BootstrapHelper
         $logger->pushProcessor(new UidProcessor());
         $logger->pushHandler(new ErrorLogHandler(NULL, $logLevelTranslated));
 
-        $logPath = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'log' . DIRECTORY_SEPARATOR . 'application.log';
-        $logger->pushHandler(new StreamHandler($logPath, $logLevelTranslated));
+        $dir = self::getLogDir();
+        $path = self::getLogFile();
+
+        try {
+            $fileSystem = new Filesystem();
+
+            if (!$fileSystem->exists($dir)) {
+                $fileSystem->mkdir($dir);
+            }
+
+            if (!$fileSystem->exists($path)) {
+                $fileSystem->touch($path);
+            }
+        } catch (IOException $e) {
+            die('Could not create logger. Cause: ' . $e->getMessage() . '. Trace: ' . $e->getTraceAsString());
+        }
+
+        $logger->pushHandler(new StreamHandler($path, $logLevelTranslated));
 
         return $logger;
+    }
+
+    /**
+     * Returns log dir
+     *
+     * @return string
+     */
+    public static function getLogDir() {
+        return __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'log';
+    }
+
+    /**
+     * Returns log file
+     *
+     * @return string
+     */
+    public static function getLogFile() {
+        return self::getLogDir() . DIRECTORY_SEPARATOR . 'application.log';
     }
 }

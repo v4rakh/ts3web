@@ -58,7 +58,7 @@ validate_valid_url: "The %field% field is required to be a valid URL."
 # menu
 menu.instance: "Instance"
 menu.servers: "Servers"
-menu.logs: "Instance Log"
+menu.logs: "Logs"
 menu.profile: "Profile"
 
 menu.servers.info: "Info"
@@ -76,7 +76,6 @@ menu.servers.logs: "Log"
 # titles
 instance.title: "Instance"
 servers.title: "Servers"
-logs.title: "Latest 100 Log Entries"
 server_info.title: "Server Info"
 online.title: "Online Clients"
 online_info.title: "Online Info"
@@ -93,6 +92,9 @@ profile.title: "Profile"
 tokens.title: "Tokens"
 snapshots.title: "Snapshots"
 passwords.title: "Passwords"
+instance_logs.title: "Instance log: latest 100 entries"
+server_logs.title: "Server log: latest 100 entries"
+app_log.title: "Application log"
 
 # dynamic render of key value pairs
 key: "Attribute"
@@ -157,16 +159,23 @@ channels.create.parent: "Parent"
 channel_info.h.files: "Files"
 channel_info.h.actions: "Actions"
 channel_info.h.details: "Details"
-channel_info.h.clients: "Clients"
+channel_info.h.clients: "Current clients"
 channel_info.send: "Send a message"
 channel_info.send.message: "Message"
 channel_info.client: "Client"
 channel_info.files.delete: "Delete"
-
+channel_info.files.h.path: "Path"
+channel_info.files.h.type: "Type"
+channel_info.files.h.size: "Size"
+channel_info.files.h.datetime: "Datetime"
+channel_info.files.h.delete: "Delete"
+channel_info.files.delete.success: "Deleted %file%."
 # groups
 groups.delete: "Delete"
 groups.h.servergroups: "Server Groups"
 groups.h.channelgroups: "Channel Groups"
+groups.servergroup: "Server Group"
+groups.channelgroup: "Channel Group"
 
 # groups create/copy
 groups.create: "Create or copy"
@@ -262,6 +271,9 @@ snapshots.create: "Create a new snapshot"
 snapshots.h.details: "Details"
 snapshots.deploy: "Deploy"
 snapshots.delete: "Delete"
+snapshots.error.create: "An error occurred when creating a snapshot. Please view the application log."
+snapshots.error.delete: "An error occurred when deleting a snapshot. Please view the application log."
+snapshots.error.deploy: "An error occurred when deploying a snapshot. Please view the application log."
 
 # passwords
 passwords.h.actions: "Actions"
@@ -272,10 +284,4 @@ passwords.add.duration: "Duration (in seconds)"
 passwords.add.description: "Description"
 passwords.add.channel: "Channel (user joins)"
 passwords.add.channel_password: "Channelpassword"
-
-# about
-about.header: "About %name%"
-about.body: |
-  ts3web is a web interface for one TeamSpeak 3 Server. It's using serverquery to login. This web interface aims to be as simple as possible. The minimalistic approach is intentional.
-
-  Feel free to submit pull requests if you like to help. More information are here: https://hub.docker.com/r/varakh/ts3web
+passwords.channel: "Channel"

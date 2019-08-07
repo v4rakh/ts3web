@@ -11,17 +11,21 @@ final class LogsAction extends AbstractAction
         if (array_key_exists('sid', $args)) $sid = $args['sid'];
 
         $this->ts->login($this->auth->getIdentity()['user'], $this->auth->getIdentity()['password']);
+
+        $appLog = [];
         if (empty($sid)) {
-            $dataResult = $this->ts->getInstance()->logView(100, 1, 1);
+            $dataResult = $this->ts->getInstance()->logView(getenv(EnvConstants::TEAMSPEAK_LOG_LINES), 1, 1);
+            $appLog = explode("\n", file_get_contents(BootstrapHelper::getLogFile()));
         } else {
             $selectResult = $this->ts->getInstance()->selectServer($sid, 'serverId');
-            $dataResult = $this->ts->getInstance()->logView(100, 1, 0);
+            $dataResult = $this->ts->getInstance()->logView(getenv(EnvConstants::TEAMSPEAK_LOG_LINES), 1, 0);
         }
 
         // render GET
         $this->view->render($response, 'logs.twig', [
-            'title' => $this->translator->trans('logs.title'),
-            'data' => $this->ts->getInstance()->getElement('data', $dataResult),
+            'title' => empty($sid) ? $this->translator->trans('instance_logs.title') : $this->translator->trans('server_logs.title'),
+            'log' => $this->ts->getInstance()->getElement('data', $dataResult),
+            'appLog' => $appLog,
         ]);
     }
 }

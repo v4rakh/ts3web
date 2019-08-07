@@ -39,13 +39,9 @@
 
     {% if files|length > 0 %}
         <h5>{% trans %}channel_info.h.files{% endtrans %}</h5>
-        {% include 'table.twig' with {'data': files,
-            'filters': [
-                {'key': 'datetime', 'apply': 'timestamp'},
-                {'key': 'size', 'apply': 'file'},
-            ],
-            'hiddenColumns': ['cid', 'type']
-        } %}
+        {% if files|length > 0 %}
+            {% include 'files.twig' with {'data': files} %}
+        {% endif %}
     {% endif %}
 
     <h5>{% trans %}channel_info.h.details{% endtrans %}</h5>

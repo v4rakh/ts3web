@@ -70,6 +70,7 @@ class ACL extends \Zend\Permissions\Acl\Acl
         '/channels/edit/{sid}/{cid}',
         '/channels/delete/{sid}/{cid}',
         '/channels/send/{sid}/{cid}',
+        '/channels/files/delete/{sid}/{cid}',
 
         '/groups/{sid}',
 

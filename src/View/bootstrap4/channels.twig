@@ -26,7 +26,8 @@
     {% if channels|length > 0 %}
         <h5>{% trans %}channels.h.details{% endtrans %}</h5>
         {% include 'table.twig' with {'data': channels,
-            'links': [{'key': 'cid', 'uri': '/channels/' ~ sid}],
+            'links': [{'key': 'channel_name', 'uri': '/channels/' ~ sid, 'uri_param': 'cid'}, {'key': 'pid', 'uri': '/channels/' ~ sid, 'uri_param': 'pid'}],
+            'hiddenColumns': ['cid'],
             'additional_links': [
                 {
                     'header_label': 'channels.delete'|trans,

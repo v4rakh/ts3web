@@ -6,8 +6,8 @@
     {% if log|length > 0 %}
 
         <div class="small">
-            {% for log in data %}
-                <code>{{ log.l }}</code>
+            {% for line in log %}
+                <code>{{ line.l }}</code><br/>
             {% endfor %}
         </div>
 
@@ -15,4 +15,13 @@
         {% include 'no_entities.twig' %}
     {% endif %}
 
+    {% if appLog|length > 0 %}
+        <br />
+        <h3>{% trans %}app_log.title{% endtrans %}</h3>
+        <div class="small">
+            {% for line in appLog %}
+                <code>{{ line }}</code><br/>
+            {% endfor %}
+        </div>
+    {% endif %}
 {% endblock %}

@@ -45,18 +45,21 @@ final class ChannelInfoAction extends AbstractAction
         if (!empty($foundFiles)) {
             foreach ($foundFiles as $file) {
 
-                if ($file['type'] !== "0") {
+                if ($file['type'] !== "0") { // a file
                     $file['path'] = $path;
                     $files[] = $file;
                 }
 
-                if ($file['type'] === "0") {
+                if ($file['type'] === "0") { // a directory
 
                     if ($path === '/') {
                         $newPath = $path . $file['name'];
                     } else {
                         $newPath = $path . '/' . $file['name'];
                     }
+
+                    $file['path'] = $path;
+                    $files[] = $file;
 
                     $files = $this->getAllFilesIn($sid, $cid, $newPath, $files);
                 }

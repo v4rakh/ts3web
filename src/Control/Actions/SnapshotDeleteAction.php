@@ -3,6 +3,7 @@
 use Carbon\Carbon;
 use Slim\Http\Request;
 use Slim\Http\Response;
+use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
 
 final class SnapshotDeleteAction extends AbstractAction
@@ -21,15 +22,19 @@ final class SnapshotDeleteAction extends AbstractAction
         if (!$fileSystem->exists($path)) {
             $this->flash->addMessage('error', $this->translator->trans('file.notexists'));
         } else {
-            $fileSystem->remove($path);
+            try {
+                $fileSystem->remove($path);
+                $serverPath = FileHelper::SNAPSHOTS_PATH . DIRECTORY_SEPARATOR . $sid;
 
-            $serverPath = FileHelper::SNAPSHOTS_PATH . DIRECTORY_SEPARATOR . $sid;
+                if (count(FileHelper::getFiles($serverPath)) == 0) {
+                    $fileSystem->remove($serverPath);
+                }
 
-            if (count(FileHelper::getFiles($serverPath)) == 0) {
-                $fileSystem->remove($serverPath);
+                $this->flash->addMessage('success', $this->translator->trans('done'));
+            } catch (IOException $e) {
+                $this->logger->error('Could not delete ' . $path . '. Cause: ' . $e->getMessage());
+                $this->flash->addMessage('error', $this->translator->trans('snapshots.error.delete'));
             }
-
-            $this->flash->addMessage('success', $this->translator->trans('done'));
         }
 
         return $response->withRedirect('/snapshots/' . $sid);

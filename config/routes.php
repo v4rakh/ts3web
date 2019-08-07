@@ -294,6 +294,11 @@ $container[ChannelSendAction::class] = function ($container) {
 };
 $app->post('/channels/send/{sid}/{cid}', ChannelSendAction::class);
 
+$container[ChannelFilesDeleteAction::class] = function ($container) {
+    return new ChannelFilesDeleteAction($container);
+};
+$app->get('/channels/files/delete/{sid}/{cid}', ChannelFilesDeleteAction::class);
+
 // tokens
 $container[TokensAction::class] = function ($container) {
     return new TokensAction($container);

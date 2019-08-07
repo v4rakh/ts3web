@@ -10,8 +10,13 @@ error_reporting(E_ALL);
  */
 
 use Carbon\Carbon;
+use JeremyKendall\Slim\Auth\ServiceProvider\SlimAuthProvider;
 use Slim\Http\Request;
 use Slim\Http\Response;
+use Slim\Middleware\Session;
+use Slim\Views\Twig;
+use Slim\Views\TwigExtension;
+use SlimSession\Helper;
 
 // To help the built-in PHP dev server, check if the request was actually for
 // something which should probably be served as a static file
@@ -77,17 +82,17 @@ $container['authAdapter'] = function ($container) {
 $container['acl'] = function () {
     return new ACL();
 };
-$container->register(new \JeremyKendall\Slim\Auth\ServiceProvider\SlimAuthProvider());
+$container->register(new SlimAuthProvider());
 $app->add($app->getContainer()->get('slimAuthRedirectMiddleware'));
 
 // session
-$app->add(new \Slim\Middleware\Session([
+$app->add(new Session([
     'name' => 'dummy_session',
     'autorefresh' => true,
     'lifetime' => '1 hour'
 ]));
 $container['session'] = function () {
-    return new \SlimSession\Helper;
+    return new Helper;
 };
 
 // view
@@ -103,8 +108,8 @@ $container['view'] = function ($container) use ($app) {
         $themeCacheDir = false;
     }
 
-    $view = new \Slim\Views\Twig($themeDir, ['cache' => $themeCacheDir]);
-    $view->addExtension(new \Slim\Views\TwigExtension(
+    $view = new Twig($themeDir, ['cache' => $themeCacheDir]);
+    $view->addExtension(new TwigExtension(
         $container['router'],
         $container['request']->getUri()
     ));

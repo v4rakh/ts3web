@@ -1,28 +1,46 @@
 # README
-
-ts3web is a web interface for one TeamSpeak 3 Server. It's using serverquery to login.
+ts3web is a free and open-source web interface for TeamSpeak 3 instances.
  
-This web interface aims to be as simple as possible. The minimalistic approach is intentional.
+The minimalistic approach of this application is intentional.
 
-Feel free to submit pull requests if you like to help. More information are here: [https://hub.docker.com/r/varakh/ts3web](https://hub.docker.com/r/varakh/ts3web)
+* Docker images available on https://hub.docker.com/r/varakh/ts3web
+* Sources are hosted on https://git.myservermanager.com/alexander.schaeferdiek/ts3web
 
-Features which are currently **not supported**:
+## Limitations
+Features which are currently not supported:
 
+* upload files (only viewing and deleting)
 * modify permissions (only viewing)
-* modify files (only viewing)
 
-**ts3web** can be deployed in different ways. See below for more information. For each deployment type a running 
-TeamSpeak 3 server is a prerequisite (except for the `docker-compose.yml` type which will start also the server if 
-needed).
+## F.A.Q
+
+###### There are lots of TeamSpeak 3 web interfaces out. Why should I pick ts3web? 
+Free, simple, stateless, easy to extend, standard bootstrap theme.
+
+###### I always get `TSException: Error: host isn't a ts3 instance!` when selecting a server.
+You probably got query banned from your server. You need to properly define your `whitelist.txt` file and include it in 
+your TeamSpeak application.
 
 ## Configuration
-
 The main configuration file is the `env` file located in `config/`. There's an example file called `env.example` 
-which you can copy to `config/env`. Defaults will assume you're running your TeamSpeak server on `localhost` with 
+which you **need* to copy to `config/env`. Defaults will assume you're running your TeamSpeak server on `localhost` with 
 default port. Docker deployments can host bind this file into the container directly and just maintain the `env` file.
 
-## Usage with docker-compose
+## Deployment
+The application can be deployed in different ways. See below for more information. For each deployment type a running 
+TeamSpeak 3 instance is a prerequisite (except for the `docker-compose.yml` type which will start also the server if 
+needed).
 
+### Exposed volumes on docker images
+* Snapshots are saved in `/var/www/html/application/data/snapshots`. You should create a volume for this location if 
+you're using docker as deployment type.
+* Logs are saved in `/var/www/html/application/log` for docker containers. You should create a volume 
+for this location if you're using docker as deployment type.
+
+**Important**: Ensure that host binds have permissions set up properly. The user which is used in the docker container is `www-data` with
+id `82`. If, e.g. logs are host bound, then execute `chown -R 82:82 host/path/to/log`. The same holds true for snapshots.
+
+### Usage with docker-compose
 The recommended way is to use docker-compose. The `network_mode = "host"` is required in order to show correct IP 
 addresses of connected users.
 
@@ -59,6 +77,7 @@ services:
     volumes:
       - ./env:/var/www/html/application/config/env
       - ./snapshots:/var/www/html/application/data/snapshots
+      - ./log:/var/www/html/application/log
     ports:
       - 127.0.0.1:8181:80
     depends_on:
@@ -76,16 +95,13 @@ Your TeamSpeak 3 Server will be available under `public-server-ip:9987`. The web
 For testing purposes, change `- 127.0.0.1:8181:80` to `- 8181:80`. The web interface will then be available under 
 `public-server-ip:8181`. This is **not recommended**! Secure your setup properly via reverse proxy and SSL.
 
-Snapshots are saved in `/var/www/html/application/data/snapshots`. You should create a volume for this location.
-
-## Usage as single docker container
-
+### Usage as single docker container
 * Copy `env.example` to `env` and adjust to your needs. It's recommended to make it persistent outside of the container.
 * Create a container with the image, e.g. `docker run --name teamspeak_web -v ./env:/var/www/html/application/config/env -p 8181:80 varakh/ts3web:latest`. 
 * Make sure that if teamspeak and ts3web share the same docker instance they should be put into one network and the subnet **needs be added to teamspeak's query whitelist**.
 * Point your browser to `8181` to see the web interface. 
 
-## Usage as native application
+### Usage as native application
 **Prerequisite**: `php`, `composer` and probably `php-fpm` installed on the server.
 
 To install:
@@ -100,7 +116,7 @@ To upgrade:
 * `git pull`
 * `composer update`
 
-## Web server setup
+### Web server setup
 * Example `nginx.conf` for **standalone** deployment without SSL:
 
     ```  
@@ -153,7 +169,6 @@ To upgrade:
 * Tag the release git commit and create a new release in the VCS web interface 
 
 ### Helpers
-
 Attributes can be defined when including `table`, `keyvalues` and `form` templates of twig. This helps to generate tables and forms without the need to specify all attributes.
 
 ```

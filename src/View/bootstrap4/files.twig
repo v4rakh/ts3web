@@ -1,0 +1,42 @@
+<div class="table-responsive">
+    <table class="table table-sm small sortable-bootstrap table-striped table-bordered" data-sortable>
+        <thead>
+        <tr>
+            <th scope="col">{% trans %}channel_info.files.h.type{% endtrans %}</th>
+            <th scope="col">{% trans %}channel_info.files.h.path{% endtrans %}</th>
+            <th scope="col">{% trans %}channel_info.files.h.size{% endtrans %}</th>
+            <th scope="col">{% trans %}channel_info.files.h.datetime{% endtrans %}</th>
+            <th scope="col">{% trans %}channel_info.files.h.delete{% endtrans %}</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        {% set total = 0 %}
+        {% for file in data %}
+            {% set total = total + file.size %}
+            {% if file.path is empty %}
+                {% set path = file.name %}
+            {% elseif file.path == '/' %}
+                {% set path = '/' ~ file.name %}
+            {% else %}
+                {% set path = file.path ~ '/' ~ file.name %}
+            {% endif %}
+
+            <tr>
+                <td>{{ file.type == 0 ? '<i class="fa fa-folder"></i>' : '<i class="fa fa-file-o"></i>' }}</td>
+                <td>{{ path }}</td>
+                <td>{{ file.size == 0 ? '' : file.size|file }}</td>
+                <td>{{ file.datetime|timestamp }}</td>
+                <td><a href="/channels/files/delete/{{ sid }}/{{ cid }}?file={{ path }}"><i class="fa fa-trash"></i></a></td>
+            </tr>
+        {% endfor %}
+        <tr>
+            <td></td>
+            <td></td>
+            <td class="font-weight-bold">{{ total|file }}</td>
+            <td></td>
+            <td></td>
+        </tr>
+        </tbody>
+    </table>
+</div>

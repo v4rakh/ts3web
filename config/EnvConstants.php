@@ -51,6 +51,11 @@ class EnvConstants
     const TEAMSPEAK_USER = "teamspeak_user";
 
     /**
+     * TeamSpeak log lines
+     */
+    const TEAMSPEAK_LOG_LINES = "teamspeak_log_lines";
+
+    /**
      * Log name
      */
     const LOG_NAME = "log_name";
