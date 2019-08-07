@@ -92,8 +92,8 @@ profile.title: "Profile"
 tokens.title: "Tokens"
 snapshots.title: "Snapshots"
 passwords.title: "Passwords"
-instance_logs.title: "Instance log: latest 100 entries"
-server_logs.title: "Server log: latest 100 entries"
+instance_logs.title: "Instance log"
+server_logs.title: "Server log"
 app_log.title: "Application log"
 
 # dynamic render of key value pairs

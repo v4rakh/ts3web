@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 2.1.1 - 2019/08/07
+* Updated translation
+
 ## 2.1.0 - 2019/08/07
 * Fixed file handling on snapshots
 * Cleaned up template links
