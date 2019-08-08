@@ -11,7 +11,7 @@ final class OnlineInfoAction extends AbstractAction
         $clid = $args['clid'];
 
         $this->ts->login($this->auth->getIdentity()['user'], $this->auth->getIdentity()['password']);
-        $selectResult = $this->ts->getInstance()->selectServer($sid, 'serverId');
+        $this->ts->getInstance()->selectServer($sid, 'serverId');
 
         $dataResult = $this->ts->getInstance()->clientInfo($clid);
 
@@ -23,7 +23,6 @@ final class OnlineInfoAction extends AbstractAction
             $channels[$channel['channel_name']] = $channel['cid'];
         }
 
-        // render GET
         $this->view->render($response, 'online_info.twig', [
             'title' => $this->translator->trans('online_info.title') . ' ' . $clid,
             'data' => $this->ts->getInstance()->getElement('data', $dataResult),

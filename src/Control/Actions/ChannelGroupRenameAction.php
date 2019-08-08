@@ -14,10 +14,8 @@ final class ChannelGroupRenameAction extends AbstractAction
         $name = $body['name'];
 
         $this->ts->login($this->auth->getIdentity()['user'], $this->auth->getIdentity()['password']);
-        $selectResult = $this->ts->getInstance()->selectServer($sid, 'serverId');
-
-        $groupRenameResult = $this->ts->getInstance()->channelGroupRename($cgid, $name);
-
+        $this->ts->getInstance()->selectServer($sid, 'serverId');
+        $this->ts->getInstance()->channelGroupRename($cgid, $name);
         $this->flash->addMessage('success', $this->translator->trans('done'));
 
         return $response->withRedirect('/groups/' . $sid);

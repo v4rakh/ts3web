@@ -12,7 +12,7 @@ final class PasswordDeleteAction extends AbstractAction
         $password = $body['pw_clear'];
 
         $this->ts->login($this->auth->getIdentity()['user'], $this->auth->getIdentity()['password']);
-        $selectResult = $this->ts->getInstance()->selectServer($sid, 'serverId');
+        $this->ts->getInstance()->selectServer($sid, 'serverId');
 
         $passwordDeleteResult = $this->ts->getInstance()->serverTempPasswordDel($password);
 

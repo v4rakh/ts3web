@@ -11,11 +11,10 @@ final class ServerEditAction extends AbstractAction
         $body = $request->getParsedBody();
 
         $this->ts->login($this->auth->getIdentity()['user'], $this->auth->getIdentity()['password']);
-        $selectResult = $this->ts->getInstance()->selectServer($sid, 'serverId');
-
-        $dataResult = $this->ts->getInstance()->serverEdit($body);
-
+        $this->ts->getInstance()->selectServer($sid, 'serverId');
+        $this->ts->getInstance()->serverEdit($body);
         $this->flash->addMessage('success', $this->translator->trans('server_edit.edited.success', ['%sid%' => $sid]));
+
         return $response->withRedirect('/servers/' . $sid);
     }
 }

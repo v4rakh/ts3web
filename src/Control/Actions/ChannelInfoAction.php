@@ -11,16 +11,13 @@ final class ChannelInfoAction extends AbstractAction
         $cid = $args['cid'];
 
         $this->ts->login($this->auth->getIdentity()['user'], $this->auth->getIdentity()['password']);
-        $selectResult = $this->ts->getInstance()->selectServer($sid, 'serverId');
-
+        $this->ts->getInstance()->selectServer($sid, 'serverId');
         $channelResult = $this->ts->getInstance()->channelInfo($cid);
-
         $clientsResult = $this->ts->getInstance()->channelClientList($cid);
 
         $files = [];
         $files['data'] = $this->getAllFilesIn($sid, $cid, '/');
 
-        // render GET
         $this->view->render($response, 'channel_info.twig', [
             'title' => $this->translator->trans('channel_info.title') . ' ' . $cid,
             'files' => $this->ts->getInstance()->getElement('data', $files),
@@ -36,10 +33,8 @@ final class ChannelInfoAction extends AbstractAction
     private function getAllFilesIn($sid, $cid, $path, &$files = [])
     {
         $this->ts->login($this->auth->getIdentity()['user'], $this->auth->getIdentity()['password']);
-        $selectResult = $this->ts->getInstance()->selectServer($sid, 'serverId');
-
+        $this->ts->getInstance()->selectServer($sid, 'serverId');
         $fileResult = $this->ts->getInstance()->ftGetFileList($cid, '', $path);
-
         $foundFiles = $fileResult['data'];
 
         if (!empty($foundFiles)) {

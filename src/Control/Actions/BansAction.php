@@ -11,11 +11,10 @@ final class BansAction extends AbstractAction
 
         $this->ts->login($this->auth->getIdentity()['user'], $this->auth->getIdentity()['password']);
 
-        $selectResult = $this->ts->getInstance()->selectServer($sid, 'serverId');
+        $this->ts->getInstance()->selectServer($sid, 'serverId');
 
         $banListResult = $this->ts->getInstance()->banList();
 
-        // render GET
         $this->view->render($response, 'bans.twig', [
             'title' => $this->translator->trans('bans.title'),
             'data' => $this->ts->getInstance()->getElement('data', $banListResult),

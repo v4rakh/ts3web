@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 2.1.3 - 2019/08/08
+* Fixed false rendering of forms
+* Fixed channel tree view showing the wrong virtual server after selection
+* Minor code refactor
+
 ## 2.1.2 - 2019/08/07
 * Minor refactoring
 * Update documentation

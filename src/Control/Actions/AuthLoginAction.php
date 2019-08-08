@@ -41,7 +41,6 @@ final class AuthLoginAction extends AbstractAction
             }
         }
 
-        // render GET
         $this->view->render($response, 'login.twig', [
             'title'     => $this->translator->trans('login.title'),
         ]);

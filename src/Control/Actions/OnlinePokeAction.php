@@ -13,9 +13,8 @@ final class OnlinePokeAction extends AbstractAction
         $body = $request->getParsedBody();
 
         $this->ts->login($this->auth->getIdentity()['user'], $this->auth->getIdentity()['password']);
-        $selectResult = $this->ts->getInstance()->selectServer($sid, 'serverId');
-
-        $dataResult = $this->ts->getInstance()->clientPoke($clid, $body['message']);
+        $this->ts->getInstance()->selectServer($sid, 'serverId');
+        $this->ts->getInstance()->clientPoke($clid, $body['message']);
 
         $this->flash->addMessage('success', $this->translator->trans('online.poked.success', ['%clid%' => $clid]));
         return $response->withRedirect('/online/' . $sid . '/' . $clid);

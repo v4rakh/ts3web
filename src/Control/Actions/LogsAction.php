@@ -17,11 +17,10 @@ final class LogsAction extends AbstractAction
             $dataResult = $this->ts->getInstance()->logView(getenv(EnvConstants::TEAMSPEAK_LOG_LINES), 1, 1);
             $appLog = explode("\n", file_get_contents(BootstrapHelper::getLogFile()));
         } else {
-            $selectResult = $this->ts->getInstance()->selectServer($sid, 'serverId');
+            $this->ts->getInstance()->selectServer($sid, 'serverId');
             $dataResult = $this->ts->getInstance()->logView(getenv(EnvConstants::TEAMSPEAK_LOG_LINES), 1, 0);
         }
 
-        // render GET
         $this->view->render($response, 'logs.twig', [
             'title' => empty($sid) ? $this->translator->trans('instance_logs.title') : $this->translator->trans('server_logs.title'),
             'log' => $this->ts->getInstance()->getElement('data', $dataResult),

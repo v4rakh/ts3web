@@ -12,9 +12,9 @@ final class ServerGroupRemoveAction extends AbstractAction
         $cldbid = $args['cldbid'];
 
         $this->ts->login($this->auth->getIdentity()['user'], $this->auth->getIdentity()['password']);
-        $selectResult = $this->ts->getInstance()->selectServer($sid, 'serverId');
+        $this->ts->getInstance()->selectServer($sid, 'serverId');
 
-        $groupRemoveResult = $this->ts->getInstance()->serverGroupDeleteClient($sgid, $cldbid);
+        $this->ts->getInstance()->serverGroupDeleteClient($sgid, $cldbid);
 
         $this->flash->addMessage('success', $this->translator->trans('removed'));
 

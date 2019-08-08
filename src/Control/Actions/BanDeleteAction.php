@@ -11,10 +11,8 @@ final class BanDeleteAction extends AbstractAction
         $banId = $args['banId'];
 
         $this->ts->login($this->auth->getIdentity()['user'], $this->auth->getIdentity()['password']);
-        $selectResult = $this->ts->getInstance()->selectServer($sid, 'serverId');
-
-        $banDeleteResult = $this->ts->getInstance()->banDelete($banId);
-
+        $this->ts->getInstance()->selectServer($sid, 'serverId');
+        $this->ts->getInstance()->banDelete($banId);
         $this->flash->addMessage('success', $this->translator->trans('done'));
 
         return $response->withRedirect('/bans/' . $sid);

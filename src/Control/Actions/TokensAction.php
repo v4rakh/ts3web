@@ -10,8 +10,7 @@ final class TokensAction extends AbstractAction
         $sid = $args['sid'];
 
         $this->ts->login($this->auth->getIdentity()['user'], $this->auth->getIdentity()['password']);
-        $selectResult = $this->ts->getInstance()->selectServer($sid, 'serverId');
-
+        $this->ts->getInstance()->selectServer($sid, 'serverId');
         $dataResult = $this->ts->getInstance()->tokenList();
 
         // channels
@@ -42,7 +41,6 @@ final class TokensAction extends AbstractAction
         }
         arsort($channelGroups);
 
-        // render GET
         $this->view->render($response, 'tokens.twig', [
             'title' => $this->translator->trans('tokens.title'),
             'data' => $this->ts->getInstance()->getElement('data', $dataResult),

@@ -18,10 +18,10 @@ final class ChannelGroupCreateAction extends AbstractAction
         $this->logger->debug('Body', $body);
 
         $this->ts->login($this->auth->getIdentity()['user'], $this->auth->getIdentity()['password']);
-        $selectResult = $this->ts->getInstance()->selectServer($sid, 'serverId');
+        $this->ts->getInstance()->selectServer($sid, 'serverId');
 
-        if ($copy) $groupCreateResult = $this->ts->getInstance()->channelGroupAdd($name, $type);
-        else $groupCreateResult = $this->ts->getInstance()->channelGroupCopy($template, 0, $name, $type);
+        if ($copy) $this->ts->getInstance()->channelGroupAdd($name, $type);
+        else $this->ts->getInstance()->channelGroupCopy($template, 0, $name, $type);
 
         $this->flash->addMessage('success', $this->translator->trans('done'));
 

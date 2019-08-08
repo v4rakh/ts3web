@@ -11,7 +11,7 @@ final class ClientInfoAction extends AbstractAction
         $cldbid = $args['cldbid'];
 
         $this->ts->login($this->auth->getIdentity()['user'], $this->auth->getIdentity()['password']);
-        $selectResult = $this->ts->getInstance()->selectServer($sid, 'serverId');
+        $this->ts->getInstance()->selectServer($sid, 'serverId');
 
         $detailsResult = $this->ts->getInstance()->clientDbInfo($cldbid);
 
@@ -21,7 +21,6 @@ final class ClientInfoAction extends AbstractAction
 
         $permissionsResult = $this->ts->getInstance()->clientPermList($cldbid, true);
 
-        // render GET
         $this->view->render($response, 'client_info.twig', [
             'title' => $this->translator->trans('client_info.title') . ' ' . $cldbid,
             'details' => $this->ts->getInstance()->getElement('data', $detailsResult),

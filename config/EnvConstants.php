@@ -6,6 +6,11 @@
 class EnvConstants
 {
     /**
+     * Example env file
+     */
+    const ENV_FILE_EXAMPLE = "env.example";
+
+    /**
      * Custom env file
      */
     const ENV_FILE = "env";

@@ -10,7 +10,7 @@ final class ChannelsAction extends AbstractAction
         $sid = $args['sid'];
 
         $this->ts->login($this->auth->getIdentity()['user'], $this->auth->getIdentity()['password']);
-        $selectResult = $this->ts->getInstance()->selectServer($sid, 'serverId');
+        $this->ts->getInstance()->selectServer($sid, 'serverId');
 
         $dataResult = $this->ts->getInstance()->channelList();
         $channels = $this->ts->getInstance()->getElement('data', $dataResult);
@@ -24,7 +24,6 @@ final class ChannelsAction extends AbstractAction
             $channelOrders[$channel['channel_name']] = $channel['cid'];
         }
 
-        // render GET
         $this->view->render($response, 'channels.twig', [
             'title' => $this->translator->trans('channels.title'),
             'channels' => $channels,

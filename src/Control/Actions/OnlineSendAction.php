@@ -13,9 +13,8 @@ final class OnlineSendAction extends AbstractAction
         $body = $request->getParsedBody();
 
         $this->ts->login($this->auth->getIdentity()['user'], $this->auth->getIdentity()['password']);
-        $selectResult = $this->ts->getInstance()->selectServer($sid, 'serverId');
-
-        $dataResult = $this->ts->getInstance()->sendMessage(ts3admin::TextMessageTarget_CLIENT, $clid, $body['message']);
+        $this->ts->getInstance()->selectServer($sid, 'serverId');
+        $this->ts->getInstance()->sendMessage(ts3admin::TextMessageTarget_CLIENT, $clid, $body['message']);
 
         $this->flash->addMessage('success', $this->translator->trans('done'));
         return $response->withRedirect('/online/' . $sid . '/' . $clid);

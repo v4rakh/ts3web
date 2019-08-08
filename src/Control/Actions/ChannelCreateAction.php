@@ -13,7 +13,7 @@ final class ChannelCreateAction extends AbstractAction
         $inherit = $body['inherit'];
 
         $this->ts->login($this->auth->getIdentity()['user'], $this->auth->getIdentity()['password']);
-        $selectResult = $this->ts->getInstance()->selectServer($sid, 'serverId');
+        $this->ts->getInstance()->selectServer($sid, 'serverId');
 
         if (!$inherit) {
             unset($body['cpid']);

@@ -17,10 +17,10 @@ final class OnlineMoveAction extends AbstractAction
         if (array_key_exists('channel_password', $body)) $channelPassword = $body['channel_password'];
 
         $this->ts->login($this->auth->getIdentity()['user'], $this->auth->getIdentity()['password']);
-        $selectResult = $this->ts->getInstance()->selectServer($sid, 'serverId');
+        $this->ts->getInstance()->selectServer($sid, 'serverId');
 
-        if (empty($channelPassword)) $dataResult = $this->ts->getInstance()->clientMove($clid, $channel);
-        else $dataResult = $this->ts->getInstance()->clientMove($clid, $channel, $channelPassword);
+        if (empty($channelPassword)) $this->ts->getInstance()->clientMove($clid, $channel);
+        else $this->ts->getInstance()->clientMove($clid, $channel, $channelPassword);
 
 
         $this->flash->addMessage('success', $this->translator->trans('online.moved.success', ['%clid%' => $clid]));

@@ -14,10 +14,8 @@ final class ServerGroupRenameAction extends AbstractAction
         $name = $body['name'];
 
         $this->ts->login($this->auth->getIdentity()['user'], $this->auth->getIdentity()['password']);
-        $selectResult = $this->ts->getInstance()->selectServer($sid, 'serverId');
-
-        $groupRenameResult = $this->ts->getInstance()->serverGroupRename($sgid, $name);
-
+        $this->ts->getInstance()->selectServer($sid, 'serverId');
+        $this->ts->getInstance()->serverGroupRename($sgid, $name);
         $this->flash->addMessage('success', $this->translator->trans('done'));
 
         return $response->withRedirect('/groups/' . $sid);

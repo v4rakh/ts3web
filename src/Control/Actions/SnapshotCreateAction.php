@@ -13,7 +13,7 @@ final class SnapshotCreateAction extends AbstractAction
         $sid = $args['sid'];
 
         $this->ts->login($this->auth->getIdentity()['user'], $this->auth->getIdentity()['password']);
-        $selectResult = $this->ts->getInstance()->selectServer($sid, 'serverId');
+        $this->ts->getInstance()->selectServer($sid, 'serverId');
 
         $snapshotCreateResult = $this->ts->getInstance()->serverSnapshotCreate();
 

@@ -10,13 +10,11 @@ final class ServerInfoAction extends AbstractAction
         $sid = $args['sid'];
 
         $this->ts->login($this->auth->getIdentity()['user'], $this->auth->getIdentity()['password']);
-        $selectResult = $this->ts->getInstance()->selectServer($sid, 'serverId');
+        $this->ts->getInstance()->selectServer($sid, 'serverId');
 
         $infoResult = $this->ts->getInstance()->serverInfo();
-
         $uploadsResult = $this->ts->getInstance()->ftList();
 
-        // render GET
         $this->view->render($response, 'server_info.twig', [
             'title' => $this->translator->trans('server_info.title') . ' ' . $sid,
             'info' => $this->ts->getInstance()->getElement('data', $infoResult),

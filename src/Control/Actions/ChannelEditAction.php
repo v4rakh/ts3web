@@ -13,10 +13,8 @@ final class ChannelEditAction extends AbstractAction
         $body = $request->getParsedBody();
 
         $this->ts->login($this->auth->getIdentity()['user'], $this->auth->getIdentity()['password']);
-        $selectResult = $this->ts->getInstance()->selectServer($sid, 'serverId');
-
-        $channelResult = $this->ts->getInstance()->channelEdit($cid, $body);
-
+        $this->ts->getInstance()->selectServer($sid, 'serverId');
+        $this->ts->getInstance()->channelEdit($cid, $body);
         $this->flash->addMessage('success', $this->translator->trans('done'));
 
         return $response->withRedirect('/channels/' . $sid . '/' . $cid);

@@ -10,12 +10,11 @@ final class ProfileAction extends AbstractAction
         $this->ts->login($this->auth->getIdentity()['user'], $this->auth->getIdentity()['password']);
 
         if ($this->session->exists('sid')) {
-            $selectResult = $this->ts->getInstance()->selectServer($this->session->get('sid'), 'serverId');
+            $this->ts->getInstance()->selectServer($this->session->get('sid'), 'serverId');
         }
 
         $whoisResult = $this->ts->getInstance()->whoAmI();
 
-        // render GET
         $this->view->render($response, 'profile.twig', [
             'title'     => $this->translator->trans('profile.title'),
             'whois' => $this->ts->getInstance()->getElement('data', $whoisResult),

@@ -10,7 +10,7 @@ final class GroupsAction extends AbstractAction
         $sid = $args['sid'];
 
         $this->ts->login($this->auth->getIdentity()['user'], $this->auth->getIdentity()['password']);
-        $selectResult = $this->ts->getInstance()->selectServer($sid, 'serverId');
+        $this->ts->getInstance()->selectServer($sid, 'serverId');
 
         $serverGroupsResult = $this->ts->getInstance()->serverGroupList();
         $serverGroups = $this->ts->getInstance()->getElement('data', $serverGroupsResult);
@@ -28,7 +28,6 @@ final class GroupsAction extends AbstractAction
             $channelGroupsTemplate[$channelGroup['name']] = $channelGroup['cgid'];
         }
 
-        // render GET
         $this->view->render($response, 'groups.twig', [
             'title' => $this->translator->trans('groups.title'),
             'serverGroups' => $serverGroups,

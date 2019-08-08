@@ -13,11 +13,10 @@ final class OnlineBanAction extends AbstractAction
         $body = $request->getParsedBody();
 
         $this->ts->login($this->auth->getIdentity()['user'], $this->auth->getIdentity()['password']);
-        $selectResult = $this->ts->getInstance()->selectServer($sid, 'serverId');
-
-        $dataResult = $this->ts->getInstance()->banClient($clid, (!empty($body['time']) ? $body['time'] : 0), $body['reason']);
-
+        $this->ts->getInstance()->selectServer($sid, 'serverId');
+        $this->ts->getInstance()->banClient($clid, (!empty($body['time']) ? $body['time'] : 0), $body['reason']);
         $this->flash->addMessage('success', $this->translator->trans('online.banned.success', ['%clid%' => $clid]));
+
         return $response->withRedirect('/online/' . $sid . '/' . $clid);
     }
 }

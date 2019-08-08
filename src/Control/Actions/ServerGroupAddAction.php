@@ -14,9 +14,8 @@ final class ServerGroupAddAction extends AbstractAction
         $cldbid = $body['cldbid'];
 
         $this->ts->login($this->auth->getIdentity()['user'], $this->auth->getIdentity()['password']);
-        $selectResult = $this->ts->getInstance()->selectServer($sid, 'serverId');
-
-        $groupAddResult = $this->ts->getInstance()->serverGroupAddClient($sgid, $cldbid);
+        $this->ts->getInstance()->selectServer($sid, 'serverId');
+        $this->ts->getInstance()->serverGroupAddClient($sgid, $cldbid);
 
         $this->flash->addMessage('success', $this->translator->trans('added'));
 

@@ -10,11 +10,10 @@ final class SnapshotsAction extends AbstractAction
         $sid = $args['sid'];
 
         $this->ts->login($this->auth->getIdentity()['user'], $this->auth->getIdentity()['password']);
-        $selectResult = $this->ts->getInstance()->selectServer($sid, 'serverId');
+        $this->ts->getInstance()->selectServer($sid, 'serverId');
 
         $snapshots = FileHelper::getFiles(FileHelper::SNAPSHOTS_PATH . DIRECTORY_SEPARATOR . $sid);
 
-        // render GET
         $this->view->render($response, 'snapshots.twig', [
             'title' => $this->translator->trans('snapshots.title'),
             'data' => $snapshots,

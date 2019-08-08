@@ -10,7 +10,7 @@ final class PasswordsAction extends AbstractAction
         $sid = $args['sid'];
 
         $this->ts->login($this->auth->getIdentity()['user'], $this->auth->getIdentity()['password']);
-        $selectResult = $this->ts->getInstance()->selectServer($sid, 'serverId');
+        $this->ts->getInstance()->selectServer($sid, 'serverId');
 
         $dataResult = $this->ts->getInstance()->serverTempPasswordList();
         $channelsResult = $this->ts->getInstance()->channelList();
@@ -22,7 +22,6 @@ final class PasswordsAction extends AbstractAction
             $channels[$channel['channel_name']] = $channel['cid'];
         }
 
-        // render GET
         $this->view->render($response, 'passwords.twig', [
             'title' => $this->translator->trans('passwords.title'),
             'data' => $this->ts->getInstance()->getElement('data', $dataResult),

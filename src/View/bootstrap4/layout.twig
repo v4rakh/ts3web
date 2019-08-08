@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <title>{{ getenv('site_title') }} | {{ title }}</title>
     <!-- Meta -->
@@ -23,39 +23,37 @@
 {% include 'menu.twig' %}
 
 <!-- Main content -->
-<main role="main" class="container">
-    <div class="mainContainer">
-        <div class="container">
-            {% if flash is not empty %}
-                {% if flash.getMessage('info').0 %}
-                    <div class="alert alert-dismissible alert-info" role="alert">
-                        {{ flash.getMessage('info').0 }}
-                        <button type='button' class='close' data-dismiss='alert'>×</button>
-                    </div>
-                {% endif %}
-
-                {% if flash.getMessage('success').0 %}
-                    <div class="alert alert-dismissible alert-success" role="alert">
-                        {{ flash.getMessage('success').0 }}
-                        <button type='button' class='close' data-dismiss='alert'>×</button>
-                    </div>
-                {% endif %}
-
-                {% if flash.getMessage('error') %}
-                    {% for error in flash.getMessage('error') %}
-                        <div class="alert alert-dismissible alert-danger" role="alert">
-                            {{ error }}
-                            <button type='button' class='close' data-dismiss='alert'>×</button>
-                        </div>
-                    {% endfor %}
-                {% endif %}
+<div class="mainContainer">
+    <div class="container">
+        {% if flash is not empty %}
+            {% if flash.getMessage('info').0 %}
+                <div class="alert alert-dismissible alert-info" role="alert">
+                    {{ flash.getMessage('info').0 }}
+                    <button type='button' class='close' data-dismiss='alert'>×</button>
+                </div>
             {% endif %}
 
-            {% block content %}
-            {% endblock %}
-        </div>
+            {% if flash.getMessage('success').0 %}
+                <div class="alert alert-dismissible alert-success" role="alert">
+                    {{ flash.getMessage('success').0 }}
+                    <button type='button' class='close' data-dismiss='alert'>×</button>
+                </div>
+            {% endif %}
+
+            {% if flash.getMessage('error') %}
+                {% for error in flash.getMessage('error') %}
+                    <div class="alert alert-dismissible alert-danger" role="alert">
+                        {{ error }}
+                        <button type='button' class='close' data-dismiss='alert'>×</button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endif %}
+
+        {% block content %}
+        {% endblock %}
     </div>
-</main><!-- /.container -->
+</div>
 
 <!-- Footer -->
 <footer class="footer">

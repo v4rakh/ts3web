@@ -11,7 +11,7 @@ final class ClientDeleteAction extends AbstractAction
         $cldbid = $args['cldbid'];
 
         $this->ts->login($this->auth->getIdentity()['user'], $this->auth->getIdentity()['password']);
-        $selectResult = $this->ts->getInstance()->selectServer($sid, 'serverId');
+        $this->ts->getInstance()->selectServer($sid, 'serverId');
 
         $clientDeleteResult = $this->ts->getInstance()->clientDbDelete($cldbid);
 

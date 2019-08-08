@@ -11,10 +11,8 @@ final class ChannelDeleteAction extends AbstractAction
         $cid = $args['cid'];
 
         $this->ts->login($this->auth->getIdentity()['user'], $this->auth->getIdentity()['password']);
-        $selectResult = $this->ts->getInstance()->selectServer($sid, 'serverId');
-
-        $channelDeleteResult = $this->ts->getInstance()->channelDelete($cid);
-
+        $this->ts->getInstance()->selectServer($sid, 'serverId');
+        $this->ts->getInstance()->channelDelete($cid);
         $this->flash->addMessage('success', $this->translator->trans('done'));
 
         return $response->withRedirect('/channels/' . $sid);

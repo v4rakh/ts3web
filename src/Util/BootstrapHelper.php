@@ -23,22 +23,28 @@ class BootstrapHelper
     public static function bootEnvironment()
     {
         $envPath = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'config';
+        $envFileExample = $envPath . DIRECTORY_SEPARATOR . EnvConstants::ENV_FILE_EXAMPLE;
         $envFile = $envPath . DIRECTORY_SEPARATOR . EnvConstants::ENV_FILE;
 
-        if (file_exists($envFile)) {
-            $env = new Dotenv(realpath($envPath), EnvConstants::ENV_FILE);
-            $res = $env->load();
-
-            try {
-                $env->required(EnvConstants::ENV_REQUIRED);
-            } catch (ValidationException $e) {
-                die($e->getMessage());
+        try {
+            $fileSystem = new Filesystem();
+            if (!$fileSystem->exists($envFile)) {
+                $fileSystem->copy($envFileExample, $envFile);
             }
-
-            return $res;
-        } else {
-            die('No environment file found in ' . realpath($envFile));
+        } catch (IOException $e) {
+            die('Could not copy example env file ' . $envFileExample . ' to ' . $envFile);
         }
+
+        $env = new Dotenv($envPath, EnvConstants::ENV_FILE);
+        $res = $env->load();
+
+        try {
+            $env->required(EnvConstants::ENV_REQUIRED);
+        } catch (ValidationException $e) {
+            die($e->getMessage());
+        }
+
+        return $res;
     }
 
     /**
@@ -134,7 +140,8 @@ class BootstrapHelper
      *
      * @return string
      */
-    public static function getLogDir() {
+    public static function getLogDir()
+    {
         return __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'log';
     }
 
@@ -143,7 +150,8 @@ class BootstrapHelper
      *
      * @return string
      */
-    public static function getLogFile() {
+    public static function getLogFile()
+    {
         return self::getLogDir() . DIRECTORY_SEPARATOR . 'application.log';
     }
 }

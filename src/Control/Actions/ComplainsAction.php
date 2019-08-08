@@ -10,11 +10,9 @@ final class ComplainsAction extends AbstractAction
         $sid = $args['sid'];
 
         $this->ts->login($this->auth->getIdentity()['user'], $this->auth->getIdentity()['password']);
-        $selectResult = $this->ts->getInstance()->selectServer($sid, 'serverId');
-
+        $this->ts->getInstance()->selectServer($sid, 'serverId');
         $dataResult = $this->ts->getInstance()->complainList();
 
-        // render GET
         $this->view->render($response, 'complains.twig', [
             'title' => $this->translator->trans('complains.title'),
             'data' => $this->ts->getInstance()->getElement('data', $dataResult),

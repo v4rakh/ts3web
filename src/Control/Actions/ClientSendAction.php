@@ -13,11 +13,11 @@ final class ClientSendAction extends AbstractAction
         $body = $request->getParsedBody();
 
         $this->ts->login($this->auth->getIdentity()['user'], $this->auth->getIdentity()['password']);
-        $selectResult = $this->ts->getInstance()->selectServer($sid, 'serverId');
+        $this->ts->getInstance()->selectServer($sid, 'serverId');
 
         $getResult = $this->ts->getInstance()->clientGetNameFromDbid($cldbid);
 
-        $dataResult = $this->ts->getInstance()->messageAdd(
+        $this->ts->getInstance()->messageAdd(
             $this->ts->getInstance()->getElement('data', $getResult)['cluid'],
             $body['subject'],
             $body['message']

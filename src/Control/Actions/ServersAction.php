@@ -10,7 +10,6 @@ final class ServersAction extends AbstractAction
         $this->ts->login($this->auth->getIdentity()['user'], $this->auth->getIdentity()['password']);
         $dataResult = $this->ts->getInstance()->serverList();
 
-        // render GET
         $this->view->render($response, 'servers.twig', [
             'title' => $this->translator->trans('servers.title'),
             'data' => $this->ts->getInstance()->getElement('data', $dataResult)

@@ -10,13 +10,20 @@ final class OnlineAction extends AbstractAction
         $sid = $args['sid'];
 
         $this->ts->login($this->auth->getIdentity()['user'], $this->auth->getIdentity()['password']);
-        $selectResult = $this->ts->getInstance()->selectServer($sid, 'serverId');
-
+        $this->ts->getInstance()->selectServer($sid, 'serverId');
         $dataResult = $this->ts->getInstance()->clientList('-ip -times -info');
-        $this->ts->getInstance()->logout(); // avoid showing currently used user twice
+        $serverInfoResult = $this->ts->getInstance()->serverInfo();
 
         $treeView = null;
-        $serverPort = $this->session->get("sport");
+        $serverPort = null;
+        if ($this->ts->getInstance()->succeeded($serverInfoResult)) {
+            $serverInfoDataResult = $this->ts->getInstance()->getElement('data', $serverInfoResult);
+            if (array_key_exists('virtualserver_port', $serverInfoDataResult)) {
+                $serverPort = $serverInfoDataResult['virtualserver_port'];
+            }
+        }
+
+        $this->ts->getInstance()->logout(); // avoid showing currently used user twice
 
         if ($serverPort) {
             $uri = sprintf('serverquery://%s:%s@%s:%s/?server_port=%s',
@@ -31,7 +38,6 @@ final class OnlineAction extends AbstractAction
             $treeView = $tsServer->getViewer(new TeamSpeak3_Viewer_Html("/images/viewer/", "/images/flags/", "data:image"));
         }
 
-        // render GET
         $this->view->render($response, 'online.twig', [
             'title' => $this->translator->trans('online.title'),
             'data' => $this->ts->getInstance()->getElement('data', $dataResult),

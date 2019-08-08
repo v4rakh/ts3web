@@ -11,13 +11,10 @@ final class ServerGroupInfoAction extends AbstractAction
         $sgid = $args['sgid'];
 
         $this->ts->login($this->auth->getIdentity()['user'], $this->auth->getIdentity()['password']);
-        $selectResult = $this->ts->getInstance()->selectServer($sid, 'serverId');
-
+        $this->ts->getInstance()->selectServer($sid, 'serverId');
         $clientsResult = $this->ts->getInstance()->serverGroupClientList($sgid, true);
-
         $permissionsResult = $this->ts->getInstance()->serverGroupPermList($sgid, true);
 
-        // render GET
         $this->view->render($response, 'servergroup_info.twig', [
             'title' => $this->translator->trans('servergroup_info.title') . ' ' . $sgid,
             'clients' => $this->ts->getInstance()->getElement('data', $clientsResult),
