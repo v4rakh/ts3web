@@ -3,8 +3,8 @@ ts3web is a free and open-source web interface for TeamSpeak 3 instances.
  
 The minimalistic approach of this application is intentional.
 
-* Docker images available on https://hub.docker.com/r/varakh/ts3web
-* Sources are hosted on https://gitlab.com/varakh/ts3web
+* Docker images available on [https://hub.docker.com/r/varakh/ts3web](https://hub.docker.com/r/varakh/ts3web)
+* Sources are hosted on [https://gitlab.com/varakh/ts3web](https://gitlab.com/varakh/ts3web)
 
 ## Limitations
 Features which are currently not supported:
@@ -52,7 +52,7 @@ IP for this example setup.
 the `env` file referenced in the example `docker-compose`.
 
 ```
-version: '2'
+version: '2.1'
 networks:
   teamspeak:
     external: false
@@ -86,6 +86,11 @@ services:
     restart: always
     networks:
       - teamspeak
+    healthcheck:
+        test: "nc -z localhost 80"
+        interval: 1s
+        timeout: 10s
+        retries: 5
 ```
 
 Now execute `docker-compose up -d` to start those containers. If you like to update, do `docker-compose down`, 

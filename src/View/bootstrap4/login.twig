@@ -24,14 +24,14 @@
                                 <input type="text" id="username" name="username" class="form-control form-control-sm"
                                        placeholder="{{ getenv('teamspeak_user') }}"
                                        value="{{ getenv('teamspeak_user') }}"
-                                       required>
+                                       autofocus required>
                             </div>
 
                             <div class="form-group">
                                 <label for="password" class="sr-only">{% trans %}login.form.password{% endtrans %}</label>
                                 <input type="password" id="password" name="password"
                                        class="form-control form-control-sm"
-                                       placeholder="{% trans %}login.form.password.placeholder{% endtrans %}" autofocus required>
+                                       placeholder="{% trans %}login.form.password.placeholder{% endtrans %}" required>
                             </div>
 
                             <div class="form-group">

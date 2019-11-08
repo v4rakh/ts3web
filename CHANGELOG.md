@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2.1.4 - 2019/11/08
+* Use autofocus on username input field instead of the password field
+* Fill missing cells on incorrect cell count in table views when only partial data is available
+
 ## 2.1.3 - 2019/08/08
 * Fixed false rendering of forms
 * Fixed channel tree view showing the wrong virtual server after selection
