@@ -23,8 +23,9 @@ your TeamSpeak application.
 
 ## Configuration
 The main configuration file is the `env` file located in `config/`. There's an example file called `env.example` 
-which you **need* to copy to `config/env`. Defaults will assume you're running your TeamSpeak server on `localhost` with 
-default port. Docker deployments can host bind this file into the container directly and just maintain the `env` file.
+which you **need** to copy to `config/env`. Defaults will assume you're running your TeamSpeak server on `localhost` with 
+default port. Docker deployments can and *should* host bind this file into the container directly and just maintain the 
+`env` file.
 
 ## Deployment
 The application can be deployed in different ways. See below for more information. For each deployment type a running 
@@ -35,7 +36,7 @@ needed).
 * Snapshots are saved in `/var/www/html/application/data/snapshots`. You should create a volume for this location if 
 you're using docker as deployment type.
 * Logs are saved in `/var/www/html/application/log` for docker containers. You should create a volume 
-for this location if you're using docker as deployment type.
+for this location if you're using docker as deployment type. You should also create the log file `application.log` already.
 
 **Important**: Ensure that host binds have permissions set up properly. The user which is used in the docker container 
 is `www-data` with id `82`. If, e.g. logs are host bound, then execute `chown -R 82:82 host/path/to/log`. 
@@ -43,11 +44,11 @@ The same holds true for snapshots.
 
 ### Usage with docker-compose
 The recommended way is to use docker-compose. The `network_mode = "host"` is required in order to show correct IP 
-addresses of connected users.
+addresses of connected TeamSpeak users.
 
 1. The web interface will not be able to use `localhost` as TeamSpeak 3 server address because it's not available in a 
-docker container not using the `host` network. Thus the`whitelist.txt` **must** include your public TeamSpeak 3 server 
-IP for this example setup.
+docker container when _not_ using the `host` network. Thus the`whitelist.txt` **must** include your public TeamSpeak 3 
+server IP for this example setup.
 2. The public address also has to match the environment variable `teamspeak_host=your-public-address` within
 the `env` file referenced in the example `docker-compose`.
 
@@ -99,12 +100,12 @@ Now execute `docker-compose up -d` to start those containers. If you like to upd
 Your TeamSpeak 3 Server will be available under `public-server-ip:9987`. The web interface will be available on
 `127.0.0.1:8181`. You need to add a reverse proxy and probably you also want SSL configured if you expose it via domain.
 For testing purposes, change `- 127.0.0.1:8181:80` to `- 8181:80`. The web interface will then be available under 
-`public-server-ip:8181`. This is **not recommended**! Secure your setup properly via reverse proxy and SSL.
+`public-server-ip:8181`. This is **not recommended**! Secure your setup properly via reverse proxy and SSL!
 
 ### Usage as single docker container
 * Copy `env.example` to `env` and adjust to your needs. It's recommended to make it persistent outside of the container.
 * Create a container with the image, e.g. `docker run --name teamspeak_web -v ./env:/var/www/html/application/config/env -p 8181:80 varakh/ts3web:latest`. 
-* Make sure that if teamspeak and ts3web share the same docker instance they should be put into one network and the subnet **needs be added to teamspeak's query whitelist**.
+* Make sure that if TeamSpeak and ts3web share the same docker instance and that they should be put into one network and the subnet **needs be added to teamspeak's query whitelist**.
 * Point your browser to `8181` to see the web interface. 
 
 ### Usage as native application
@@ -115,6 +116,7 @@ To install:
 * Change directory to project home
 * Execute `composer install`
 * `composer install`
+* Do the configuration by coping the `env.example` file (see information above)
 * Use a web server or run directly via PHP server: `php -S localhost:8080 -t public public/index.php` (point browser to [localhost:8080](http://localhost:8080))
 
 To upgrade:
@@ -171,7 +173,7 @@ To upgrade:
 
 ### Release
 * Set a date in the `CHANGELOG.md` file
-* Build the docker image from the project home with `docker build -t varakh/ts3web:latest -f docker/Dockerfile .` and publish it
+* Build the docker image from the project home with `docker build -t varakh/ts3web:latest -t varakh/ts3web:<releaseTag> -f docker/Dockerfile .` and publish it
 * Tag the release git commit and create a new release in the VCS web interface 
 
 ### Helpers
