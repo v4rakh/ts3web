@@ -1,5 +1,7 @@
 # CHANGELOG
 
+## UNRELEASED
+
 ## 2.2.1 - 2019/11/10
 * Use separate JavaScript file to initialize DataTables
 
