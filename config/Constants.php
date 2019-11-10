@@ -13,7 +13,7 @@ class Constants
     /**
      * Version tag
      */
-    const VERSION = '2.2.1-SNAPSHOT';
+    const VERSION = '2.2.1';
 
     /**
      * Return constant by it's class name

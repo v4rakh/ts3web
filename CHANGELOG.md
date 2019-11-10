@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 2.2.1 - 2019/11/10
+* Use separate JavaScript file to initialize DataTables
+
 ## 2.2.0 - 2019/11/10
 * Add version tag to footer
 * Add sortable tables

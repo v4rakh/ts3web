@@ -68,18 +68,9 @@
 <!-- Script -->
 <script src="/theme/bootstrap4/js/bootstrap.bundle.min.js"></script>
 <script src="/theme/bootstrap4/DataTables/datatables.min.js"></script>
+<script src="/theme/bootstrap4/js/custom.js"></script>
 
 {% block js %}
-<script>
-    $(document).ready(function() {
-        $('#table').DataTable( {
-            "language": {
-                "url": "/theme/bootstrap4/DataTables/en_dataTable.json"
-            },
-            "paging": false
-        } );
-    } );
-</script>
 {% endblock %}
 
 </body>
