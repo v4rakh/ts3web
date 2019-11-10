@@ -173,14 +173,14 @@ To upgrade:
 
 ### Release
 * Set a date in the `CHANGELOG.md` file
-* Remove `SNAPSHOT` from the version in `Version.php`
+* Remove `SNAPSHOT` from the version in `Constants.php`
 * Build the docker image from the project home with `docker build -t varakh/ts3web:latest -t varakh/ts3web:<releaseTag> -f docker/Dockerfile .` and publish it
 * Tag the release git commit and create a new release in the VCS web interface
 
 ### Prepare next development cycle
 
 1. Branch from `master` to `release/prepare-newVersionNumber`
-2. Add `-SNAPSHOT` to the version in `Version.php` and increase it
+2. Add `-SNAPSHOT` to the version in `Constants.php` and increase it
 3. Merge this branch to `patch` or/and `dev` respectively
 4. Don't forget to clean up all created branches
 
