@@ -17,6 +17,10 @@ use Slim\Middleware\Session;
 use Slim\Views\Twig;
 use Slim\Views\TwigExtension;
 use SlimSession\Helper;
+use Symfony\Bridge\Twig\Extension\TranslationExtension;
+use Twig\Extension\DebugExtension;
+use Twig\TwigFilter;
+use Twig\TwigFunction;
 
 // To help the built-in PHP dev server, check if the request was actually for
 // something which should probably be served as a static file
@@ -113,62 +117,67 @@ $container['view'] = function ($container) use ($app) {
         $container['router'],
         $container['request']->getUri()
     ));
-    $view->addExtension(new Twig_Extension_Debug());
+    $view->addExtension(new DebugExtension());
 
     // dynamically apply filters
     $view->getEnvironment()->addExtension(new ApplyFilterExtension());
 
     // encode url
-    $encodeUrl = new Twig_SimpleFilter('escape_url', function($str) {
+    $encodeUrl = new TwigFilter('escape_url', function($str) {
         return urlencode($str);
     });
     $view->getEnvironment()->addFilter($encodeUrl);
 
     // translation
-    $view->addExtension(new \Symfony\Bridge\Twig\Extension\TranslationExtension($container['translator']));
+    $view->addExtension(new TranslationExtension($container['translator']));
     $view->getEnvironment()->getExtension('Twig_Extension_Core')->setDateFormat(getenv(EnvConstants::SITE_DATE_FORMAT));
 
     // env
-    $view->getEnvironment()->addFunction(new Twig_SimpleFunction('getenv', function($value) {
+    $view->getEnvironment()->addFunction(new TwigFunction('getenv', function($value) {
         $res = getenv($value);
         return $res;
     }));
 
+    // constants
+    $view->getEnvironment()->addFunction(new TwigFunction('getconstant', function($value) {
+        return Constants::get($value);
+    }));
+
     // session exist
-    $view->getEnvironment()->addFunction(new Twig_SimpleFunction('session_exists', function($key) use ($container) {
+    $view->getEnvironment()->addFunction(new TwigFunction('session_exists', function($key) use ($container) {
         return $container['session']->exists($key);
     }));
 
     // session get
-    $view->getEnvironment()->addFunction(new Twig_SimpleFunction('session_get', function($key) use ($container) {
+    $view->getEnvironment()->addFunction(new TwigFunction('session_get', function($key) use ($container) {
         return $container['session']->get($key);
     }));
 
     // file size
-    $fileSizeFilter = new Twig_SimpleFilter('file', function($bytes, $decimals = 2) {
+    $fileSizeFilter = new TwigFilter('file', function($bytes, $decimals = 2) {
         return FileHelper::humanFileSize($bytes, $decimals);
     });
     $view->getEnvironment()->addFilter($fileSizeFilter);
 
     // ts specific: time in seconds to human readable
-    $timeInSecondsFilter = new Twig_SimpleFilter('timeInSeconds', function($seconds) use ($container) {
+    $timeInSecondsFilter = new TwigFilter('timeInSeconds', function($seconds) use ($container) {
         return $container['ts']->getInstance()->convertSecondsToStrTime($seconds);
     });
     $view->getEnvironment()->addFilter($timeInSecondsFilter);
 
-    $timeInMillisFilter = new Twig_SimpleFilter('timeInMillis', function($millis) use ($container) {
+    $timeInMillisFilter = new TwigFilter('timeInMillis', function($millis) use ($container) {
         return $container['ts']->getInstance()->convertSecondsToStrTime(floor($millis/1000));
     });
     $view->getEnvironment()->addFilter($timeInMillisFilter);
 
     // ts specific: timestamp to carbon
-    $timestampFilter = new Twig_SimpleFilter('timestamp', function($timestamp) {
+    $timestampFilter = new TwigFilter('timestamp', function($timestamp) {
         return Carbon::createFromTimestamp($timestamp);
     });
     $view->getEnvironment()->addFilter($timestampFilter);
 
     // ts specific: token type
-    $tokenTypeFilter = new Twig_SimpleFilter('tokentype', function($type) {
+    $tokenTypeFilter = new TwigFilter('tokentype', function($type) {
         $tokenTypes = TSInstance::getTokenTypes();
 
         foreach ($tokenTypes as $name => $tokenType) {
@@ -180,7 +189,7 @@ $container['view'] = function ($container) use ($app) {
     $view->getEnvironment()->addFilter($tokenTypeFilter);
 
     // ts specific: group type
-    $groupTypeFilter = new Twig_SimpleFilter('permgrouptype', function($type) {
+    $groupTypeFilter = new TwigFilter('permgrouptype', function($type) {
         $groupTypes = TSInstance::getPermGroupTypes();
 
         foreach ($groupTypes as $name => $groupType) {
@@ -198,7 +207,7 @@ $container['view'] = function ($container) use ($app) {
     $view['currentUser'] = ($container['authenticator']->hasIdentity() ? $container['authenticator']->getIdentity() : NULL); // currentUser in twig
     $view['currentRole'] = (!empty($user) ? $role = $user->role : $role = ACL::ACL_DEFAULT_ROLE_GUEST);
 
-    $view->getEnvironment()->addFunction(new Twig_SimpleFunction('isPermitted', function ($currentRole, $targetRole) use ($container) {
+    $view->getEnvironment()->addFunction(new TwigFunction('isPermitted', function ($currentRole, $targetRole) use ($container) {
         return $container['acl']->isPermitted($currentRole, $targetRole);
     }));
 

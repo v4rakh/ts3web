@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="/theme/bootstrap4/css/bootstrap.min.css">
     <link rel="stylesheet" href="/theme/bootstrap4/css/font-awesome.css">
     <link rel="stylesheet" href="/theme/bootstrap4/css/custom.css">
+    <link rel="stylesheet" href="/theme/bootstrap4/DataTables/datatables.min.css">
 
     <!-- JS -->
     <script src="/theme/bootstrap4/js/jquery.min.js"></script>
@@ -59,15 +60,26 @@
 <footer class="footer">
     <div class="text-center">
         <span class="text-muted">
-            <i class="fa fa-copyright"></i> {{ "now"|date("Y") }} {{ getenv('site_title') }}
+            <i class="fa fa-copyright"></i> {{ getconstant('YEARS') }} {{ getenv('site_title') }} ({{ getconstant('VERSION') }})
         </span>
     </div>
 </footer>
 
 <!-- Script -->
 <script src="/theme/bootstrap4/js/bootstrap.bundle.min.js"></script>
+<script src="/theme/bootstrap4/DataTables/datatables.min.js"></script>
 
 {% block js %}
+<script>
+    $(document).ready(function() {
+        $('#table').DataTable( {
+            "language": {
+                "url": "/theme/bootstrap4/DataTables/en_dataTable.json"
+            },
+            "paging": false
+        } );
+    } );
+</script>
 {% endblock %}
 
 </body>

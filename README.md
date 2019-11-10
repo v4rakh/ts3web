@@ -173,8 +173,16 @@ To upgrade:
 
 ### Release
 * Set a date in the `CHANGELOG.md` file
+* Remove `SNAPSHOT` from the version in `Version.php`
 * Build the docker image from the project home with `docker build -t varakh/ts3web:latest -t varakh/ts3web:<releaseTag> -f docker/Dockerfile .` and publish it
-* Tag the release git commit and create a new release in the VCS web interface 
+* Tag the release git commit and create a new release in the VCS web interface
+
+### Prepare next development cycle
+
+1. Branch from `master` to `release/prepare-newVersionNumber`
+2. Add `-SNAPSHOT` to the version in `Version.php` and increase it
+3. Merge this branch to `patch` or/and `dev` respectively
+4. Don't forget to clean up all created branches
 
 ### Helpers
 Attributes can be defined when including `table`, `keyvalues` and `form` templates of twig. This helps to generate tables and forms without the need to specify all attributes.
@@ -192,7 +200,7 @@ fields // define fields for a form
 See example usage in the folder `View/bootstrap4`.
 
 ### Translations
-- This app uses Symfony Translator. It's bootstrapped in `Util\BootstrapHelper` and locales are placed under `data/locale/`. Adjust to your needs or help translating.
+- This app uses Symfony Translator. It's bootstrapped in `Util\BootstrapHelper` and locales are placed under `data/locale/` and the data table `.json` file, e.g. `en_dataTable.json`. Adjust to your needs or help translating.
 - Form fields (name/id should be the same) are also translated. For a field named `content` or `ConT enT` translate `form_field_content`.
 
 ### Theme

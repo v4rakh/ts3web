@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## 2.2.0 - 2019/11/10
+* Add version tag to footer
+* Add sortable tables
+* Add search on tables
+* Increase bootstrap4 theme width
+* Handle deprecation warnings in Twig
+* Fix dependency version
+
 ## 2.1.4 - 2019/11/08
 * Use autofocus on username input field instead of the password field
 * Fill missing cells on incorrect cell count in table views when only partial data is available
