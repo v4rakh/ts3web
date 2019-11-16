@@ -4,7 +4,7 @@ ts3web is a free and open-source web interface for TeamSpeak 3 instances.
 The minimalistic approach of this application is intentional.
 
 * Docker images available on [https://hub.docker.com/r/varakh/ts3web](https://hub.docker.com/r/varakh/ts3web)
-* Sources are hosted on [https://gitlab.com/varakh/ts3web](https://gitlab.com/varakh/ts3web)
+* Sources are hosted on [https://github.com/v4rakh/ts3web](https://github.com/v4rakh/ts3web)
 
 ## Limitations
 Features which are currently not supported:
