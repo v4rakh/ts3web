@@ -87,11 +87,6 @@ services:
     restart: always
     networks:
       - teamspeak
-    healthcheck:
-        test: "nc -z localhost 80"
-        interval: 1s
-        timeout: 10s
-        retries: 5
 ```
 
 Now execute `docker-compose up -d` to start those containers. If you like to update, do `docker-compose down`, 
