@@ -46,7 +46,7 @@ class TSInstance
             $this->ts = $ts;
             $this->logger->debug(sprintf('Connected to %s:%s', $this->host, $this->queryPort));
         } catch (TSException $e) {
-            $this->logger->error(sprintf('Could not connect to %s:%s', $this->host, $this->queryPort, $e->getMessage()));
+            $this->logger->error(sprintf('Could not connect to %s:%s. Reason: %s', $this->host, $this->queryPort, $e->getMessage()));
             die($e);
         }
     }

@@ -7,10 +7,12 @@ The minimalistic approach of this application is intentional.
 * Sources are hosted on [https://github.com/v4rakh/ts3web](https://github.com/v4rakh/ts3web)
 
 ## Limitations
-Features which are currently not supported:
 
-* upload files (only viewing and deleting)
-* modify permissions (only viewing)
+TeamSpeak has a detailed interface for permissions and uploading files, therefore the following features are not 
+supported:
+
+* uploading files (only viewing and deleting, use the official client for uploading)
+* editing permissions (only viewing, use the client for editing)
 
 ## F.A.Q
 
@@ -169,7 +171,12 @@ To upgrade:
 ### Release
 * Set a date in the `CHANGELOG.md` file
 * Remove `SNAPSHOT` from the version in `Constants.php`
-* Build the docker image from the project home with `docker build -t varakh/ts3web:latest -t varakh/ts3web:<releaseTag> -f docker/Dockerfile .` and publish it
+* Build the docker image from the project
+    * if necessary, add GitHub access token to let composer pull dependencies within the image correctly: 
+    add `&& composer config --global --auth github-oauth.github.com <token> \` before the `composer install` command, 
+    where `<token>` can be retrieved from [GitHub settings](https://github.com/settings/tokens)
+    * execute `docker build -t varakh/ts3web:latest -t varakh/ts3web:<releaseTag> -f docker/Dockerfile .` to build
+    * publish it
 * Tag the release git commit and create a new release in the VCS web interface
 
 ### Prepare next development cycle

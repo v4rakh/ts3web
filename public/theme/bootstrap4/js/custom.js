@@ -3,6 +3,7 @@ $(document).ready(function () {
         "language": {
             "url": "/theme/bootstrap4/DataTables/en_dataTable.json"
         },
-        "paging": false
+        "paging": false,
+        "aaSorting": []
     });
 });

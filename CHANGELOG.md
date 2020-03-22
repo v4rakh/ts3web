@@ -2,6 +2,12 @@
 
 ## UNRELEASED
 
+## 2.2.2 - 2020/03/22
+* Stop auto-sorting tables
+* Add bandwidth formatter
+* Check PHP 7.4 compatibility
+* Increase docker image base to PHP 7.4
+
 ## 2.2.1 - 2019/11/10
 * Use separate JavaScript file to initialize DataTables
 

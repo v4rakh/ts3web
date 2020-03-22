@@ -159,6 +159,11 @@ $container['view'] = function ($container) use ($app) {
     });
     $view->getEnvironment()->addFilter($fileSizeFilter);
 
+    $bandWidthFilter = new TwigFilter('bandwidth', function($bytes, $decimals = 2) {
+        return FileHelper::humanBandwidth($bytes, $decimals);
+    });
+    $view->getEnvironment()->addFilter($bandWidthFilter);
+
     // ts specific: time in seconds to human readable
     $timeInSecondsFilter = new TwigFilter('timeInSeconds', function($seconds) use ($container) {
         return $container['ts']->getInstance()->convertSecondsToStrTime($seconds);

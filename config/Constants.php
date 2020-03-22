@@ -8,12 +8,12 @@ class Constants
     /**
      * Years tag
      */
-    const YEARS = '2019';
+    const YEARS = '2020';
 
     /**
      * Version tag
      */
-    const VERSION = '2.2.2-SNAPSHOT';
+    const VERSION = '2.2.2';
 
     /**
      * Return constant by it's class name
