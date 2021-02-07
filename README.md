@@ -6,53 +6,82 @@ The minimalistic approach of this application is intentional.
 * Docker images available on [https://hub.docker.com/r/varakh/ts3web](https://hub.docker.com/r/varakh/ts3web)
 * Sources are hosted on [https://github.com/v4rakh/ts3web](https://github.com/v4rakh/ts3web)
 
-## Limitations
-
-TeamSpeak has a detailed interface for permissions and uploading files, therefore the following features are not 
-supported:
-
-* uploading files (only viewing and deleting, use the official client for uploading)
-* editing permissions (only viewing, use the client for editing)
+There are many TeamSpeak 3 web interfaces out. Why should I pick ts3web?
+Free, simple, stateless, easy to extend, standard bootstrap theme.
 
 ## F.A.Q
 
-###### There are lots of TeamSpeak 3 web interfaces out. Why should I pick ts3web? 
-Free, simple, stateless, easy to extend, standard bootstrap theme.
+Questions? Here you'll hopefully get the answer. Feel free to read before starting.
 
+<a name="flood"></a>
+###### I always get `flood client` message when clicking anywhere in the web interface.
+ts3web makes heavy use of query commands. When your instance is up and running, you should be able to change
+`serverinstance_serverquery_flood_commands` to a high value, e.g. `100` and `serverinstance_serverquery_flood_time` to
+`1` which is enough.
+
+<a name="whitelist"></a>
 ###### I always get `TSException: Error: host isn't a ts3 instance!` when selecting a server.
-You probably got query banned from your server. You need to properly define your `whitelist.txt` file and include it in 
-your TeamSpeak application.
+You probably got query banned from your server. You need to properly define your [`whitelist.txt` file](#whitelisttxtexample)
+and include it in your TeamSpeak application.
+
+<a name="dockerperms"></a>
+###### I always get `no write permissions` or something similar when trying to save snapshots or when a log entry is created.
+This probably happens when you're in the docker setup. Ensure that host binds have permissions set up properly.
+The user which is used in the docker container is `www-data` with id `82`. If, e.g. logs are host bound, then execute 
+`chown -R 82:82 host/path/to/log`. The same holds true for snapshots.
 
 ## Configuration
-The main configuration file is the `env` file located in `config/`. There's an example file called `env.example` 
-which you **need** to copy to `config/env`. Defaults will assume you're running your TeamSpeak server on `localhost` with 
-default port. Docker deployments can and *should* host bind this file into the container directly and just maintain the 
-`env` file.
+
+The main configuration file for the *web interface* is the `env` file located in `config/`. There's an example file 
+called `env.example` which you **need** to copy to `config/env`. Defaults will assume you're running your TeamSpeak 
+server on `localhost` with default port. Docker deployments can and *should* host bind this file into the container
+directly and just maintain the `env` file.
 
 ## Deployment
-The application can be deployed in different ways. See below for more information. For each deployment type a running 
-TeamSpeak 3 instance is a prerequisite (except for the `docker-compose.yml` type which will start also the server if 
-needed).
+The application can be deployed two different ways. See below for more information. For each deployment type a running 
+TeamSpeak 3 instance is a prerequisite. 
 
-### Exposed volumes on docker images
-* Snapshots are saved in `/var/www/html/application/data/snapshots`. You should create a volume for this location if 
-you're using docker as deployment type.
-* Logs are saved in `/var/www/html/application/log` for docker containers. You should create a volume 
-for this location if you're using docker as deployment type. You should also create the log file `application.log` already.
+In the `docker-compose.yml` [example](#dockercompose), a setup together with a teamspeak server instance is shown.
 
-**Important**: Ensure that host binds have permissions set up properly. The user which is used in the docker container 
-is `www-data` with id `82`. If, e.g. logs are host bound, then execute `chown -R 82:82 host/path/to/log`. 
-The same holds true for snapshots.
+### Docker
 
-### Usage with docker-compose
-The recommended way is to use docker-compose. The `network_mode = "host"` is required in order to show correct IP 
-addresses of connected TeamSpeak users.
+#### Important. Read before setup!
 
-1. The web interface will not be able to use `localhost` as TeamSpeak 3 server address because it's not available in a 
-docker container when _not_ using the `host` network. Thus the`whitelist.txt` **must** include your public TeamSpeak 3 
-server IP for this example setup.
-2. The public address also has to match the environment variable `teamspeak_host=your-public-address` within
-the `env` file referenced in the example `docker-compose`.
+1. [Setup write permissions if you're using host binds](#dockerperms)
+2. [Ensure that you set `flood commands` to a higher value in your TeamSpeak](#flood).
+3. [Use a `whitelist.txt` to ensure the web interface will not be query banned](#whitelist)
+4. Be aware that the web interface will not be able to use `localhost` as TeamSpeak 3 server address because it's not 
+   available in a docker container. The public address also has to match the environment variable
+   `teamspeak_host=your-public-address` within the `env` file.
+
+<a name="dockerrun"></a>
+#### docker run
+The following section outlines a manual setup. Feel free to use the provided `docker-compose.yml` as quick setup.
+
+1. Create docker volumes for `snapshots`, `log` and `env`. Alternative is to host bind them into your containers.
+2. Create a docker network with a fixed IP range or later use host network.
+3. Depending on your setup, you need to change `teamspeak_host` of your `env` file to point either to `your IP` or to a 
+   `fixed docker IP` which your teamspeak uses. `localhost` is not valid if you're using it in docker. If you're unsure,
+   please take a look at the example `docker-compose.yml` files.
+4. Start a container using the docker image `varakh/ts3web` and provide the following bindings for volumes:
+    * `{env_file_volume|host_file}:/var/www/html/application/config/env`
+    * `{snapshot_volume|host_folder}:/var/www/html/application/data/snapshots`
+    * `{log_volume|host_folder}:/var/www/html/application/log`
+5. [Ensure that you're whitelisting the IP from which the webinterface will issue commands.](#whitelist)
+6. Run the `docker run` command including your settings, volumes and networks (if any): `docker run --name teamspeak_web -v ./env:/var/www/html/application/config/env -p 8181:80 varakh/ts3web:latest`.
+
+<a name="dockercompose"></a>
+#### docker-compose
+In order for TeamSpeak to show correct IP and country flags, the `network_mode = "host"` is advised. It's also
+possible to set everything up [without using the host network mode and use fixed IPs](#withouthostmode).
+
+The examples will use host binds for volumes. Feel free to adapt the `docker-compose.yml` template and use docker volumes
+instead if you like.
+
+Ensure to [apply permissions](#dockerperms) for volumes though.
+
+<a name="withhostmode"></a>
+#### With 'host' mode
 
 ```
 version: '2.1'
@@ -64,7 +93,7 @@ services:
     container_name: teamspeak_app
     image: teamspeak:latest
     volumes:
-      - ./app:/var/ts3server
+      - ./ts3server:/var/ts3server
       - ./whitelist.txt:/whitelist.txt
     ports:
       - 10011:10011
@@ -91,82 +120,140 @@ services:
       - teamspeak
 ```
 
+<a name="withouthostmode"></a>
+#### Without 'host' mode
+
+```
+version: '2.1'
+networks:
+  teamspeak:
+    driver: bridge
+    ipam:
+     config:
+       - subnet: 10.5.0.0/16
+         gateway: 10.5.0.1
+
+services:
+  app:
+    container_name: teamspeak_app
+    image: teamspeak:latest
+    volumes:
+      - ./ts3server:/var/ts3server
+      - ./whitelist.txt:/whitelist.txt
+    environment:
+      - TS3SERVER_LICENSE=accept
+      - TS3SERVER_IP_WHITELIST=/whitelist.txt
+    restart: always
+    ports:
+     - 10011:10011
+     - 30033:30033
+     - 9987:9987/udp
+    networks:
+      teamspeak:
+        ipv4_address: 10.5.0.5
+  web:
+    container_name: teamspeak_web
+    image: varakh/ts3web:latest
+    volumes:
+      - ./env:/var/www/html/application/config/env
+      - ./snapshots:/var/www/html/application/data/snapshots
+      - ./log:/var/www/html/application/log
+    ports:
+      - 127.0.0.1:8181:80
+    depends_on:
+      - app
+    restart: always
+    networks:
+      teamspeak:
+        ipv4_address: 10.5.0.6
+
+```
+
+
+<a name="whitelisttxtexample"></a>
+#### whitelist.txt
+
+The following illustrates a valid `whitelist.txt` file which can be used for the above `docker-compose` setups. You
+need to replace `your-public-ip` with the TeamSpeak's public IP address if required or remove the fixed internal
+docker IP if you're on 'host' mode.
+
+```
+127.0.0.1
+::1
+10.5.0.5
+your-public-ip
+```
+
 Now execute `docker-compose up -d` to start those containers. If you like to update, do `docker-compose down`, 
 `docker-compose pull` and then `docker-compose up -d` again.
 
 Your TeamSpeak 3 Server will be available under `public-server-ip:9987`. The web interface will be available on
-`127.0.0.1:8181`. You need to add a reverse proxy and probably you also want SSL configured if you expose it via domain.
+`127.0.0.1:8181`. You need to add a [reverse proxy](#reverseproxy) and probably you also want SSL configured if you expose it via domain.
 For testing purposes, change `- 127.0.0.1:8181:80` to `- 8181:80`. The web interface will then be available under 
-`public-server-ip:8181`. This is **not recommended**! Secure your setup properly via reverse proxy and SSL!
+`public-server-ip:8181`.
 
-### Usage as single docker container
-* Copy `env.example` to `env` and adjust to your needs. It's recommended to make it persistent outside of the container.
-* Create a container with the image, e.g. `docker run --name teamspeak_web -v ./env:/var/www/html/application/config/env -p 8181:80 varakh/ts3web:latest`. 
-* Make sure that if TeamSpeak and ts3web share the same docker instance and that they should be put into one network and the subnet **needs be added to teamspeak's query whitelist**.
-* Point your browser to `8181` to see the web interface. 
+This is **not recommended**! Secure your setup properly via [reverse proxy and SSL](#reverseproxy).
 
-### Usage as native application
+### As native PHP application
 **Prerequisite**: `php`, `composer` and probably `php-fpm` installed on the server.
 
-To install:
+#### Install:
 * Clone repository
 * Change directory to project home
 * Execute `composer install`
 * `composer install`
 * Do the configuration by coping the `env.example` file (see information above)
-* Use a web server or run directly via PHP server: `php -S localhost:8080 -t public public/index.php` (point browser to [localhost:8080](http://localhost:8080))
+* Use a web server _or_ run directly via the embedded PHP server: `php -S localhost:8080 -t public public/index.php`.
+* Point your browser to [localhost:8080](http://localhost:8080)
+* Apply any [whitelist.txt](#whitelisttxtexample) changes if you configured `teamspeak_host` differently than `localhost`
 
-To upgrade:
+#### Upgrade:
 * Change directory to project home
 * `git pull`
 * `composer update`
 
-### Web server setup
-* Example `nginx.conf` for **standalone** deployment without SSL:
+<a name="reverseproxy"></a>
+### Reverse proxy
+Here's an example on how to configure a reverse proxy for the web interface docker container
 
-    ```  
-    root   .../public;
-    index index.php;    
-    
-    rewrite_log on;
-    
-    location / {
-      try_files $uri $uri/ @ee;
-    }
-    
-    location @ee {
-      rewrite ^(.*) /index.php?$1 last;
-    }
-    
-    # php fpm
-    location ~ \.php$ {
-      fastcgi_split_path_info ^(.+\.php)(/.+)$;
-      fastcgi_pass   unix:/var/run/php-fpm/php-fpm.sock;
-      include        fastcgi_params;
-    }
-    ```
+  ```  
+  root   .../public;
+  index index.php;   
+  
+  # enable and setup if you have a certificate (highly recommended)
+  #ssl on;
+  #ssl_certificate fullchain.pem;
+  #ssl_certificate_key privkey.pem; 
+  
+  rewrite_log on;
+  
+  location / {
+    try_files $uri $uri/ @ee;
+  }
+  
+  location @ee {
+    rewrite ^(.*) /index.php?$1 last;
+  }
+  
+  # php fpm
+  location ~ \.php$ {
+    fastcgi_split_path_info ^(.+\.php)(/.+)$;
+    fastcgi_pass   unix:/var/run/php-fpm/php-fpm.sock;
+    include        fastcgi_params;
+  }
+  ```
 
-* Example `nginx.conf` as **reverse proxy** with SSL:
-    
-    ```
-    server {
-        listen      443 ssl http2;
-        server_name teamspeak.domain.tld;
-      
-        ssl on;
-        ssl_certificate fullchain.pem;
-        ssl_certificate_key privkey.pem;
-    
-        location / {
-            proxy_pass http://localhost:8181;
-            proxy_set_header X-Real-IP $remote_addr;
-            proxy_set_header Host $host;
-            proxy_set_header X-Forwarded-For $remote_addr;
-        }
-    }
-    ```
+## Limitations
+
+TeamSpeak has a detailed interface for permissions and uploading files, therefore the following features are not
+supported:
+
+* uploading files (only viewing and deleting, use the official client for uploading)
+* editing permissions (only viewing, use the client for editing)
 
 ## Development
+
+If you're willing to contribute, here's some information.
 
 ### Release
 * Set a date in the `CHANGELOG.md` file
