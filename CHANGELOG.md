@@ -1,5 +1,7 @@
 # CHANGELOG
 
+## 2.2.4 - UNRELEASED
+
 ## 2.2.3 - 2021/01/08
 * Change docker base to alpine
 
