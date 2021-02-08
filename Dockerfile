@@ -2,20 +2,22 @@ FROM alpine:3
 
 LABEL maintainer="Varakh<varakh@varakh.de>"
 
+ENV APP_HOME /var/www/html/application
+
 # setup folder structure
-RUN mkdir -p /var/www/data/snapshots && \
-    mkdir -p /var/www/log && \
-    touch /var/www/log/application.log && \
-    mkdir -p /var/www/config
+RUN mkdir -p ${APP_HOME}/data/snapshots && \
+    mkdir -p ${APP_HOME}/log && \
+    touch ${APP_HOME}/log/application.log && \
+    mkdir -p ${APP_HOME}/config
 
 # add upstream application
-ADD src /var/www/src
-ADD public /var/www/public
-ADD composer.json /var/www/composer.json
-ADD composer.lock /var/www/composer.lock
-ADD data /var/www/data
-ADD config /var/www/config
-RUN mv /var/www/config/env.example /var/www/config/env
+ADD src ${APP_HOME}/src
+ADD public ${APP_HOME}/public
+ADD composer.json ${APP_HOME}/composer.json
+ADD composer.lock ${APP_HOME}/composer.lock
+ADD data ${APP_HOME}/data
+ADD config ${APP_HOME}/config
+RUN mv ${APP_HOME}/config/env.example ${APP_HOME}/config/env
 
 # php.ini
 ENV PHP_MEMORY_LIMIT    512M
@@ -59,10 +61,10 @@ RUN apk add --update --no-cache \
     sed -i "s|;*max_file_uploads =.*|max_file_uploads = ${PHP_MAX_FILE_UPLOAD}|i" /etc/php7/php.ini && \
     sed -i "s|;*post_max_size =.*|post_max_size = ${PHP_MAX_POST}|i" /etc/php7/php.ini && \
     # prepare application
-    cd /var/www && composer install && \
+    cd ${APP_HOME} && composer install && \
     # clean up and permissions
     rm -rf /var/cache/apk/* && \
-    chown nobody:nginx -R /var/www
+    chown nobody:nginx -R ${APP_HOME}
 
 # Add nginx config
 ADD docker/nginx.conf /etc/nginx/nginx.conf

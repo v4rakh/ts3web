@@ -1,6 +1,7 @@
 # CHANGELOG
 
-## UNRELEASED
+## 2.2.3 - 2021/01/08
+* Change docker base to alpine
 
 ## 2.2.2 - 2020/03/22
 * Stop auto-sorting tables
