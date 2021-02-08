@@ -27,7 +27,7 @@ and include it in your TeamSpeak application.
 <a name="dockerperms"></a>
 ###### I always get `no write permissions` or something similar when trying to save snapshots or when a log entry is created.
 This probably happens when you're in the docker setup. Ensure that host binds have permissions set up properly.
-The user which is used in the docker container is `nobody` with id `82`. If, e.g. logs are host bound, then execute 
+The user which is used in the docker container is `nobody` with id `65534`. If, e.g. logs are host bound, then execute 
 `chown -R 65534:65534 host/path/to/log`. The same holds true for snapshots.
 
 ## Configuration
@@ -64,11 +64,11 @@ The following section outlines a manual setup. Feel free to use the provided `do
    `fixed docker IP` which your teamspeak uses. `localhost` is not valid if you're using it in docker. If you're unsure,
    please take a look at the example `docker-compose.yml` files.
 4. Start a container using the docker image `varakh/ts3web` and provide the following bindings for volumes:
-    * `{env_file_volume|host_file}:/var/www/html/application/config/env`
-    * `{snapshot_volume|host_folder}:/var/www/html/application/data/snapshots`
-    * `{log_volume|host_folder}:/var/www/html/application/log`
+    * `{env_file_volume|host_file}:/var/www/config/env`
+    * `{snapshot_volume|host_folder}:/var/www/data/snapshots`
+    * `{log_volume|host_folder}:/var/www/log`
 5. [Ensure that you're whitelisting the IP from which the webinterface will issue commands.](#whitelist)
-6. Run the `docker run` command including your settings, volumes and networks (if any): `docker run --name teamspeak_web -v ./env:/var/www/html/application/config/env -p 8181:80 varakh/ts3web:latest`.
+6. Run the `docker run` command including your settings, volumes and networks (if any): `docker run --name teamspeak_web -v ./env:/var/www/config/env -p 8181:80 varakh/ts3web:latest`.
 
 <a name="dockercompose"></a>
 #### docker-compose
@@ -108,9 +108,9 @@ services:
     container_name: teamspeak_web
     image: varakh/ts3web:latest
     volumes:
-      - ./env:/var/www/html/application/config/env
-      - ./snapshots:/var/www/html/application/data/snapshots
-      - ./log:/var/www/html/application/log
+      - ./env:/var/www/config/env
+      - ./snapshots:/var/www/data/snapshots
+      - ./log:/var/www/log
     ports:
       - 127.0.0.1:8181:80
     depends_on:
@@ -155,9 +155,9 @@ services:
     container_name: teamspeak_web
     image: varakh/ts3web:latest
     volumes:
-      - ./env:/var/www/html/application/config/env
-      - ./snapshots:/var/www/html/application/data/snapshots
-      - ./log:/var/www/html/application/log
+      - ./env:/var/www/config/env
+      - ./snapshots:/var/www/data/snapshots
+      - ./log:/var/www/log
     ports:
       - 127.0.0.1:8181:80
     depends_on:
