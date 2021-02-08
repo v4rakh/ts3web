@@ -1,7 +1,7 @@
 bin/*
 !bin/.gitkeep
 config/env
-composer.lock
+composer.phar
 cache/*
 !cache/.gitkeep
 public/images/*

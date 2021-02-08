@@ -27,8 +27,8 @@ and include it in your TeamSpeak application.
 <a name="dockerperms"></a>
 ###### I always get `no write permissions` or something similar when trying to save snapshots or when a log entry is created.
 This probably happens when you're in the docker setup. Ensure that host binds have permissions set up properly.
-The user which is used in the docker container is `www-data` with id `82`. If, e.g. logs are host bound, then execute 
-`chown -R 82:82 host/path/to/log`. The same holds true for snapshots.
+The user which is used in the docker container is `nobody` with id `82`. If, e.g. logs are host bound, then execute 
+`chown -R 65534:65534 host/path/to/log`. The same holds true for snapshots.
 
 ## Configuration
 
@@ -106,7 +106,7 @@ services:
     network_mode: "host"
   web:
     container_name: teamspeak_web
-    image: teamspeak_web:latest
+    image: varakh/ts3web:latest
     volumes:
       - ./env:/var/www/html/application/config/env
       - ./snapshots:/var/www/html/application/data/snapshots
@@ -262,7 +262,7 @@ If you're willing to contribute, here's some information.
     * if necessary, add GitHub access token to let composer pull dependencies within the image correctly: 
     add `&& composer config --global --auth github-oauth.github.com <token> \` before the `composer install` command, 
     where `<token>` can be retrieved from [GitHub settings](https://github.com/settings/tokens)
-    * execute `docker build -t varakh/ts3web:latest -t varakh/ts3web:<releaseTag> -f docker/Dockerfile .` to build
+    * execute `sudo docker build --no-cache -t varakh/ts3web:latest .` to build
     * publish it
 * Tag the release git commit and create a new release in the VCS web interface
 
