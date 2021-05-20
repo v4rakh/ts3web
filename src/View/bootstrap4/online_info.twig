@@ -12,8 +12,8 @@
                 'uri': '/online/poke/' ~ sid ~ '/' ~ clid,
                 'uri_method': 'post',
                 'fields': [
-                    {'type': 'text', 'key': 'message', 'label': 'online.poke.message'|trans},
-                ]
+                {'type': 'text', 'key': 'message', 'label': 'online.poke.message'|trans},
+            ]
             },
             {
                 'header_label': 'online.kick'|trans,
@@ -21,8 +21,8 @@
                 'uri': '/online/kick/' ~ sid ~ '/' ~ clid,
                 'uri_method': 'post',
                 'fields': [
-                    {'type': 'text', 'key': 'reason', 'label': 'online.kick.reason'|trans},
-                ]
+                {'type': 'text', 'key': 'reason', 'label': 'online.kick.reason'|trans},
+            ]
             },
             {
                 'header_label': 'online.ban'|trans,
@@ -30,9 +30,9 @@
                 'uri': '/online/ban/' ~ sid ~ '/' ~ clid,
                 'uri_method': 'post',
                 'fields': [
-                    {'type': 'text', 'key': 'reason', 'label': 'online.ban.reason'|trans},
-                    {'type': 'number', 'key': 'time', 'label': 'online.ban.time'|trans}
-                ]
+                {'type': 'text', 'key': 'reason', 'label': 'online.ban.reason'|trans},
+                {'type': 'number', 'key': 'time', 'label': 'online.ban.time'|trans}
+            ]
             },
             {
                 'header_label': 'online.move'|trans,
@@ -40,9 +40,9 @@
                 'uri': '/online/move/' ~ sid ~ '/' ~ clid,
                 'uri_method': 'post',
                 'fields': [
-                    {'type': 'select', 'key': 'channel', 'options': channels,'label': 'online.move.channel'|trans},
-                    {'type': 'text', 'key': 'channel_password', 'label': 'online.move.channel_password'|trans}
-                ]
+                {'type': 'select', 'key': 'channel', 'options': channels,'label': 'online.move.channel'|trans},
+                {'type': 'text', 'key': 'channel_password', 'label': 'online.move.channel_password'|trans}
+            ]
             },
             {
                 'header_label': 'online.send'|trans,
@@ -50,8 +50,8 @@
                 'uri': '/online/send/' ~ sid ~ '/' ~ clid,
                 'uri_method': 'post',
                 'fields': [
-                    {'type': 'text', 'key': 'message', 'label': 'online.send.message'|trans},
-                ]
+                {'type': 'text', 'key': 'message', 'label': 'online.send.message'|trans},
+            ]
             }
         ]
     } %}

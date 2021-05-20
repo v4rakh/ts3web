@@ -47,7 +47,7 @@ class TSAuthAdapter extends \Zend\Authentication\Adapter\AbstractAdapter
         if ($this->ts->login($user, $password)) {
             $this->logger->debug(sprintf('Authenticated as %s', $user));
 
-            $user = ['identity' => $user, 'user' => $user, 'password'=> $password, 'role' => ACL::ACL_DEFAULT_ROLE_ADMIN];
+            $user = ['identity' => $user, 'user' => $user, 'password' => $password, 'role' => ACL::ACL_DEFAULT_ROLE_ADMIN];
             return new Result(Result::SUCCESS, $user, array());
         } else {
             return new Result(

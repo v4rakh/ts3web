@@ -11,20 +11,20 @@
 
         {% include 'table.twig' with {'data': data,
 
-        'additional_links': [
-            {
-                'header_label': 'snapshots.deploy'|trans,
-                'label': '<i class="fa fa-check"></i>',
-                'uri': '/snapshots/deploy/' ~ sid,
-                'uri_param': 'name'
-            },
-            {
-                'header_label': 'snapshots.delete'|trans,
-                'label': '<i class="fa fa-trash"></i>',
-                'uri': '/snapshots/delete/' ~ sid,
-                'uri_param': 'name'
-            }
-        ],
+            'additional_links': [
+                {
+                    'header_label': 'snapshots.deploy'|trans,
+                    'label': '<i class="fa fa-check"></i>',
+                    'uri': '/snapshots/deploy/' ~ sid,
+                    'uri_param': 'name'
+                },
+                {
+                    'header_label': 'snapshots.delete'|trans,
+                    'label': '<i class="fa fa-trash"></i>',
+                    'uri': '/snapshots/delete/' ~ sid,
+                    'uri_param': 'name'
+                }
+            ],
 
         } %}
     {% endif %}

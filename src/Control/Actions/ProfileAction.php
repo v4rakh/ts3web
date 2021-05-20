@@ -16,7 +16,7 @@ final class ProfileAction extends AbstractAction
         $whoisResult = $this->ts->getInstance()->whoAmI();
 
         $this->view->render($response, 'profile.twig', [
-            'title'     => $this->translator->trans('profile.title'),
+            'title' => $this->translator->trans('profile.title'),
             'whois' => $this->ts->getInstance()->getElement('data', $whoisResult),
         ]);
     }

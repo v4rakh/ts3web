@@ -52,49 +52,6 @@ class TSInstance
     }
 
     /**
-     * Login
-     *
-     * @param $user
-     * @param $password
-     * @return bool
-     */
-    public function login($user, $password)
-    {
-        if (!empty($user) && !empty($password)) {
-            $this->ts->login($user, $password);
-            $this->logger->debug(sprintf('Logged in as %s', $user));
-        } else {
-            throw new InvalidArgumentException('User and password not provided');
-        }
-
-        return true;
-    }
-
-    /**
-     * @return string
-     */
-    public function getHost()
-    {
-        return $this->host;
-    }
-
-    /**
-     * @return int
-     */
-    public function getQueryPort()
-    {
-        return $this->queryPort;
-    }
-
-    /**
-     * @return ts3admin
-     */
-    public function getInstance()
-    {
-        return $this->ts;
-    }
-
-    /**
      * @return array
      */
     public static function getCodecs()
@@ -223,5 +180,48 @@ class TSInstance
         $arr['TemplateGroup'] = 0;
 
         return $arr;
+    }
+
+    /**
+     * Login
+     *
+     * @param $user
+     * @param $password
+     * @return bool
+     */
+    public function login($user, $password)
+    {
+        if (!empty($user) && !empty($password)) {
+            $this->ts->login($user, $password);
+            $this->logger->debug(sprintf('Logged in as %s', $user));
+        } else {
+            throw new InvalidArgumentException('User and password not provided');
+        }
+
+        return true;
+    }
+
+    /**
+     * @return string
+     */
+    public function getHost()
+    {
+        return $this->host;
+    }
+
+    /**
+     * @return int
+     */
+    public function getQueryPort()
+    {
+        return $this->queryPort;
+    }
+
+    /**
+     * @return ts3admin
+     */
+    public function getInstance()
+    {
+        return $this->ts;
     }
 }

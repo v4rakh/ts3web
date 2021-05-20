@@ -9,49 +9,67 @@
             <ul class="navbar-nav ml-auto">
 
                 {% if currentUser is not empty %}
-                    <li class="nav-item"><a class="nav-link" href="/instance"><i class="fa fa-info"></i> {% trans %}menu.instance{% endtrans %}</a>
+                    <li class="nav-item"><a class="nav-link" href="/instance"><i
+                                class="fa fa-info"></i> {% trans %}menu.instance{% endtrans %}</a>
                     </li>
-                    <li class="nav-item"><a class="nav-link" href="/logs"><i class="fa fa-file"></i> {% trans %}menu.logs{% endtrans %}</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/logs"><i
+                                class="fa fa-file"></i> {% trans %}menu.logs{% endtrans %}</a></li>
 
                     <li class="nav-item dropdown">
 
                         {% if session_exists('sid') %}
                             {% if session_exists('sport') %}
                                 <a class="nav-link dropdown-toggle" href="#" id="dropdownServer" data-toggle="dropdown"
-                                   aria-haspopup="true" aria-expanded="false"><i class="fa fa-star"></i> {{ session_get('sport') }}</a>
+                                   aria-haspopup="true" aria-expanded="false"><i
+                                        class="fa fa-star"></i> {{ session_get('sport') }}</a>
                             {% elseif session_exists('sname') %}
                                 <a class="nav-link dropdown-toggle" href="#" id="dropdownServer" data-toggle="dropdown"
-                                   aria-haspopup="true" aria-expanded="false"><i class="fa fa-star"></i> {{ session_get('sname') }}</a>
+                                   aria-haspopup="true" aria-expanded="false"><i
+                                        class="fa fa-star"></i> {{ session_get('sname') }}</a>
                             {% endif %}
 
                             <div class="dropdown-menu" aria-labelledby="dropdownServer">
                                 <a class="dropdown-item"
-                                   href="/servers/{{ session_get('sid') }}"><i class="fa fa-info"></i> {% trans %}menu.servers.info{% endtrans %}</a>
+                                   href="/servers/{{ session_get('sid') }}"><i
+                                        class="fa fa-info"></i> {% trans %}menu.servers.info{% endtrans %}</a>
                                 <a class="dropdown-item"
-                                   href="/online/{{ session_get('sid') }}"><i class="fa fa-signal"></i> {% trans %}menu.servers.online{% endtrans %}</a>
+                                   href="/online/{{ session_get('sid') }}"><i
+                                        class="fa fa-signal"></i> {% trans %}menu.servers.online{% endtrans %}</a>
                                 <a class="dropdown-item"
-                                   href="/clients/{{ session_get('sid') }}"><i class="fa fa-user-plus"></i> {% trans %}menu.servers.clients{% endtrans %}</a>
+                                   href="/clients/{{ session_get('sid') }}"><i
+                                        class="fa fa-user-plus"></i> {% trans %}menu.servers.clients{% endtrans %}</a>
                                 <a class="dropdown-item"
-                                   href="/groups/{{ session_get('sid') }}"><i class="fa fa-group"></i> {% trans %}menu.servers.groups{% endtrans %}</a>
+                                   href="/groups/{{ session_get('sid') }}"><i
+                                        class="fa fa-group"></i> {% trans %}menu.servers.groups{% endtrans %}</a>
                                 <a class="dropdown-item"
-                                   href="/channels/{{ session_get('sid') }}"><i class="fa fa-tv"></i> {% trans %}menu.servers.channels{% endtrans %}</a>
+                                   href="/channels/{{ session_get('sid') }}"><i
+                                        class="fa fa-tv"></i> {% trans %}menu.servers.channels{% endtrans %}</a>
                                 <a class="dropdown-item"
-                                   href="/bans/{{ session_get('sid') }}"><i class="fa fa-ban"></i> {% trans %}menu.servers.bans{% endtrans %}</a>
+                                   href="/bans/{{ session_get('sid') }}"><i
+                                        class="fa fa-ban"></i> {% trans %}menu.servers.bans{% endtrans %}</a>
                                 <a class="dropdown-item"
-                                   href="/complains/{{ session_get('sid') }}"><i class="fa fa-thumbs-down"></i> {% trans %}menu.servers.complains{% endtrans %}</a>
+                                   href="/complains/{{ session_get('sid') }}"><i
+                                        class="fa fa-thumbs-down"></i> {% trans %}menu.servers.complains{% endtrans %}
+                                </a>
                                 <a class="dropdown-item"
-                                   href="/passwords/{{ session_get('sid') }}"><i class="fa fa-key"></i> {% trans %}menu.servers.passwords{% endtrans %}</a>
+                                   href="/passwords/{{ session_get('sid') }}"><i
+                                        class="fa fa-key"></i> {% trans %}menu.servers.passwords{% endtrans %}</a>
                                 <a class="dropdown-item"
-                                   href="/tokens/{{ session_get('sid') }}"><i class="fa fa-user-secret"></i> {% trans %}menu.servers.tokens{% endtrans %}</a>
+                                   href="/tokens/{{ session_get('sid') }}"><i
+                                        class="fa fa-user-secret"></i> {% trans %}menu.servers.tokens{% endtrans %}</a>
                                 <a class="dropdown-item"
-                                   href="/snapshots/{{ session_get('sid') }}"><i class="fa fa-save"></i> {% trans %}menu.servers.snapshots{% endtrans %}</a>
+                                   href="/snapshots/{{ session_get('sid') }}"><i
+                                        class="fa fa-save"></i> {% trans %}menu.servers.snapshots{% endtrans %}</a>
                                 <a class="dropdown-item"
-                                   href="/logs/{{ session_get('sid') }}"><i class="fa fa-file"></i> {% trans %}menu.servers.logs{% endtrans %}</a>
+                                   href="/logs/{{ session_get('sid') }}"><i
+                                        class="fa fa-file"></i> {% trans %}menu.servers.logs{% endtrans %}</a>
                                 <hr/>
-                                <a class="dropdown-item" href="/servers/deselect"><i class="fa fa-close"></i> {% trans %}menu.servers.deselect{% endtrans %}</a>
+                                <a class="dropdown-item" href="/servers/deselect"><i
+                                        class="fa fa-close"></i> {% trans %}menu.servers.deselect{% endtrans %}</a>
                                 <hr/>
                                 <a class="dropdown-item"
-                                   href="/servers"><i class="fa fa-server"></i> {% trans %}menu.servers{% endtrans %}</a>
+                                   href="/servers"><i class="fa fa-server"></i> {% trans %}menu.servers{% endtrans %}
+                                </a>
                             </div>
                         {% else %}
 
@@ -61,7 +79,8 @@
                                aria-expanded="false">{% trans %}menu.servers.select{% endtrans %}</a>
                             <div class="dropdown-menu" aria-labelledby="dropdownServer">
                                 <a class="dropdown-item"
-                                   href="/servers"><i class="fa fa-server"></i> {% trans %}menu.servers{% endtrans %}</a>
+                                   href="/servers"><i class="fa fa-server"></i> {% trans %}menu.servers{% endtrans %}
+                                </a>
                             </div>
                         {% endif %}
                     </li>
@@ -69,14 +88,18 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="dropdownUser" data-toggle="dropdown"
                            aria-haspopup="true"
-                           aria-expanded="false"><i class="fa fa-user"></i> {% trans with {'%username%': currentUser.user } %}menu.currentlyloggedin{% endtrans %}</a>
+                           aria-expanded="false"><i
+                                class="fa fa-user"></i> {% trans with {'%username%': currentUser.user } %}menu.currentlyloggedin{% endtrans %}
+                        </a>
                         <div class="dropdown-menu" aria-labelledby="dropdownUser">
-                            <a class="dropdown-item" href="/logout"><i class="fa fa-sign-out"></i> {% trans %}menu.logout{% endtrans %}</a>
+                            <a class="dropdown-item" href="/logout"><i
+                                    class="fa fa-sign-out"></i> {% trans %}menu.logout{% endtrans %}</a>
                         </div>
                     </li>
 
                 {% else %}
-                    <li class="nav-item"><a class="nav-link" href="/login"><i class="fa fa-sign-in"></i> {% trans %}menu.login{% endtrans %}</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/login"><i
+                                class="fa fa-sign-in"></i> {% trans %}menu.login{% endtrans %}</a></li>
                 {% endif %}
             </ul>
         </div>

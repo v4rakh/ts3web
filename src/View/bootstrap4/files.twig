@@ -27,7 +27,8 @@
                 <td>{{ path }}</td>
                 <td>{{ file.size == 0 ? '' : file.size|file }}</td>
                 <td>{{ file.datetime|timestamp }}</td>
-                <td><a href="/channels/files/delete/{{ sid }}/{{ cid }}?file={{ path }}"><i class="fa fa-trash"></i></a></td>
+                <td><a href="/channels/files/delete/{{ sid }}/{{ cid }}?file={{ path }}"><i class="fa fa-trash"></i></a>
+                </td>
             </tr>
         {% endfor %}
         <tr>

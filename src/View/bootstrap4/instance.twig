@@ -1,7 +1,7 @@
 {% extends 'layout.twig' %}
 
 {% block content %}
-    <h3 >{{ title }}</h3>
+    <h3>{{ title }}</h3>
     {% include 'keyvalue.twig' with {'data': data,
         'filters': [
             {'key': 'instance_uptime', 'apply': 'timeInSeconds'},

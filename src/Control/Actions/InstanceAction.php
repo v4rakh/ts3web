@@ -14,7 +14,7 @@ final class InstanceAction extends AbstractAction
         $data['data'] = array_merge($hostResult['data'], $instanceResult['data']);
 
         $this->view->render($response, 'instance.twig', [
-            'title'     => $this->translator->trans('instance.title'),
+            'title' => $this->translator->trans('instance.title'),
             'data' => $this->ts->getInstance()->getElement('data', $data)
         ]);
     }

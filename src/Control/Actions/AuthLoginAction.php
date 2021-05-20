@@ -15,11 +15,11 @@ final class AuthLoginAction extends AbstractAction
             $validator = new Validator();
             $body = $validator->sanitize($body);
             $validator->filter_rules([
-                'username'     => 'trim',
+                'username' => 'trim',
             ]);
             $validator->validation_rules([
-                'username'     => 'required|min_len,1',
-                'password'     => 'required|min_len,1',
+                'username' => 'required|min_len,1',
+                'password' => 'required|min_len,1',
             ]);
             if (!$validator->run($body)) {
                 $validator->addErrorsToFlashMessage($this->flash);
@@ -42,7 +42,7 @@ final class AuthLoginAction extends AbstractAction
         }
 
         $this->view->render($response, 'login.twig', [
-            'title'     => $this->translator->trans('login.title'),
+            'title' => $this->translator->trans('login.title'),
         ]);
     }
 }

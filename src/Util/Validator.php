@@ -13,52 +13,110 @@ class Validator extends GUMP
         $this->translator = BootstrapHelper::bootTranslator();
     }
 
-    protected function validate_set_min_len($field, $input, $param = NULL)
+    /**
+     * Perform data validation against the provided ruleset
+     *
+     * Arrays as FIELDS are added here as a custom feature
+     *
+     * @access public
+     * @param mixed $input
+     * @param array $ruleset
+     * @return mixed
+     * @throws \Exception
+     */
+    public function validate(array $input, array $ruleset)
     {
+        $this->errors = [];
 
-        $err = [
-            'field' => $field,
-            'value' => $input[$field],
-            'rule'  => __FUNCTION__,
-            'param' => $param,
-        ];
+        foreach ($ruleset as $field => $rules) {
+            #if(!array_key_exists($field, $input))
+            #{
+            #   continue;
+            #}
 
-        if (!is_array($input[$field])) {
-            return $err;
+            $rules = explode('|', $rules);
+
+            if (in_array("required", $rules) || (isset($input[$field]) && (is_array($input[$field]) || trim($input[$field]) != ''))) {
+
+                foreach ($rules as $rule) {
+                    $method = NULL;
+                    $param = NULL;
+
+                    if (strstr($rule, ',') !== false) // has params
+                    {
+                        $rule = explode(',', $rule);
+                        $method = 'validate_' . $rule[0];
+                        $param = $rule[1];
+                        $rule = $rule[0];
+                    } else {
+                        $method = 'validate_' . $rule;
+                    }
+
+                    // array required
+                    if ($rule === "required" && !isset($input[$field])) {
+                        $result = $this->$method($field, $input, $param);
+                        $this->errors[] = $result;
+
+                        return;
+                    }
+
+                    if (is_callable([$this, $method])) {
+                        $result = $this->$method($field, $input, $param);
+
+                        if (is_array($result)) // Validation Failed
+                        {
+                            $this->errors[] = $result;
+
+                            return $this->errors;
+                        }
+                    } else {
+                        if (isset(self::$validation_methods[$rule])) {
+                            if (isset($input[$field])) {
+                                $result = call_user_func(self::$validation_methods[$rule], $field, $input, $param);
+
+                                $result = $this->$method($field, $input, $param);
+
+                                if (is_array($result)) // Validation Failed
+                                {
+                                    $this->errors[] = $result;
+
+                                    return $this->errors;
+                                }
+                            }
+                        } else {
+                            throw new \Exception("Validator method '$method' does not exist.");
+                        }
+                    }
+                }
+            }
         }
 
-        // default value
-        if (empty($param)) $param = 1;
-
-        if (count($input[$field]) < $param) return $err;
-
-        return true;
+        return (count($this->errors) > 0) ? $this->errors : true;
     }
 
-    /** Validates if $field content is equal to $param
-     * @param $field
-     * @param $input
-     * @param $param
-     * @return bool
-     */
-    protected function validate_equals($field, $input, $param)
+    public function filter_upper($value, $param = NULL)
     {
-        $err = [
-            'field' => $field,
-            'value' => $input[$field],
-            'rule'  => __FUNCTION__,
-            'param' => $param,
-        ];
+        return strtoupper($value);
+    }
 
-        if (!isset($input[$field]) || empty($input[$field]) || empty($param) || !isset($param)) {
-            return $err;
+    public function filter_lower($value, $param = NULL)
+    {
+        return strtolower($value);
+    }
+
+    /**
+     * Converts all error array into a single string
+     * @return void
+     */
+    public function addErrorsToFlashMessage($flash)
+    {
+        $errors = $this->get_errors_array(true);
+
+        if (!empty($errors)) {
+            foreach ($errors as $error) {
+                $flash->addMessage('error', $error);
+            }
         }
-
-        if ($input[$field] != $param || $input[$field] !== $param) {
-            return $err;
-        }
-
-        return true;
     }
 
     /**
@@ -172,112 +230,6 @@ class Validator extends GUMP
     }
 
     /**
-     * Perform data validation against the provided ruleset
-     *
-     * Arrays as FIELDS are added here as a custom feature
-     *
-     * @access public
-     * @param  mixed $input
-     * @param  array $ruleset
-     * @return mixed
-     * @throws \Exception
-     */
-    public function validate(array $input, array $ruleset)
-    {
-        $this->errors = [];
-
-        foreach ($ruleset as $field => $rules) {
-            #if(!array_key_exists($field, $input))
-            #{
-            #   continue;
-            #}
-
-            $rules = explode('|', $rules);
-
-            if (in_array("required", $rules) || (isset($input[$field]) && (is_array($input[$field]) || trim($input[$field]) != ''))) {
-
-                foreach ($rules as $rule) {
-                    $method = NULL;
-                    $param = NULL;
-
-                    if (strstr($rule, ',') !== false) // has params
-                    {
-                        $rule = explode(',', $rule);
-                        $method = 'validate_' . $rule[0];
-                        $param = $rule[1];
-                        $rule = $rule[0];
-                    } else {
-                        $method = 'validate_' . $rule;
-                    }
-
-                    // array required
-                    if ($rule === "required" && !isset($input[$field])) {
-                        $result = $this->$method($field, $input, $param);
-                        $this->errors[] = $result;
-
-                        return;
-                    }
-
-                    if (is_callable([$this, $method])) {
-                        $result = $this->$method($field, $input, $param);
-
-                        if (is_array($result)) // Validation Failed
-                        {
-                            $this->errors[] = $result;
-
-                            return $this->errors;
-                        }
-                    } else {
-                        if (isset(self::$validation_methods[$rule])) {
-                            if (isset($input[$field])) {
-                                $result = call_user_func(self::$validation_methods[$rule], $field, $input, $param);
-
-                                $result = $this->$method($field, $input, $param);
-
-                                if (is_array($result)) // Validation Failed
-                                {
-                                    $this->errors[] = $result;
-
-                                    return $this->errors;
-                                }
-                            }
-                        } else {
-                            throw new \Exception("Validator method '$method' does not exist.");
-                        }
-                    }
-                }
-            }
-        }
-
-        return (count($this->errors) > 0) ? $this->errors : true;
-    }
-
-    public function filter_upper($value, $param = NULL)
-    {
-        return strtoupper($value);
-    }
-
-    public function filter_lower($value, $param = NULL)
-    {
-        return strtolower($value);
-    }
-
-    /**
-     * Converts all error array into a single string
-     * @return void
-     */
-    public function addErrorsToFlashMessage($flash)
-    {
-        $errors = $this->get_errors_array(true);
-
-        if (!empty($errors)) {
-            foreach ($errors as $error) {
-                $flash->addMessage('error', $error);
-            }
-        }
-    }
-
-    /**
      * @param array $input
      * @param array $fields
      * @param bool $utf8_encode
@@ -285,7 +237,7 @@ class Validator extends GUMP
      */
     public function sanitize(array $input, array $fields = array(), $utf8_encode = true)
     {
-        $magic_quotes = (bool) get_magic_quotes_gpc();
+        $magic_quotes = (bool)get_magic_quotes_gpc();
 
         if (empty($fields)) {
             $fields = array_keys($input);
@@ -323,5 +275,53 @@ class Validator extends GUMP
         }
 
         return $return;
+    }
+
+    protected function validate_set_min_len($field, $input, $param = NULL)
+    {
+
+        $err = [
+            'field' => $field,
+            'value' => $input[$field],
+            'rule' => __FUNCTION__,
+            'param' => $param,
+        ];
+
+        if (!is_array($input[$field])) {
+            return $err;
+        }
+
+        // default value
+        if (empty($param)) $param = 1;
+
+        if (count($input[$field]) < $param) return $err;
+
+        return true;
+    }
+
+    /** Validates if $field content is equal to $param
+     * @param $field
+     * @param $input
+     * @param $param
+     * @return bool
+     */
+    protected function validate_equals($field, $input, $param)
+    {
+        $err = [
+            'field' => $field,
+            'value' => $input[$field],
+            'rule' => __FUNCTION__,
+            'param' => $param,
+        ];
+
+        if (!isset($input[$field]) || empty($input[$field]) || empty($param) || !isset($param)) {
+            return $err;
+        }
+
+        if ($input[$field] != $param || $input[$field] !== $param) {
+            return $err;
+        }
+
+        return true;
     }
 }

@@ -12,12 +12,14 @@ class TS3AdminProxy
      * @param ts3admin $object
      * @param $logger LoggerInterface
      */
-    public function __construct(ts3admin $object, $logger) {
+    public function __construct(ts3admin $object, $logger)
+    {
         $this->object = $object;
         $this->logger = $logger;
     }
 
-    public function __call($method, $args) {
+    public function __call($method, $args)
+    {
 
         // hide sensitive args
         if (in_array($method, ['login'])) {

@@ -11,15 +11,15 @@
     <h5>{% trans %}server_info.h.actions{% endtrans %}</h5>
     {% include 'form.twig' with {
         'fields': [
-        {
-            'header_label': 'server_info.send'|trans,
-            'label': '<i class="fa fa-check"></i>',
-            'uri': '/servers/send/' ~ sid,
-            'uri_method': 'post',
-            'fields': [
+            {
+                'header_label': 'server_info.send'|trans,
+                'label': '<i class="fa fa-check"></i>',
+                'uri': '/servers/send/' ~ sid,
+                'uri_method': 'post',
+                'fields': [
                 {'type': 'text', 'key': 'message', 'label': 'server_info.send.message'|trans},
             ]
-        }]
+            }]
     } %}
 
     <h5>{% trans %}server_info.h.details{% endtrans %}</h5>

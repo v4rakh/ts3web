@@ -1,6 +1,5 @@
 <?php
 
-use Carbon\Carbon;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use Symfony\Component\Filesystem\Exception\IOException;

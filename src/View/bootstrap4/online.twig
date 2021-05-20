@@ -13,8 +13,8 @@
     </div>
     <div class="col-sm-9">
         {% else %}
-            <div class="col-md-12">
-        {% endif %}
+        <div class="col-md-12">
+            {% endif %}
             {% if data|length >0 %}
                 {% include 'table.twig' with {'data': data,
                     'hiddenDependingOnAttribute': [{'key': 'client_type', 'values': ['1']}],

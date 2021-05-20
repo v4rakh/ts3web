@@ -11,9 +11,9 @@
                 'uri': '/clients/ban/' ~ sid ~ '/' ~ cldbid,
                 'uri_method': 'post',
                 'fields': [
-                    {'type': 'text', 'key': 'reason', 'label': 'client_info.ban.reason'|trans},
-                    {'type': 'number', 'key': 'time', 'label': 'client_info.ban.time'|trans}
-                ]
+                {'type': 'text', 'key': 'reason', 'label': 'client_info.ban.reason'|trans},
+                {'type': 'number', 'key': 'time', 'label': 'client_info.ban.time'|trans}
+            ]
             },
             {
                 'header_label': 'client_info.send'|trans,
@@ -37,7 +37,7 @@
     {% endif %}
 
     {% if channelGroups|length > 0 %}
-    <h5>{% trans %}client_info.h.channelgroups{% endtrans %}</h5>
+        <h5>{% trans %}client_info.h.channelgroups{% endtrans %}</h5>
         {% include 'table.twig' with {'data': channelGroups,
             'hiddenColumns': ['cldbid', 'cid', 'cgid'],
             'additional_links': [
