@@ -10,29 +10,49 @@ The minimalistic approach of this application is intentional.
 There are many TeamSpeak 3 web interfaces out. Why should I pick ts3web? Free, simple, stateless, easy to extend,
 standard bootstrap theme.
 
-## F.A.Q
+## READ BEFORE USING
 
-Questions? Here you'll hopefully get the answer. Feel free to read before starting.
+This web interface makes **heavy use of TeamSpeak 3 server query commands**. Please ensure that you _increase query 
+limits_ and whitelist the requesting IP address to a `whitelist.txt` when in a docker environment (see below).
+
+Please read the next FAQ section carefully!
+
+## F.A.Q
 
 <a name="flood"></a>
 
-###### I always get `flood client` message when clicking anywhere in the web interface.
+### How to overcome server query limit?
 
-ts3web makes heavy use of query commands. When your instance is up and running, you should be able to change
-`serverinstance_serverquery_flood_commands` to a high value, e.g. `100` and `serverinstance_serverquery_flood_time` to
-`1` which is enough.
+You might get one of these messages:
+
+> I always get `flood client` message when clicking anywhere in the web interface.
+
+The web UI uses query commands _a lot_! When your instance is up and running, you should be able to change the following 
+setting, e.g. directly in your database (MySQL or sqlite).
+
+```ini
+serverinstance_serverquery_flood_commands = 9999
+serverinstance_serverquery_max_connections_per_ip = 999
+serverinstance_serverquery_flood_time = 1
+```
 
 <a name="whitelist"></a>
 
-###### I always get `TSException: Error: host isn't a ts3 instance!` when selecting a server.
+> I always get `TSException: Error: host isn't a ts3 instance!` when selecting a server.
 
-You probably got query banned from your server. You need to properly define
-your [`whitelist.txt` file](#whitelisttxtexample)
-and include it in your TeamSpeak application.
+You're probably on a docker environment and the TeamSpeak server is queried through the web UI which
+resides behind a web server, so the TeamSpeak server thinks that the _remote web server IP address_ invokes the query 
+commands and thus blacklists it.
+
+You need define an exception for you server's IP in a [`whitelist.txt` file](#whitelist-text-file) and include it in 
+your TeamSpeak application.
+
+You can also add the desired IP to `query_ip_allowlist.txt` and `query_ip_whitelist.txt` within the TeamSpeak 3 Server 
+data directory (in example it's `./ts3server` where your `docker-compose.yml` resides).
 
 <a name="dockerperms"></a>
 
-###### I always get `no write permissions` or something similar when trying to save snapshots or when a log entry is created.
+### I always get `no write permissions` or something similar when trying to save snapshots or when a log entry is created.
 
 This probably happens when you're in the docker setup. Ensure that host binds have permissions set up properly. The user
 which is used in the docker container is `nobody` with id `65534`. If, e.g. logs are host bound, then execute
@@ -50,22 +70,20 @@ directly and just maintain the `env` file.
 The application can be deployed two different ways. See below for more information. For each deployment type a running
 TeamSpeak 3 instance is a prerequisite.
 
-In the `docker-compose.yml` [example](#dockercompose), a setup together with a teamspeak server instance is shown.
+In the `docker-compose.yml` [example](#docker-compose), a setup together with a teamspeak server instance is shown.
 
 ### Docker
 
-#### Important. Read before setup!
+**Important. Read before setup!**
 
-1. [Setup write permissions if you're using host binds](#dockerperms)
-2. [Ensure that you set `flood commands` to a higher value in your TeamSpeak](#flood).
-3. [Use a `whitelist.txt` to ensure the web interface will not be query banned](#whitelist)
+1. [Setup write permissions if you're using host binds](#i-always-get-no-write-permissions-or-something-similar-when-trying-to-save-snapshots-or-when-a-log-entry-is-created)
+2. [Ensure that you increase `query commands usage` in your TeamSpeak server](#how-to-overcome-server-query-limit).
+3. [Use a `whitelist.txt` to ensure the web interface will not be query banned](#whitelist-text-file)
 4. Be aware that the web interface will not be able to use `localhost` as TeamSpeak 3 server address because it's not
    available in a docker container. The public address also has to match the environment variable
    `teamspeak_host=your-public-address` within the `env` file.
 
-<a name="dockerrun"></a>
-
-#### docker run
+#### docker standalone
 
 The following section outlines a manual setup. Feel free to use the provided `docker-compose.yml` as quick setup.
 
@@ -78,26 +96,23 @@ The following section outlines a manual setup. Feel free to use the provided `do
     * `{env_file_volume|host_file}:/var/www/html/applicationconfig/env`
     * `{snapshot_volume|host_folder}:/var/www/html/application/data/snapshots`
     * `{log_volume|host_folder}:/var/www/html/application/log`
-5. [Ensure that you're whitelisting the IP from which the webinterface will issue commands.](#whitelist)
+5. [Ensure that you're whitelisting the IP from which the webinterface will issue commands.](#whitelist-text-file)
 6. Run the `docker run` command including your settings, volumes and networks (if
    any): `docker run --name teamspeak_web -v ./env:/var/www/html/application/config/env -p 8181:80 varakh/ts3web:latest`
    .
 
-<a name="dockercompose"></a>
-
 #### docker-compose
 
 In order for TeamSpeak to show correct IP and country flags, the `network_mode = "host"` is advised. It's also possible
-to set everything up [without using the host network mode and use fixed IPs](#withouthostmode).
+to set everything up without using the host network mode and use fixed IPs.
 
 The examples will use host binds for volumes. Feel free to adapt the `docker-compose.yml` template and use docker
 volumes instead if you like.
 
-Ensure to [apply permissions](#dockerperms) for volumes though.
+Ensure to [apply permissions](#i-always-get-no-write-permissions-or-something-similar-when-trying-to-save-snapshots-or-when-a-log-entry-is-created) for volumes though.
 
-<a name="withhostmode"></a>
-
-#### With 'host' mode
+<details>
+  <summary>docker host mode example</summary>
 
 ```
 version: '2.1'
@@ -135,10 +150,12 @@ services:
     networks:
       - teamspeak
 ```
+</details>
 
-<a name="withouthostmode"></a>
 
-#### Without 'host' mode
+
+<details>
+  <summary>docker without host mode example</summary>
 
 ```
 version: '2.1'
@@ -185,10 +202,9 @@ services:
         ipv4_address: 10.5.0.6
 
 ```
+</details>
 
-<a name="whitelisttxtexample"></a>
-
-#### whitelist.txt
+#### whitelist text file
 
 The following illustrates a valid `whitelist.txt` file which can be used for the above `docker-compose` setups. You need
 to replace `your-public-ip` with the TeamSpeak's public IP address if required or remove the fixed internal docker IP if
@@ -210,7 +226,7 @@ expose it via domain. For testing purposes, change `- 127.0.0.1:8181:80` to `- 8
 available under
 `public-server-ip:8181`.
 
-This is **not recommended**! Secure your setup properly via [reverse proxy and SSL](#reverseproxy).
+This is **not recommended**! Secure your setup properly via [reverse proxy and SSL](#reverse-proxy).
 
 ### As native PHP application
 
@@ -225,7 +241,7 @@ This is **not recommended**! Secure your setup properly via [reverse proxy and S
 * Do the configuration by coping the `env.example` file (see information above)
 * Use a web server _or_ run directly via the embedded PHP server: `php -S localhost:8080 -t public public/index.php`.
 * Point your browser to [localhost:8080](http://localhost:8080)
-* Apply any [whitelist.txt](#whitelisttxtexample) changes if you configured `teamspeak_host` differently
+* Apply any [whitelist.txt](#whitelist-text-file) changes if you configured `teamspeak_host` differently
   than `localhost`
 
 #### Upgrade:
@@ -233,8 +249,6 @@ This is **not recommended**! Secure your setup properly via [reverse proxy and S
 * Change directory to project home
 * `git pull`
 * `composer update`
-
-<a name="reverseproxy"></a>
 
 ### Reverse proxy
 
